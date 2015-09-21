@@ -1,0 +1,38 @@
+{
+  "name": "mysqldump",
+  "version": "1.0.0",
+  "description": "Create a DUMP from MySQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webcaetano/mysqldump"
+  },
+  "keywords": [
+    "backup",
+    "mysql",
+    "mysql-dump",
+    "dump",
+    "restore",
+    "database",
+    "backup",
+    "database"
+  ],
+  "author": "Andre Caetano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webcaetano/mysqldump/issues"
+  },
+  "homepage": "https://github.com/webcaetano/mysqldump",
+  "dependencies": {
+    "async": "^1.4.2",
+    "lodash": "^3.10.1",
+    "mq-node": "^1.0.7"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.3.2"
+  }
+}
