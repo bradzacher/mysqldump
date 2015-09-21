@@ -1,5 +1,7 @@
 # Mysql Dump
 
+[![npm version](https://badge.fury.io/js/mysqldump.svg)](http://badge.fury.io/js/mysqldump) [![Build Status](https://travis-ci.org/webcaetano/mysqldump.svg?branch=master)](https://travis-ci.org/webcaetano/mysqldump)
+
 Create a backup from MySQL
 
 ## Installation
@@ -106,6 +108,8 @@ Create tables if not exist method `Default: true`;
 Type: `String`
 
 Output filname with directories `Default: './data.sql'`;
+
+![npm](https://nodei.co/npm/mysqldump.png?downloads=true&downloadRank=true&stars=true)
 
 ---------------------------------
 
