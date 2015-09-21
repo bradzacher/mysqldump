@@ -1,0 +1,4 @@
+node_modules/
+.editorconfig
+.travis.yml
+test.js
