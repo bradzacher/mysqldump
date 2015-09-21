@@ -171,5 +171,28 @@ describe('mysql test', function() {
 			done();
 		})
 	});
+
+	it('should create a dump file with schema and data with tables and create if exist', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: 'localhost',
+			user: 'root',
+			password: '',
+			database: dbTest,
+			tables:['players'],
+			ifNotExist:true,
+			dest:dest
+		},function(err){
+			var file = String(fs.readFileSync(dest));
+			expect(err).to.be.null;
+			expect(file).not.to.be.null;
+			expect(file).to.not.contain("CREATE TABLE IF NOT EXISTS `teams`");
+			expect(file).to.contain("CREATE TABLE IF NOT EXISTS `players`");
+			fs.unlinkSync(dest);
+			done();
+		})
+	});
 });
 

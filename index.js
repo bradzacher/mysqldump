@@ -85,6 +85,7 @@ module.exports = function(options,done){
 		user:options.user,
 		password:options.password,
 		database:options.database,
+		port:options.port,
 	}));
 
 	console.time('mysql dump');
@@ -147,6 +148,6 @@ module.exports = function(options,done){
 	},function(err,results){
 		if(err) throw new Error(err);
 		console.timeEnd('mysql dump');
-		done(err);
+		done(err,results.createFile);
 	});
 }
