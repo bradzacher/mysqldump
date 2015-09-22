@@ -212,7 +212,7 @@ describe('mysql test', function() {
 			expect(err).to.be.null;
 			expect(file).not.to.be.null;
 			expect(file).to.not.contain(" AUTO_INCREMENT=");
-			// fs.unlinkSync(dest);
+			fs.unlinkSync(dest);
 			done();
 		})
 	});
