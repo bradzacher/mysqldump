@@ -194,5 +194,27 @@ describe('mysql test', function() {
 			done();
 		})
 	});
+
+	it('should remove auto increment', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: 'localhost',
+			user: 'root',
+			password: '',
+			database: dbTest,
+			autoIncrement:false,
+			ifNotExist:true,
+			dest:dest
+		},function(err){
+			var file = String(fs.readFileSync(dest));
+			expect(err).to.be.null;
+			expect(file).not.to.be.null;
+			expect(file).to.not.contain(" AUTO_INCREMENT=");
+			// fs.unlinkSync(dest);
+			done();
+		})
+	});
 });
 
