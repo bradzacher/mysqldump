@@ -109,7 +109,7 @@ Type: `String`
 
 Output filname with directories `Default: './data.sql'`;
 
-![npm](https://nodei.co/npm/mysqldump.png?downloads=true&downloadRank=true&stars=true)
+[![npm](https://nodei.co/npm/mysqldump.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/mysqldump)
 
 ---------------------------------
 
