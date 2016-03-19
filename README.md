@@ -107,7 +107,13 @@ Create tables if not exist method `Default: true`;
 
 Type: `String`
 
-Output filname with directories `Default: './data.sql'`;
+Output filename with directories `Default: './data.sql'`;
+
+#### SocketPath
+
+Type: `String`
+
+Path to a unix domain socket to connect to. When used `host` and `port` are ignored.
 
 [![npm](https://nodei.co/npm/mysqldump.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/mysqldump)
 

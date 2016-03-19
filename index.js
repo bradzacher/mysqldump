@@ -87,6 +87,7 @@ module.exports = function(options,done){
 		password:options.password,
 		database:options.database,
 		port:options.port,
+		socketPath:options.socketPath,
 	}));
 
 	console.time('mysql dump');
