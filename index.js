@@ -98,7 +98,7 @@ module.exports = function(options,done){
 	async.auto({
 		getTables:function(callback){
 			if(!options.tables || !options.tables.length){ // if not especifed, get all
-				mysql.query("SHOW TABLES FROM "+options.database,function(err,data){
+				mysql.query("SHOW TABLES FROM `"+options.database+"`",function(err,data){
 					var resp = [];
 					for(var i=0;i<data.length;i++) resp.push(data[i]['Tables_in_'+options.database]);
 					callback(err,resp);
@@ -115,7 +115,7 @@ module.exports = function(options,done){
 			var run = [];
 			results.getTables.forEach(function(table){
 				run.push(function(callback){
-					mysql.query("SHOW CREATE TABLE "+table,callback);
+					mysql.query("SHOW CREATE TABLE `"+table+"`",callback);
 				})
 			})
 			async.parallel(run,function(err,data){
@@ -137,7 +137,7 @@ module.exports = function(options,done){
 			var run = [];
 			results.getTables.forEach(function(table){
 				run.push(function(callback){
-					mysql.select({cols:'*',	from:table},function(err,data){
+					mysql.select({cols:'*',	from:"`"+table+"`"},function(err,data){
 						callback(err,buildInsert(data,table));
 					});
 				});
