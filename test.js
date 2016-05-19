@@ -151,6 +151,27 @@ describe('mysql test', function() {
 		})
 	});
 
+	it('should return a dump as raw data on callback', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: 'localhost',
+			user: 'root',
+			password: '',
+			database: dbTest,
+			schema:false,
+			getDump:true,
+			dest:dest
+		},function(err,file){
+			expect(err).to.be.null;
+			expect(file).not.to.be.null;
+			expect(file).to.contain("INSERT INTO ");
+			expect(file).to.not.contain("CREATE TABLE ");
+			done();
+		})
+	});
+
 	it('should create a dump file with schema and data', function(done) {
 		this.timeout(8000);
 		var dest = './data.sql';

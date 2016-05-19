@@ -78,6 +78,7 @@ module.exports = function(options,done){
 		data:true,
 		ifNotExist:true,
 		autoIncrement:true,
+		getDump:false,
 		dest:'./data.sql',
 	}
 
