@@ -149,10 +149,16 @@ module.exports = function(options,done){
 			if(!results.createSchemaDump || !results.createSchemaDump.length) results.createSchemaDump=[];
 			if(!results.createDataDump || !results.createDataDump.length) results.createDataDump=[];
 			fs.writeFile(options.dest, results.createSchemaDump.concat(results.createDataDump).join("\n\n"), callback);
+		}],
+		getDataDump:['createSchemaDump','createDataDump',function(callback,results){
+			if(!results.createSchemaDump || !results.createSchemaDump.length) results.createSchemaDump=[];
+			if(!results.createDataDump || !results.createDataDump.length) results.createDataDump=[];
+			callback(null,results.createSchemaDump.concat(results.createDataDump).join("\n\n"));
 		}]
 	},function(err,results){
 		if(err) throw new Error(err);
+
 		console.timeEnd('mysql dump');
-		done(err,results.createFile);
+		done(err,(options.getDump ? results.getDataDump : results.createFile));
 	});
 }
