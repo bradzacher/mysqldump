@@ -78,6 +78,7 @@ module.exports = function(options,done){
 		data:true,
 		ifNotExist:true,
 		autoIncrement:true,
+		getDump:false,
 		dest:'./data.sql',
 	}
 
@@ -145,14 +146,16 @@ module.exports = function(options,done){
 			});
 			async.parallel(run,callback)
 		}],
-		createFile:['createSchemaDump','createDataDump',function(callback,results){
+		getDataDump:['createSchemaDump','createDataDump',function(callback,results){
 			if(!results.createSchemaDump || !results.createSchemaDump.length) results.createSchemaDump=[];
 			if(!results.createDataDump || !results.createDataDump.length) results.createDataDump=[];
-			fs.writeFile(options.dest, results.createSchemaDump.concat(results.createDataDump).join("\n\n"), callback);
+			callback(null,results.createSchemaDump.concat(results.createDataDump).join("\n\n"));
 		}]
 	},function(err,results){
 		if(err) throw new Error(err);
+
 		console.timeEnd('mysql dump');
-		done(err,results.createFile);
+		if(options.getDump) return done(err, results.getDataDump);
+		fs.writeFile(options.dest, results.getDataDump, done);
 	});
 }

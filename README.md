@@ -47,37 +47,37 @@ mysqlDump({
 ## Options
 
 
-#### Host
+#### host
 
 Type: `String`
 
 Url to Mysql host. `Default: localhost`
 
-#### Port
+#### port
 
 Type: `String`
 
 Port to Mysql host. `Default: 3306`
 
-#### User
+#### user
 
 Type: `String`
 
 The MySQL user to authenticate as.
 
-#### Password
+#### password
 
 Type: `String`
 
 The password of that MySQL user
 
-#### Database
+#### database
 
 Type: `String`
 
 Name of the database to dump.
 
-#### Tables 
+#### tables 
 
 Type: `Array`
 
@@ -85,13 +85,13 @@ Array of tables that you want to backup.
 
 Leave Blank for All. `Default: [] ALL`
 
-#### Schema 
+#### schema 
 
 Type: `Boolean`
 
 Output table structure `Default: true`;
 
-#### Data 
+#### data 
 
 Type: `Boolean`
 
@@ -103,13 +103,19 @@ Type: `Boolean`
 
 Create tables if not exist method `Default: true`;
 
-#### Dest 
+#### getDump 
+
+Type: `Boolean`
+
+Return dump as a raw data on callback instead of create file `Default: false`;
+
+#### dest 
 
 Type: `String`
 
 Output filename with directories `Default: './data.sql'`;
 
-#### SocketPath
+#### socketPath
 
 Type: `String`
 
