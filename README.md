@@ -103,6 +103,12 @@ Type: `Boolean`
 
 Create tables if not exist method `Default: true`;
 
+#### getDump 
+
+Type: `Boolean`
+
+Return dump as a raw data on callback instead of create file `Default: false`;
+
 #### Dest 
 
 Type: `String`
