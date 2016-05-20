@@ -155,6 +155,7 @@ module.exports = function(options,done){
 		if(err) throw new Error(err);
 
 		console.timeEnd('mysql dump');
+		mysql.connection.end();
 		if(options.getDump) return done(err, results.getDataDump);
 		fs.writeFile(options.dest, results.getDataDump, done);
 	});
