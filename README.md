@@ -103,6 +103,12 @@ Type: `Boolean`
 
 Create tables if not exist method `Default: true`;
 
+#### dropTable 
+
+Type: `Boolean`
+
+Drop tables if exist `Default: false`;
+
 #### getDump 
 
 Type: `Boolean`

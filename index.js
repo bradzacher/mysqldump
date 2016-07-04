@@ -78,6 +78,7 @@ module.exports = function(options,done){
 		data:true,
 		ifNotExist:true,
 		autoIncrement:true,
+		dropTable:false,
 		getDump:false,
 		dest:'./data.sql',
 	}
@@ -124,6 +125,8 @@ module.exports = function(options,done){
 				var resp = [];
 				for(var i in data){
 					var r = data[i][0]['Create Table']+";";
+
+					if(options.dropTable) r = r.replace(/CREATE TABLE `/, 'DROP TABLE IF EXISTS `' + data[i][0]['Table'] + '`;\nCREATE TABLE `');
 					if(options.ifNotExist) r = r.replace(/CREATE TABLE `/,'CREATE TABLE IF NOT EXISTS `');
 					if(!options.autoIncrement) r = r.replace(/AUTO_INCREMENT=\d+ /g,'');
 					resp.push(r)
