@@ -35,7 +35,8 @@ mysqlDump({
 	user: 'root',
 	password: '',
 	database: 'test',
-	tables:['players'], // only these tables 
+	tables:['players'], // only these tables
+	where: {'players': 'id < 1000'}, // Only test players with id < 1000
 	ifNotExist:true, // Create table if not exist
 	dest:'./data.sql' // destination file
 },function(err){
@@ -95,7 +96,14 @@ Output table structure `Default: true`;
 
 Type: `Boolean`
 
-Output table data `Default: true`;
+Output table data for ALL tables `Default: true`;
+
+#### where
+Type: `Object`
+
+Where clauses to limit dumped data `Example: where: {'users': 'id < 1000'}`
+
+Combine with `data: false` to only dump tables with where clauses  `Default: null`;
 
 #### ifNotExist 
 
