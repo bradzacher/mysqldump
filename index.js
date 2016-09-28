@@ -81,6 +81,7 @@ module.exports = function(options,done){
 		dropTable:false,
 		getDump:false,
 		dest:'./data.sql',
+		where: null
 	}
 
 	mysql = mqNode(extend({},defaultConnection,{
@@ -135,14 +136,23 @@ module.exports = function(options,done){
 			});
 		}],
 		createDataDump:['createSchemaDump',function(callback,results){
-			if(!options.data) {
+			var tbls = [];
+			if (options.data) {
+				tbls = results.getTables; // get data for all tables
+			} else if (options.where) {
+                                tbls = Object.keys(options.where); // get data for tables with a where specified
+                        } else {
 				callback();
 				return;
 			}
 			var run = [];
-			results.getTables.forEach(function(table){
+			_.each(tbls,function(table){
 				run.push(function(callback){
-					mysql.select({cols:'*',	from:"`"+table+"`"},function(err,data){
+					var opts = {cols:'*', from:"`"+table+"`"};
+					if ((options.where != null) && (typeof options.where[table] != 'undefined')) {
+						opts.where = options.where[table];
+					}
+					mysql.select(opts,function(err,data){
 						callback(err,buildInsert(data,table));
 					});
 				});
