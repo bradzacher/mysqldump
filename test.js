@@ -87,7 +87,7 @@ describe('mysql test', function() {
 		run.push(function(callback){
 			mysql.query("INSERT INTO `players` (`id`, `name`, `gender`, `team`, `country`, `lvl`, `cadtime`, `logtime`) VALUES"+
 			"(3, 'Distillers 530', 0, NULL, 'br', 1, 1442441886, 1442441886),"+
-			"(4, 'Distillers 42', 0, NULL, 'br', 1, 1442441956, 1442441956),"+
+			"(4, 'Distillers 42', 1, NULL, 'br', 1, 1442441956, 1442441956),"+
 			"(5, 'Distillers 904', 0, NULL, 'br', 1, 1442442042, 1442442042),"+
 			"(6, 'Distillers 302', 0, NULL, 'br', 1, 1442442295, 1442442295),"+
 			"(7, 'Distillers 345', 1, '3', 'br', 1, 1442443725, 1442680916),"+
@@ -96,9 +96,9 @@ describe('mysql test', function() {
 			"(11, 'Distillers 17', 0, NULL, 'br', 1, 1442550761, 1442550761),"+
 			"(12, 'Distillers 444', 0, NULL, 'br', 1, 1442551137, 1442551137),"+
 			"(13, 'Distillers 10', 0, NULL, 'br', 1, 1442551209, 1442551209),"+
-			"(14, 'Distillers 236', 0, NULL, 'br', 1, 1442551209, 1442551209),"+
-			"(15, 'Distillers 340', 0, NULL, 'br', 1, 1442551267, 1442551267),"+
-			"(16, 'Distillers 280', 0, NULL, 'br', 1, 1442551268, 1442551268);",callback);
+			"(14, 'Distillers 236', 1, NULL, 'br', 1, 1442551209, 1442551209),"+
+			"(15, 'Distillers 340', 1, NULL, 'br', 1, 1442551267, 1442551267),"+
+			"(16, 'Distillers 280', 1, NULL, 'br', 1, 1442551268, 1442551268);",callback);
 		});
 
 		async.series(run,function(err,data){
@@ -144,6 +144,33 @@ describe('mysql test', function() {
 			var file = String(fs.readFileSync(dest));
 			expect(err).to.be.null;
 			expect(file).not.to.be.null;
+			expect(file).to.contain("INSERT INTO ");
+			expect(file).to.not.contain("CREATE TABLE ");
+			fs.unlinkSync(dest);
+			done();
+		})
+	});
+
+	it('should create a dump file with data using where', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: 'localhost',
+			user: 'root',
+			password: '',
+			database: dbTest,
+			where:{
+				players:'id<10 AND gender=1'
+			},
+			schema:false,
+			dest:dest
+		},function(err){
+			var file = String(fs.readFileSync(dest));
+			expect(err).to.be.null;
+			expect(file).not.to.be.null;
+
+			expect(file.match(/INSERT INTO `players`/g)).to.have.length.below(3);
 			expect(file).to.contain("INSERT INTO ");
 			expect(file).to.not.contain("CREATE TABLE ");
 			fs.unlinkSync(dest);
