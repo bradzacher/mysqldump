@@ -146,7 +146,7 @@ module.exports = function(options,done){
 				return;
 			}
 			var run = [];
-			tbls.forEach(function(table){
+			_.each(tbls,function(table){
 				run.push(function(callback){
 					var opts = {cols:'*', from:"`"+table+"`"};
 					if ((options.where != null) && (typeof options.where[table] != 'undefined')) {
