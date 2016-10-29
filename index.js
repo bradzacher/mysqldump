@@ -81,7 +81,8 @@ module.exports = function(options,done){
 		dropTable:false,
 		getDump:false,
 		dest:'./data.sql',
-		where: null
+		where: null,
+		ignoreKeys: true
 	}
 
 	mysql = mqNode(extend({},defaultConnection,{
@@ -131,6 +132,10 @@ module.exports = function(options,done){
 					if(options.ifNotExist) r = r.replace(/CREATE TABLE `/,'CREATE TABLE IF NOT EXISTS `');
 					if(!options.autoIncrement) r = r.replace(/AUTO_INCREMENT=\d+ /g,'');
 					resp.push(r)
+				}
+				if(options.ignoreKeys) {
+					resp.unshift('SET FOREIGN_KEY_CHECKS=0;');
+					resp.push('SET FOREIGN_KEY_CHECKS=1;');
 				}
 				callback(err,resp);
 			});
