@@ -10,7 +10,7 @@ describe('mysql test', function() {
 	var connection = {
 		host: 'localhost',
 		user: 'root',
-		password: ''
+		password: 'mRi0oJLzZGWo'
 	};
 
 	mysql = mysql(connection);
@@ -114,7 +114,7 @@ describe('mysql test', function() {
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			data:false,
 			dest:dest
@@ -136,7 +136,7 @@ describe('mysql test', function() {
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			schema:false,
 			dest:dest
@@ -158,7 +158,7 @@ describe('mysql test', function() {
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			where:{
 				players:'id<10 AND gender=1'
@@ -185,7 +185,7 @@ describe('mysql test', function() {
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			schema:false,
 			getDump:true,
@@ -206,7 +206,7 @@ describe('mysql test', function() {
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			dest:dest
 		},function(err){
@@ -227,7 +227,7 @@ describe('mysql test', function() {
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			tables:['players'],
 			ifNotExist:true,
@@ -250,7 +250,7 @@ describe('mysql test', function() {
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			autoIncrement:false,
 			ifNotExist:true,
@@ -264,15 +264,15 @@ describe('mysql test', function() {
 			done();
 		})
 	});
-	
+
 	it('should create a dump file that ignores foreign key constraints', function(done) {
 		this.timeout(8000);
 		var dest = './data.sql';
-		
+
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			dest:dest,
 			ignoreKeys: true
@@ -284,16 +284,17 @@ describe('mysql test', function() {
 			expect(file).to.contain("SET FOREIGN_KEY_CHECKS=1");
 			fs.unlinkSync(dest);
 			done();
+        })
 	});
-		
+
 	it('should create a dump file that does not ignore foreign key constraints', function(done) {
 		this.timeout(8000);
 		var dest = './data.sql';
-		
+
 		mysqlDump({
 			host: 'localhost',
 			user: 'root',
-			password: '',
+			password: 'mRi0oJLzZGWo',
 			database: dbTest,
 			dest:dest,
 			ignoreKeys: false
@@ -305,6 +306,6 @@ describe('mysql test', function() {
 			expect(file).to.not.contain("SET FOREIGN_KEY_CHECKS=1");
 			fs.unlinkSync(dest);
 			done();
+        })
 	});
 });
-
