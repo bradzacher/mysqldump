@@ -264,5 +264,47 @@ describe('mysql test', function() {
 			done();
 		})
 	});
+	
+	it('should create a dump file that ignores foreign key constraints', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+		
+		mysqlDump({
+			host: 'localhost',
+			user: 'root',
+			password: '',
+			database: dbTest,
+			dest:dest,
+			ignoreKeys: true
+		},function(err){
+			var file = String(fs.readFileSync(dest));
+			expect(err).to.be.null;
+			expect(file).not.to.be.null;
+			expect(file).to.contain("SET FOREIGN_KEY_CHECKS=0");
+			expect(file).to.contain("SET FOREIGN_KEY_CHECKS=1");
+			fs.unlinkSync(dest);
+			done();
+	});
+		
+	it('should create a dump file that does not ignore foreign key constraints', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+		
+		mysqlDump({
+			host: 'localhost',
+			user: 'root',
+			password: '',
+			database: dbTest,
+			dest:dest,
+			ignoreKeys: false
+		},function(err){
+			var file = String(fs.readFileSync(dest));
+			expect(err).to.be.null;
+			expect(file).not.to.be.null;
+			expect(file).to.not.contain("SET FOREIGN_KEY_CHECKS=0");
+			expect(file).to.not.contain("SET FOREIGN_KEY_CHECKS=1");
+			fs.unlinkSync(dest);
+			done();
+	});
 });
 
