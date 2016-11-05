@@ -93,8 +93,6 @@ module.exports = function(options,done){
 		socketPath:options.socketPath,
 	}));
 
-	console.time('mysql dump');
-
 	options = extend({},defaultConnection,defaultOptions,options);
 	if(!options.database) throw new Error('Database not specified');
 
@@ -167,7 +165,6 @@ module.exports = function(options,done){
 	},function(err,results){
 		if(err) throw new Error(err);
 
-		console.timeEnd('mysql dump');
 		mysql.connection.end();
 		if(options.getDump) return done(err, results.getDataDump);
 		fs.writeFile(options.dest, results.getDataDump, done);
