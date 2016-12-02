@@ -35,6 +35,7 @@ var isset = function(){
 var buildInsert = function(rows,table,cols){
 	var cols = _.keys(rows[0]);
 	var sql = [];
+	var allValues=[];
 	for(var i in rows){
 		var values=[];
 		for(var k in rows[i]){
@@ -59,9 +60,9 @@ var buildInsert = function(rows,table,cols){
 				values.push("''");
 			}
 		}
-		sql.push("INSERT INTO `"+table+"` (`"+cols.join("`,`")+"`) VALUES ("+values.join()+");");
+	 	allValues.push("("+values.join()+")");
 	}
-	return sql.join('\n');
+	return "INSERT INTO `"+table+"` (`"+cols.join("`,`")+"`) VALUES "+allValues.join()+";";
 }
 
 module.exports = function(options,done){
