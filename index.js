@@ -121,7 +121,7 @@ module.exports = function(options,done){
 				})
 			})
 			async.parallel(run,function(err,data){
-				if (err) return callback(err)
+				if (err) return callback(err);
 				var resp = [];
 				for(var i in data){
 					var r = data[i][0]['Create Table']+";";
@@ -152,7 +152,7 @@ module.exports = function(options,done){
 						opts.where = options.where[table];
 					}
 					mysql.select(opts,function(err,data){
-						if (err) return callback(err)
+						if (err) return callback(err);
 						callback(err,buildInsert(data,table));
 					});
 				});
@@ -165,7 +165,7 @@ module.exports = function(options,done){
 			callback(null,results.createSchemaDump.concat(results.createDataDump).join("\n\n"));
 		}]
 	},function(err,results){
-		if(err) return done(err)
+		if(err) return done(err);
 
 		mysql.connection.end();
 		if(options.getDump) return done(err, results.getDataDump);
