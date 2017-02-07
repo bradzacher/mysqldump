@@ -7,6 +7,7 @@ var mysqlDump = require('./');
 
 describe('mysql test', function() {
 	var dbTest = 'dump_test';
+	var restrictedUsers = ['user1', 'user2'];
 	var connection = {
 		host: 'localhost',
 		user: 'root',
@@ -119,8 +120,8 @@ describe('mysql test', function() {
 			data:false,
 			dest:dest
 		},function(err){
-			var file = String(fs.readFileSync(dest));
 			expect(err).to.be.null;
+			var file = String(fs.readFileSync(dest));
 			expect(file).not.to.be.null;
 			expect(file).to.not.contain("INSERT INTO ");
 			expect(file).to.contain("CREATE TABLE ");
@@ -141,8 +142,8 @@ describe('mysql test', function() {
 			schema:false,
 			dest:dest
 		},function(err){
-			var file = String(fs.readFileSync(dest));
 			expect(err).to.be.null;
+			var file = String(fs.readFileSync(dest));
 			expect(file).not.to.be.null;
 			expect(file).to.contain("INSERT INTO ");
 			expect(file).to.not.contain("CREATE TABLE ");
@@ -166,8 +167,8 @@ describe('mysql test', function() {
 			schema:false,
 			dest:dest
 		},function(err){
-			var file = String(fs.readFileSync(dest));
 			expect(err).to.be.null;
+			var file = String(fs.readFileSync(dest));
 			expect(file).not.to.be.null;
 
 			expect(file.match(/INSERT INTO `players`/g)).to.have.length.below(3);
@@ -210,8 +211,8 @@ describe('mysql test', function() {
 			database: dbTest,
 			dest:dest
 		},function(err){
-			var file = String(fs.readFileSync(dest));
 			expect(err).to.be.null;
+			var file = String(fs.readFileSync(dest));
 			expect(file).not.to.be.null;
 			expect(file).to.contain("INSERT INTO ");
 			expect(file).to.contain("CREATE TABLE ");
@@ -233,8 +234,8 @@ describe('mysql test', function() {
 			ifNotExist:true,
 			dest:dest
 		},function(err){
-			var file = String(fs.readFileSync(dest));
 			expect(err).to.be.null;
+			var file = String(fs.readFileSync(dest));
 			expect(file).not.to.be.null;
 			expect(file).to.not.contain("CREATE TABLE IF NOT EXISTS `teams`");
 			expect(file).to.contain("CREATE TABLE IF NOT EXISTS `players`");
@@ -256,11 +257,69 @@ describe('mysql test', function() {
 			ifNotExist:true,
 			dest:dest
 		},function(err){
-			var file = String(fs.readFileSync(dest));
 			expect(err).to.be.null;
+			var file = String(fs.readFileSync(dest));
 			expect(file).not.to.be.null;
 			expect(file).to.not.contain(" AUTO_INCREMENT=");
 			fs.unlinkSync(dest);
+			done();
+		})
+	});
+
+	it('should propagate ER_TABLEACCESS_DENIED_ERROR from SELECT calls', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: 'localhost',
+			user: restrictedUsers[0],
+			password: '',
+			database: dbTest,
+			data:true,
+			dest:dest
+		},function(err){
+			expect(err).not.to.be.null;
+			expect(err.code).not.to.be.null;
+			expect(err.code).to.contain('_ERROR')
+			done();
+		})
+	});
+
+	it('should propagate ER_DBACCESS_DENIED_ERROR from SHOW TABLES calls', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: 'localhost',
+			user: restrictedUsers[1],
+			password: '',
+			database: dbTest,
+			data:true,
+			dest:dest
+		},function(err){
+			expect(err).not.to.be.null;
+			expect(err.code).not.to.be.null;
+			expect(err.code).to.contain('_ERROR')
+			done();
+		})
+	});
+
+	it('should propagate ER_DBACCESS_DENIED_ERROR from SHOW CREATE TABLE calls', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: 'localhost',
+			user: restrictedUsers[1],
+			password: '',
+			database: dbTest,
+			tables:['players'],
+			ifNotExist:true,
+			dest:dest
+		},function(err){
+			expect(err).not.to.be.null;
+			expect(err.code).not.to.be.null;
+			expect(err.code).to.contain('_ERROR')
 			done();
 		})
 	});
