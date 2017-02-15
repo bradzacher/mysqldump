@@ -47,13 +47,9 @@ var buildInsert = function(rows,table,cols){
 				}
 			} else if  (rows[i][k]!=='') {
 				if(typeof rows[i][k] === 'number'){
-					// values.push(addslashes(rows[i][k]));
 					values.push(rows[i][k]);
-					// values.push(rows[i][k]);
 				} else {
-					// values.push("'"+rows[i][k]+"'");
-					values.push("'"+escapeUnquoted(rows[i][k])+"'");
-					// values.push("'"+addslashes(rows[i][k])+"'");
+					values.push(mysql.escape(rows[i][k]));
 				}
 			} else {
 				values.push("''");
