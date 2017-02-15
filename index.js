@@ -9,13 +9,69 @@ var extend = function(obj) {
 	return obj;
 }
 
-var escapeUnquoted = function(val){
-	return mysql.escape(val).slice(0, -1).substr(1);
+var typeCastOptions = { typeCast: (field, next) => {
+	if (field.type === "GEOMETRY") {
+		var offset = field.parser._offset;
+		var buffer = field.buffer();
+		field.parser._offset = offset;
+		var result = field.geometry();
+		annotateWkbTypes(result, buffer, 4);
+		return result;
+	}
+	return next();
+}}
+
+var annotateWkbTypes = function(geometry, buffer, offset) {
+
+	if (!buffer) return offset;
+
+	var byteOrder = buffer.readUInt8(offset); offset += 1;
+	var ignorePoints = count => offset += count * 16;
+	var readInt = () => {
+		var result = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
+		offset += 4;
+		return result;
+	}
+
+	geometry._wkbType = readInt();
+
+	if (geometry._wkbType === 1) {
+		ignorePoints(1);
+	} else if (geometry._wkbType === 2) {
+		ignorePoints(readInt());
+	} else if (geometry._wkbType === 3) {
+		var rings = readInt();
+		for (var i=0; i<rings; i++) {
+			ignorePoints(readInt());
+		}
+	} else if (geometry._wkbType === 7) {
+		var elements = readInt();
+		for (var i=0; i<elements; i++) {
+			offset = annotateWkbTypes(geometry[i], buffer, offset);
+		}
+	} 
+	return offset
 }
 
-// var addslashes = function(str){
-// 	return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
-// }
+var escapeGeometryType = function(val) {
+	
+	var constructors = {1: "POINT", 2: "LINESTRING", 3: "POLYGON", 4: "MULTIPOINT", 5: "MULTILINESTRING", 6: "MULTIPOLYGON", 7: "GEOMETRYCOLLECTION" };
+
+	var isPointType = val => val && typeof val.x === 'number' && typeof val.y === 'number';
+	var close = str => str.length && str[0] === '(' ? str : '(' + str + ')';
+
+	function escape(val) {
+
+		var result = isPointType(val) ? (val.x + " " + val.y) :
+			"(" + val.map(inner => escape(inner)).join(',') + ")";
+		if (val._wkbType) {
+			result = constructors[val._wkbType] + close(result);
+		}
+		return result;
+	}
+
+	return "ST_GeomFromText('" + escape(val) + "')";
+}
 
 var isset = function(){
 	var a = arguments;
@@ -46,7 +102,11 @@ var buildInsert = function(rows,table,cols){
 					values.push(" ");
 				}
 			} else if  (rows[i][k]!=='') {
-				if(typeof rows[i][k] === 'number'){
+				
+				if (rows[i][k]._wkbType) {
+					var geometry = escapeGeometryType(rows[i][k]);
+					values.push(geometry);
+				} else  if(typeof rows[i][k] === 'number'){
 					values.push(rows[i][k]);
 				} else {
 					values.push(mysql.escape(rows[i][k]));
@@ -150,7 +210,7 @@ module.exports = function(options,done){
 					mysql.select(opts,function(err,data){
 						if (err) return callback(err);
 						callback(err,buildInsert(data,table));
-					});
+					}, typeCastOptions);
 				});
 			});
 			async.parallel(run,callback)
