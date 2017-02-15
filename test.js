@@ -4,14 +4,17 @@ var mysql = require('mq-node');
 var fs = require('fs');
 var mysqlDump = require('./');
 
+const MYSQL_HOST = 'localhost'
+const MYSQL_USER = 'root'
+const MYSQL_PASS = ''
 
 describe('mysql test', function() {
 	var dbTest = 'dump_test';
 	var restrictedUsers = ['user1', 'user2'];
 	var connection = {
-		host: 'localhost',
-		user: 'root',
-		password: ''
+		host: MYSQL_HOST,
+		user: MYSQL_USER,
+		password: MYSQL_PASS
 	};
 
 	mysql = mysql(connection);
@@ -221,9 +224,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			data:false,
 			dest:dest
@@ -243,9 +246,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			schema:false,
 			dest:dest
@@ -265,9 +268,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			where:{
 				players:'id<10 AND gender=1'
@@ -292,9 +295,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			schema:false,
 			getDump:true,
@@ -313,9 +316,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			dest:dest
 		},function(err){
@@ -334,9 +337,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			tables:['players'],
 			ifNotExist:true,
@@ -357,9 +360,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			autoIncrement:false,
 			ifNotExist:true,
@@ -379,9 +382,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
+			host: MYSQL_HOST,
 			user: restrictedUsers[0],
-			password: '',
+			password: MYSQL_PASS,
 			database: dbTest,
 			data:true,
 			dest:dest
@@ -398,9 +401,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
+			host: MYSQL_HOST,
 			user: restrictedUsers[1],
-			password: '',
+			password: MYSQL_PASS,
 			database: dbTest,
 			data:true,
 			dest:dest
@@ -417,9 +420,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
+			host: MYSQL_HOST,
 			user: restrictedUsers[1],
-			password: '',
+			password: MYSQL_PASS,
 			database: dbTest,
 			tables:['players'],
 			ifNotExist:true,
@@ -437,9 +440,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			schema:false,
 			tables:['data_types'],
@@ -453,9 +456,9 @@ describe('mysql test', function() {
 			file = file.replace("VALUES (1,", "VALUES (2,");
 
 			var connection = require('mq-node')({
-				host: 'localhost',
-				user: 'root',
-				password: '',
+				host: MYSQL_HOST,
+				user: MYSQL_USER,
+				password: MYSQL_PASS,
 				database: dbTest
 			});
 
