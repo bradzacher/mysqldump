@@ -9,7 +9,7 @@ var extend = function(obj) {
 	return obj;
 }
 
-var typeCastOptions = { typeCast: (field, next) => {
+var typeCastOptions = { typeCast: function (field, next) {
 	if (field.type === "GEOMETRY") {
 		var offset = field.parser._offset;
 		var buffer = field.buffer();
@@ -26,8 +26,8 @@ var annotateWkbTypes = function(geometry, buffer, offset) {
 	if (!buffer) return offset;
 
 	var byteOrder = buffer.readUInt8(offset); offset += 1;
-	var ignorePoints = count => offset += count * 16;
-	var readInt = () => {
+	var ignorePoints = function(count) { offset += count * 16; }
+	var readInt = function() {
 		var result = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
 		offset += 4;
 		return result;
@@ -57,13 +57,13 @@ var escapeGeometryType = function(val) {
 	
 	var constructors = {1: "POINT", 2: "LINESTRING", 3: "POLYGON", 4: "MULTIPOINT", 5: "MULTILINESTRING", 6: "MULTIPOLYGON", 7: "GEOMETRYCOLLECTION" };
 
-	var isPointType = val => val && typeof val.x === 'number' && typeof val.y === 'number';
-	var close = str => str.length && str[0] === '(' ? str : '(' + str + ')';
+	var isPointType = function(val) { return val && typeof val.x === 'number' && typeof val.y === 'number'; }
+	var close = function(str) { return str.length && str[0] === '(' ? str : '(' + str + ')'; }
 
 	function escape(val) {
 
 		var result = isPointType(val) ? (val.x + " " + val.y) :
-			"(" + val.map(inner => escape(inner)).join(',') + ")";
+			"(" + val.map(escape).join(',') + ")";
 		if (val._wkbType) {
 			result = constructors[val._wkbType] + close(result);
 		}
