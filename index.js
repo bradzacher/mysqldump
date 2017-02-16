@@ -70,7 +70,7 @@ var escapeGeometryType = function(val) {
 		return result;
 	}
 
-	return "ST_GeomFromText('" + escape(val) + "')";
+	return "GeomFromText('" + escape(val) + "')";
 }
 
 var isset = function(){

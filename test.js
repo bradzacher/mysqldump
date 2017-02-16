@@ -199,13 +199,13 @@ describe('mysql test', function() {
 				"  '17:23', "+
 				"  '2017-01-24 17:23', "+
 				"  2016, "+
-				"  ST_GeomFromText('POINT(1 2)'), "+
-				"  ST_GeomFromText('LINESTRING(0 0,1 1,2 2)'), "+
-				"  ST_GeomFromText('POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5))'), "+
-				"  ST_GeomFromText('MULTIPOINT(0 0,1 1,2 2)'), "+
-				"  ST_GeomFromText('MULTILINESTRING((0 0,1 1,2 2),(0 0,1 1,2 2))'), "+
-				"  ST_GeomFromText('MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)),((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)))'), "+
-				"  ST_GeomFromText('GEOMETRYCOLLECTION(POINT(1 1),LINESTRING(0 1,2 3,4 5), POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)))'), " +
+				"  GeomFromText('POINT(1 2)'), "+
+				"  GeomFromText('LINESTRING(0 0,1 1,2 2)'), "+
+				"  GeomFromText('POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5))'), "+
+				"  GeomFromText('MULTIPOINT(0 0,1 1,2 2)'), "+
+				"  GeomFromText('MULTILINESTRING((0 0,1 1,2 2),(0 0,1 1,2 2))'), "+
+				"  GeomFromText('MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)),((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)))'), "+
+				"  GeomFromText('GEOMETRYCOLLECTION(POINT(1 1),LINESTRING(0 1,2 3,4 5), POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)))'), " +
 				// "  '{\"key1\": \"value1\", \"key2\": \"value2\"}', "+
 				"  '\"lorem ipsum\"', "+
 				"  b'100001', "+
