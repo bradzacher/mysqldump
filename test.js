@@ -4,14 +4,17 @@ var mysql = require('mq-node');
 var fs = require('fs');
 var mysqlDump = require('./');
 
+const MYSQL_HOST = 'localhost'
+const MYSQL_USER = 'root'
+const MYSQL_PASS = ''
 
 describe('mysql test', function() {
 	var dbTest = 'dump_test';
 	var restrictedUsers = ['user1', 'user2'];
 	var connection = {
-		host: 'localhost',
-		user: 'root',
-		password: ''
+		host: MYSQL_HOST,
+		user: MYSQL_USER,
+		password: MYSQL_PASS
 	};
 
 	mysql = mysql(connection);
@@ -102,6 +105,114 @@ describe('mysql test', function() {
 			"(16, 'Distillers 280', 1, NULL, 'br', 1, 1442551268, 1442551268);",callback);
 		});
 
+		run.push(function(callback){
+			mysql.query("DROP TABLE IF EXISTS `dump_test`.`data_types`;",callback)
+		});
+
+		run.push(function(callback){
+			mysql.query("CREATE TABLE `dump_test`.`data_types` ("+
+				"  `id` INT NOT NULL AUTO_INCREMENT,"+
+				"  `_int` INT NULL,"+
+				"  `_tinyint` TINYINT NULL,"+
+				"  `_smallint` SMALLINT NULL,"+
+				"  `_mediumint` MEDIUMINT NULL,"+
+				"  `_bigint` BIGINT NULL,"+
+				"  `_decimal` DECIMAL(6,2) NULL,"+
+				"  `_double` DOUBLE NULL,"+
+				"  `_float` FLOAT NULL,"+
+				"  `_real` REAL NULL,"+
+				"  `_varchar` VARCHAR(128) NULL,"+
+				"  `_char` CHAR NULL,"+
+				"  `_blob` BLOB NULL,"+
+				"  `_binary` BINARY NULL,"+
+				"  `_varbinary` VARBINARY(64) NULL,"+
+				"  `_date` DATE NULL,"+
+				"  `_datetime` DATETIME NULL,"+
+				"  `_time` TIME NULL,"+
+				"  `_timestamp` TIMESTAMP NULL,"+
+				"  `_year` YEAR NULL,"+
+				"  `_point` POINT NULL,"+
+				"  `_linestring` LINESTRING NULL,"+
+				"  `_polygon` POLYGON NULL,"+
+				"  `_multipoint` MULTIPOINT NULL,"+
+				"  `_multilinestring` MULTILINESTRING NULL,"+
+				"  `_multipolygon` MULTIPOLYGON NULL,"+
+				"  `_geometrycollection` GEOMETRYCOLLECTION NULL,"+
+				// "  `_json` JSON NULL,"+
+				"  `_text` TEXT NULL,"+
+				"  `_bit` BIT(6) NULL,"+
+				"  `_enum` ENUM('red', 'green', 'blue') NULL,"+
+				"  `_set` SET('a', 'b', 'c', 'd') NULL,"+
+				"  PRIMARY KEY (`id`));",callback)
+		});
+
+		run.push(function(callback){
+			mysql.query("INSERT INTO `dump_test`.`data_types` ("+
+				"  `_int`, "+
+				"  `_tinyint`, "+
+				"  `_smallint`, "+
+				"  `_mediumint`, "+
+				"  `_bigint`, "+
+				"  `_decimal`, "+
+				"  `_double`, "+
+				"  `_float`, "+
+				"  `_real`, "+
+				"  `_varchar`, "+
+				"  `_char`, "+
+				"  `_blob`, "+
+				"  `_binary`, "+
+				"  `_varbinary`, "+
+				"  `_date`, "+
+				"  `_datetime`, "+
+				"  `_time`, "+
+				"  `_timestamp`, "+
+				"  `_year`, "+
+				"  `_point`, "+
+				"  `_linestring`, "+
+				"  `_polygon`, "+
+				"  `_multipoint`, "+
+				"  `_multilinestring`, "+
+				"  `_multipolygon`, "+
+				"  `_geometrycollection`, "+
+				// "  `_json`, "+
+				"  `_text`, "+
+				"  `_bit`, "+
+				"  `_enum`, "+
+				"  `_set`) "+
+				"VALUES ("+
+				"  '1', "+
+				"  '2', "+
+				"  '255', "+
+				"  '65000', "+
+				"  '1000000', "+
+				"  '9999.99', "+
+				"  '3.141592653589793', "+
+				"  '3.141592653589793', "+
+				"  '3.141592653589793', "+
+				"  'hello', "+
+				"  'x', "+
+				"  X'1234', "+
+				"  X'ff', "+
+				"  X'abcdef', "+
+				"  '2017-01-24', "+
+				"  '2017-01-24 17:23', "+
+				"  '17:23', "+
+				"  '2017-01-24 17:23', "+
+				"  2016, "+
+				"  GeomFromText('POINT(1 2)'), "+
+				"  GeomFromText('LINESTRING(0 0,1 1,2 2)'), "+
+				"  GeomFromText('POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5))'), "+
+				"  GeomFromText('MULTIPOINT(0 0,1 1,2 2)'), "+
+				"  GeomFromText('MULTILINESTRING((0 0,1 1,2 2),(0 0,1 1,2 2))'), "+
+				"  GeomFromText('MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)),((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)))'), "+
+				"  GeomFromText('GEOMETRYCOLLECTION(POINT(1 1),LINESTRING(0 1,2 3,4 5), POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5)))'), " +
+				// "  '{\"key1\": \"value1\", \"key2\": \"value2\"}', "+
+				"  '\"lorem ipsum\"', "+
+				"  b'100001', "+
+				"  'red', "+
+				"  'a');",callback)
+		});
+
 		async.series(run,function(err,data){
 			expect(err).to.be.null;
 			done();
@@ -113,9 +224,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			data:false,
 			dest:dest
@@ -135,9 +246,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			schema:false,
 			dest:dest
@@ -157,9 +268,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			where:{
 				players:'id<10 AND gender=1'
@@ -184,9 +295,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			schema:false,
 			getDump:true,
@@ -205,9 +316,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			dest:dest
 		},function(err){
@@ -226,9 +337,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			tables:['players'],
 			ifNotExist:true,
@@ -249,9 +360,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
-			user: 'root',
-			password: '',
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
 			database: dbTest,
 			autoIncrement:false,
 			ifNotExist:true,
@@ -271,9 +382,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
+			host: MYSQL_HOST,
 			user: restrictedUsers[0],
-			password: '',
+			password: MYSQL_PASS,
 			database: dbTest,
 			data:true,
 			dest:dest
@@ -290,9 +401,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
+			host: MYSQL_HOST,
 			user: restrictedUsers[1],
-			password: '',
+			password: MYSQL_PASS,
 			database: dbTest,
 			data:true,
 			dest:dest
@@ -309,9 +420,9 @@ describe('mysql test', function() {
 		var dest = './data.sql';
 
 		mysqlDump({
-			host: 'localhost',
+			host: MYSQL_HOST,
 			user: restrictedUsers[1],
-			password: '',
+			password: MYSQL_PASS,
 			database: dbTest,
 			tables:['players'],
 			ifNotExist:true,
@@ -323,5 +434,52 @@ describe('mysql test', function() {
 			done();
 		})
 	});
-});
 
+	it('should dump all the fancy data types correctly', function(done) {
+		this.timeout(8000);
+		var dest = './data.sql';
+
+		mysqlDump({
+			host: MYSQL_HOST,
+			user: MYSQL_USER,
+			password: MYSQL_PASS,
+			database: dbTest,
+			schema:false,
+			tables:['data_types'],
+			dest:dest
+		},function(err){
+
+			expect(err).to.be.null;
+			var file = String(fs.readFileSync(dest));
+			expect(file).not.to.be.null;
+
+			file = file.replace("VALUES (1,", "VALUES (2,");
+
+			var connection = require('mq-node')({
+				host: MYSQL_HOST,
+				user: MYSQL_USER,
+				password: MYSQL_PASS,
+				database: dbTest
+			});
+
+			connection.query(file, function(error) {
+
+				expect(error).to.be.null;
+
+				connection.query("SELECT * FROM data_types", function(error, result) {
+	
+					expect(error).to.be.null;
+					expect(result.length).to.be.equal(2);
+					for (var key in result[0]) {
+						if (key === "id") continue;
+						expect(result[1][key]).not.to.be.null;
+						expect(result[0][key].toString()).to.be.equal(result[1][key].toString());
+					}
+					done();
+
+				})
+			})
+		})
+	});
+
+});
