@@ -125,7 +125,8 @@ module.exports = function(options,done){
 		host: 'localhost',
 		user: 'root',
 		password: '',
-		database: 'test'
+		database: 'test',
+		charset: 'UTF8_GENERAL_CI',
 	};
 
 	var defaultOptions = {
@@ -146,6 +147,7 @@ module.exports = function(options,done){
 		password:options.password,
 		database:options.database,
 		port:options.port,
+		charset:options.charset,
 		socketPath:options.socketPath,
 	}));
 
