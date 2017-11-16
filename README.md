@@ -147,7 +147,7 @@ Maintainers Wanted
 
 ![](https://img.shields.io/badge/maintainers-wanted-red.svg)
 
-I don't use this library much anymore and don't have time to maintain it solo.
+I am looking for maintainers to help triage issues and merge pull requests for this repository
 
 If you are interested in helping me maintain this library, please let me know! [**Read more here &raquo;**](https://github.com/webcaetano/mysqldump/issues/34)
 
