@@ -142,6 +142,9 @@ Path to a unix domain socket to connect to. When used `host` and `port` are igno
 The MIT [License](https://raw.githubusercontent.com/webcaetano/mysqldump/master/LICENSE.md)
 
 
+Maintainers Wanted
+---
+
 ![](https://img.shields.io/badge/maintainers-wanted-red.svg)
 
 I don't use this library much anymore and don't have time to maintain it solo.
