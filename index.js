@@ -9,13 +9,69 @@ var extend = function(obj) {
 	return obj;
 }
 
-var escapeUnquoted = function(val){
-	return mysql.escape(val).slice(0, -1).substr(1);
+var typeCastOptions = { typeCast: function (field, next) {
+	if (field.type === "GEOMETRY") {
+		var offset = field.parser._offset;
+		var buffer = field.buffer();
+		field.parser._offset = offset;
+		var result = field.geometry();
+		annotateWkbTypes(result, buffer, 4);
+		return result;
+	}
+	return next();
+}}
+
+var annotateWkbTypes = function(geometry, buffer, offset) {
+
+	if (!buffer) return offset;
+
+	var byteOrder = buffer.readUInt8(offset); offset += 1;
+	var ignorePoints = function(count) { offset += count * 16; }
+	var readInt = function() {
+		var result = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
+		offset += 4;
+		return result;
+	}
+
+	geometry._wkbType = readInt();
+
+	if (geometry._wkbType === 1) {
+		ignorePoints(1);
+	} else if (geometry._wkbType === 2) {
+		ignorePoints(readInt());
+	} else if (geometry._wkbType === 3) {
+		var rings = readInt();
+		for (var i=0; i<rings; i++) {
+			ignorePoints(readInt());
+		}
+	} else if (geometry._wkbType === 7) {
+		var elements = readInt();
+		for (var i=0; i<elements; i++) {
+			offset = annotateWkbTypes(geometry[i], buffer, offset);
+		}
+	} 
+	return offset
 }
 
-// var addslashes = function(str){
-// 	return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
-// }
+var escapeGeometryType = function(val) {
+	
+	var constructors = {1: "POINT", 2: "LINESTRING", 3: "POLYGON", 4: "MULTIPOINT", 5: "MULTILINESTRING", 6: "MULTIPOLYGON", 7: "GEOMETRYCOLLECTION" };
+
+	var isPointType = function(val) { return val && typeof val.x === 'number' && typeof val.y === 'number'; }
+	var close = function(str) { return str.length && str[0] === '(' ? str : '(' + str + ')'; }
+
+	function escape(val) {
+
+		var result = isPointType(val) ? (val.x + " " + val.y) :
+			"(" + val.map(escape).join(',') + ")";
+		if (val._wkbType) {
+			result = constructors[val._wkbType] + close(result);
+		}
+		return result;
+	}
+
+	return "GeomFromText('" + escape(val) + "')";
+}
 
 var isset = function(){
 	var a = arguments;
@@ -46,14 +102,14 @@ var buildInsert = function(rows,table,cols){
 					values.push(" ");
 				}
 			} else if  (rows[i][k]!=='') {
-				if(typeof rows[i][k] === 'number'){
-					// values.push(addslashes(rows[i][k]));
+				
+				if (rows[i][k]._wkbType) {
+					var geometry = escapeGeometryType(rows[i][k]);
+					values.push(geometry);
+				} else  if(typeof rows[i][k] === 'number'){
 					values.push(rows[i][k]);
-					// values.push(rows[i][k]);
 				} else {
-					// values.push("'"+rows[i][k]+"'");
-					values.push("'"+escapeUnquoted(rows[i][k])+"'");
-					// values.push("'"+addslashes(rows[i][k])+"'");
+					values.push(mysql.escape(rows[i][k]));
 				}
 			} else {
 				values.push("''");
@@ -69,7 +125,8 @@ module.exports = function(options,done){
 		host: 'localhost',
 		user: 'root',
 		password: '',
-		database: 'test'
+		database: 'test',
+		charset: 'UTF8_GENERAL_CI',
 	};
 
 	var defaultOptions = {
@@ -91,10 +148,9 @@ module.exports = function(options,done){
 		password:options.password,
 		database:options.database,
 		port:options.port,
+		charset:options.charset,
 		socketPath:options.socketPath,
 	}));
-
-	console.time('mysql dump');
 
 	options = extend({},defaultConnection,defaultOptions,options);
 	if(!options.database) throw new Error('Database not specified');
@@ -124,6 +180,7 @@ module.exports = function(options,done){
 				})
 			})
 			async.parallel(run,function(err,data){
+				if (err) return callback(err);
 				var resp = [];
 				for(var i in data){
 					var r = data[i][0]['Create Table']+";";
@@ -158,8 +215,9 @@ module.exports = function(options,done){
 						opts.where = options.where[table];
 					}
 					mysql.select(opts,function(err,data){
+						if (err) return callback(err);
 						callback(err,buildInsert(data,table));
-					});
+					}, typeCastOptions);
 				});
 			});
 			async.parallel(run,callback)
@@ -170,9 +228,8 @@ module.exports = function(options,done){
 			callback(null,results.createSchemaDump.concat(results.createDataDump).join("\n\n"));
 		}]
 	},function(err,results){
-		if(err) throw new Error(err);
+		if(err) return done(err);
 
-		console.timeEnd('mysql dump');
 		mysql.connection.end();
 		if(options.getDump) return done(err, results.getDataDump);
 		fs.writeFile(options.dest, results.getDataDump, done);
