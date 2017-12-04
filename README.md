@@ -10,7 +10,7 @@ Create a backup from MySQL
 npm install mysqldump
 ```
 
-Example 
+Example
 ```javascript
 var mysqlDump = require('mysqldump');
 
@@ -78,7 +78,7 @@ Type: `String`
 
 Name of the database to dump.
 
-#### tables 
+#### tables
 
 Type: `Array`
 
@@ -86,13 +86,13 @@ Array of tables that you want to backup.
 
 Leave Blank for All. `Default: [] ALL`
 
-#### schema 
+#### schema
 
 Type: `Boolean`
 
 Output table structure `Default: true`;
 
-#### data 
+#### data
 
 Type: `Boolean`
 
@@ -105,25 +105,31 @@ Where clauses to limit dumped data `Example: where: {'users': 'id < 1000'}`
 
 Combine with `data: false` to only dump tables with where clauses  `Default: null`;
 
-#### ifNotExist 
+#### ifNotExist
 
 Type: `Boolean`
 
 Create tables if not exist method `Default: true`;
 
-#### dropTable 
+#### dropTable
 
 Type: `Boolean`
 
 Drop tables if exist `Default: false`;
 
-#### getDump 
+#### replaceView
+
+Type: `Boolean`
+
+Uses `CREATE OR REPLACE` instead of `CREATE` for views `Default: true`;
+
+#### getDump
 
 Type: `Boolean`
 
 Return dump as a raw data on callback instead of create file `Default: false`;
 
-#### dest 
+#### dest
 
 Type: `String`
 
@@ -153,3 +159,18 @@ If you are interested in helping me maintain this library, please let me know! [
 
 Your help would be greatly appreciated!
 
+
+
+
+
+
+
+# TODO
+
+- [ ] Convert to typescript
+    - [X] index.js
+    - [ ] test.js
+- [ ] Convert test from chai+mocha to jest
+- [X] Add support for views
+- [ ] Add build "scripts"
+- [ ] Change inclusion files for package publish

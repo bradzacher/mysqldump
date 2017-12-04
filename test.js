@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var expect = require('chai').expect;
 var async = require('async');
 var mysql = require('mq-node');
@@ -467,7 +469,7 @@ describe('mysql test', function() {
 				expect(error).to.be.null;
 
 				connection.query("SELECT * FROM data_types", function(error, result) {
-	
+
 					expect(error).to.be.null;
 					expect(result.length).to.be.equal(2);
 					for (var key in result[0]) {

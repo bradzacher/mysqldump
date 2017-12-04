@@ -1,10 +1,10 @@
 {
   "name": "mysqldump",
-  "version": "1.4.2",
+  "version": "2.0.0",
   "description": "Create a DUMP from MySQL",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "mocha test.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,12 +27,22 @@
   },
   "homepage": "https://github.com/webcaetano/mysqldump",
   "dependencies": {
-    "async": "^1.4.2",
-    "lodash": "^3.10.1",
-    "mq-node": "^1.0.7"
+    "@types/sqlstring": "^2.2.0",
+    "extend": "^3.0.1",
+    "sql-formatter": "^2.1.0",
+    "sqlstring": "^2.3.0"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
-    "mocha": "^2.3.2"
+    "@types/extend": "^3.0.0",
+    "@types/mysql": "^2.15.2",
+    "eslint": "^4.12.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-typescript": "^0.8.1",
+    "eslint-restricted-globals": "^0.1.1",
+    "jest-cli": "^21.2.1",
+    "mysql2": "^1.5.1",
+    "typescript": "^2.6.2",
+    "typescript-eslint-parser": "^9.0.1"
   }
 }
