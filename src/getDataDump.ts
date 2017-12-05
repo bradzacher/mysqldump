@@ -33,8 +33,8 @@ export default async function (connectionOptions : ConnectionOptions, options : 
             if (table.isView && !options.includeViewData) {
                 // don't dump data for views
                 return Promise.resolve({
-                    table,
-                    sql: false,
+                    ...table,
+                    data: null,
                 })
             }
 
@@ -42,8 +42,8 @@ export default async function (connectionOptions : ConnectionOptions, options : 
             const inserts = buildInsert(selectAllRes, table)
 
             return {
-                table,
-                sql: [
+                ...table,
+                data: [
                     '# ------------------------------------------------------------',
                     `# DATA DUMP FOR TABLE: ${table.name}`,
                     '# ------------------------------------------------------------',
@@ -59,10 +59,4 @@ export default async function (connectionOptions : ConnectionOptions, options : 
     await connection.end()
 
     return insertBlocks
-        // remove tables with no data
-        .filter(b => !!b.sql)
-        // sort by table name to make sure it always comes out in the same order
-        .sort((a, b) => a.table.name.localeCompare(b.table.name, 'en-us'))
-        .map(b => b.sql)
-        .join('\n')
 }

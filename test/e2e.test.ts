@@ -5,7 +5,7 @@ import { promisify } from 'util'
 import testConfig from './testConfig'
 
 import mysqldump from '../src/main'
-import { DumpOptions, SchemaDumpOptions, DataDumpOptions } from '../src/interfaces/Options'
+import { DumpOptions, SchemaDumpOptions } from '../src/interfaces/Options'
 
 const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
@@ -31,18 +31,18 @@ describe('mysqldump.e2e', () => {
     describe('dump opts', () => {
         it('should provide both a schema dump and a data dump if no config provided', async () => {
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
             })
 
             // ASSERT
-            expect(dump.data).toBeDefined()
-            expect(dump.schema).toBeDefined()
+            expect(res.dump.data).toBeDefined()
+            expect(res.dump.schema).toBeDefined()
         })
 
         it('should not provide a schema dump if configured', async () => {
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
                 dump: {
                     schema: false,
@@ -50,13 +50,13 @@ describe('mysqldump.e2e', () => {
             })
 
             // ASSERT
-            expect(dump.data).toBeDefined()
-            expect(dump.schema).toBeUndefined()
+            expect(res.dump.data).toBeTruthy()
+            expect(res.dump.schema).toBeFalsy()
         })
 
         it('should not provide a data dump if configured', async () => {
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
                 dump: {
                     data: false,
@@ -64,8 +64,8 @@ describe('mysqldump.e2e', () => {
             })
 
             // ASSERT
-            expect(dump.data).toBeUndefined()
-            expect(dump.schema).toBeDefined()
+            expect(res.dump.data).toBeFalsy()
+            expect(res.dump.schema).toBeTruthy()
         })
 
         it('should filter tables if configured', async () => {
@@ -73,29 +73,29 @@ describe('mysqldump.e2e', () => {
             const tables = ['geometry_types', 'everything']
 
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
                 dump: {
-                    tables
+                    tables,
                 },
             })
 
             // ASSERT
 
             // assert for tables that should be there
-            expect(dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `geometry_types`/)
-            expect(dump.schema).toMatch(/CREATE OR REPLACE .+ VIEW `everything`/)
+            expect(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `geometry_types`/)
+            expect(res.dump.schema).toMatch(/CREATE OR REPLACE .+ VIEW `everything`/)
 
-            expect(dump.data).toMatch(/INSERT INTO\n {2}`geometry_types`/)
+            expect(res.dump.data).toMatch(/INSERT INTO\n {2}`geometry_types`/)
 
             // assert for tables that shouldn't be there
-            expect(dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `date_types`/)
-            expect(dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
-            expect(dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
+            expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `date_types`/)
+            expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
+            expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
 
-            expect(dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
-            expect(dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
-            expect(dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
+            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
+            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
+            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
         })
     })
 
@@ -111,16 +111,16 @@ describe('mysqldump.e2e', () => {
                         },
                     } as any
 
-                    const dump = await mysqldump({
+                    const res = await mysqldump({
                         connection: testConfig,
                         dump: dumpOpt,
                     })
 
                     // ASSERT
                     if (include) {
-                        expect(dump.schema).toMatch(matchRegExp)
+                        expect(res.dump.schema).toMatch(matchRegExp)
                     } else {
-                        expect(dump.schema).not.toMatch(matchRegExp)
+                        expect(res.dump.schema).not.toMatch(matchRegExp)
                     }
                 })
             }
@@ -137,7 +137,7 @@ describe('mysqldump.e2e', () => {
     describe('data dump opts', () => {
         it('should include view data if configured', async () => {
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
                 dump: {
                     data: {
@@ -147,11 +147,11 @@ describe('mysqldump.e2e', () => {
             })
 
             // ASSERT
-            expect(dump.data).toMatch(/INSERT INTO\n {2}`everything`/)
+            expect(res.dump.data).toMatch(/INSERT INTO\n {2}`everything`/)
         })
         it('should exclude view data if configured', async () => {
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
                 dump: {
                     data: {
@@ -161,12 +161,12 @@ describe('mysqldump.e2e', () => {
             })
 
             // ASSERT
-            expect(dump.data).not.toMatch(/INSERT INTO\n {2}`everything`/)
+            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`everything`/)
         })
 
         it('should handle where if configured', async () => {
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
                 dump: {
                     tables: ['date_types'],
@@ -180,7 +180,7 @@ describe('mysqldump.e2e', () => {
             })
 
             // ASSERT
-            expect(dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
+            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
         })
     })
 
@@ -190,7 +190,7 @@ describe('mysqldump.e2e', () => {
             const filename = `${__dirname}/dump.sql`
 
             // ACT
-            const dump = await mysqldump({
+            const res = await mysqldump({
                 connection: testConfig,
                 dumpToFile: filename,
                 dump: opts,
@@ -200,7 +200,7 @@ describe('mysqldump.e2e', () => {
             // ASSERT
             await expect(fileProm).resolves.toBeDefined()
             const file = await fileProm
-            expect(file).toEqual(`${dump.schema || ''}\n${dump.data || ''}\n`)
+            expect(file).toEqual(`${res.dump.schema || ''}\n${res.dump.data || ''}\n`)
 
             // remove the file
             await unlink(filename)

@@ -4,9 +4,12 @@ import * as extend from 'extend'
 import * as mysql from 'mysql2/promise'
 
 import { Options, CompletedOptions } from './interfaces/Options'
+import Table from './interfaces/Table'
 import getTables from './getTables'
 import getSchemaDump from './getSchemaDump'
 import getDataDump from './getDataDump'
+
+export { default as Table } from './interfaces/Table'
 
 const defaultOptions : CompletedOptions = {
     connection: {
@@ -32,9 +35,12 @@ const defaultOptions : CompletedOptions = {
     dumpToFile: null,
 }
 
-export interface Dump {
-    schema ?: string,
-    data ?: string,
+export interface DumpReturn {
+    dump : {
+        schema ?: string,
+        data ?: string,
+    },
+    tables : Table[],
 }
 
 export default async function main(inputOptions : Options) {
@@ -56,37 +62,36 @@ export default async function main(inputOptions : Options) {
     })
 
     // list the tables
-    let tables = (await getTables(connection, options.connection.database, options.dump.tables!))
-
-    const dump : Dump = {}
+    const res : DumpReturn = {
+        dump: {
+            schema: '',
+            data: '',
+        },
+        tables: (await getTables(connection, options.connection.database, options.dump.tables!)),
+    }
 
     // dump the schema if requested
     if (options.dump.schema !== false) {
-        tables = await getSchemaDump(connection, options.dump.schema!, tables)
-
-        const dumpLines : string[] = []
-        tables.forEach((t) => {
-            dumpLines.push(t.sql)
-        })
-        dump.schema = dumpLines.join('\n')
+        res.tables = await getSchemaDump(connection, options.dump.schema!, res.tables)
+        res.dump.schema = res.tables.map(t => t.schema).filter(t => t).join('\n')
     }
 
     await connection.end()
 
     // dump data if requested
     if (options.dump.data !== false) {
-        dump.data = await getDataDump(options.connection, options.dump.data!, tables)
+        res.tables = await getDataDump(options.connection, options.dump.data!, res.tables)
+        res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n')
     }
 
-    const clob = [
-        dump.schema || '',
-        dump.data || '',
-        '',
-    ].join('\n')
-
     if (options.dumpToFile) {
+        const clob = [
+            res.dump.schema || '',
+            res.dump.data || '',
+            '',
+        ].join('\n')
         fs.writeFileSync(options.dumpToFile, clob)
     }
 
-    return dump
+    return res
 }

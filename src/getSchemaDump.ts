@@ -26,33 +26,35 @@ export default async function (connection : IPromiseConnection, options : Schema
     const createStatements = (await connection.query<ShowCreateTableStatementRes[]>(getSchemaMultiQuery))[0]
         // mysql2 returns an array of arrays which will all have our one row
         .map(r => r[0] || r) // mysql2 will return a single record if our multi statement only has one statement
-        .map<Table>((res) => {
+        .map((res) => {
             if (isCreateView(res)) {
                 return {
                     name: res.View,
-                    sql: sqlformatter.format(res['Create View']),
+                    schema: sqlformatter.format(res['Create View']),
+                    data: null,
                     isView: true,
                 }
             }
 
             return {
                 name: res.Table,
-                sql: sqlformatter.format(res['Create Table']),
+                schema: sqlformatter.format(res['Create Table']),
+                data: null,
                 isView: false,
             }
         })
-        .map((s) => {
+        .map<Table>((s) => {
             // clean up the generated SQL as per the options
 
             if (!options.autoIncrement) {
-                s.sql = s.sql.replace(/AUTO_INCREMENT\s*=\s*\d+ /g, '')
+                s.schema = s.schema.replace(/AUTO_INCREMENT\s*=\s*\d+ /g, '')
             }
             if (!options.engine) {
-                s.sql = s.sql.replace(/ENGINE\s*=\s*\w+ /, '')
+                s.schema = s.schema.replace(/ENGINE\s*=\s*\w+ /, '')
             }
             if (s.isView) {
                 if (options.viewCreateOrReplace) {
-                    s.sql = s.sql.replace(
+                    s.schema = s.schema.replace(
                         /^CREATE/,
                         'CREATE OR REPLACE'
                     )
@@ -60,12 +62,12 @@ export default async function (connection : IPromiseConnection, options : Schema
             } else {
                 // eslint-disable-next-line no-lonely-if
                 if (options.tableDropIfExist) {
-                    s.sql = s.sql.replace(
+                    s.schema = s.schema.replace(
                         /^CREATE TABLE/,
                         `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`
                     )
                 } else if (options.tableIfNotExist) {
-                    s.sql = s.sql.replace(
+                    s.schema = s.schema.replace(
                         /^CREATE TABLE/,
                         'CREATE TABLE IF NOT EXISTS'
                     )
@@ -73,15 +75,15 @@ export default async function (connection : IPromiseConnection, options : Schema
             }
 
             // add a semicolon to separate schemas
-            s.sql += ';'
+            s.schema += ';'
 
             // pad the sql with a header
-            s.sql = [
+            s.schema = [
                 '# ------------------------------------------------------------',
                 `# SCHEMA DUMP FOR TABLE: ${s.name}`,
                 '# ------------------------------------------------------------',
                 '',
-                s.sql,
+                s.schema,
                 '',
                 '',
             ].join('\n')
