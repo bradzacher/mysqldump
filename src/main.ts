@@ -33,6 +33,11 @@ const defaultOptions : CompletedOptions = {
     dumpToFile: null,
 }
 
+export interface Dump {
+    schema ?: string,
+    data ?: string,
+}
+
 export default async function main(inputOptions : Options) {
     // assert the given options have all the required properties
     assert(inputOptions.connection, 'Expected to be given `connection` options.')
@@ -55,26 +60,33 @@ export default async function main(inputOptions : Options) {
     // list the tables
     let tables = (await getTables(connection, options.connection.database, options.dump.tables!))
 
-    const dumpLines : string[] = []
+    const dump : Dump = {}
 
     // dump the schema if requested
     if (options.dump.schema !== false) {
         tables = await getSchemaDump(connection, options.dump.schema!, tables)
 
+        const dumpLines : string[] = []
         tables.forEach((t) => {
             dumpLines.push(t.sql)
         })
+        dump.schema = dumpLines.join('\n')
     }
 
+    // dump data if requested
     if (options.dump.data !== false) {
-        dumpLines.push(await getDataDump(connection, options.dump.data!, tables))
+        dump.data = await getDataDump(connection, options.dump.data!, tables)
     }
 
-    const clob = dumpLines.join('\n')
+    const clob = [
+        dump.data || '',
+        dump.schema || '',
+        '',
+    ].join('\n')
 
     if (options.dumpToFile) {
         fs.writeFileSync(options.dumpToFile, clob)
     }
 
-    return clob
+    return dump
 }
