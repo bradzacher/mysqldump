@@ -7,7 +7,6 @@ import { Options, CompletedOptions } from './interfaces/Options'
 import getTables from './getTables'
 import getSchemaDump from './getSchemaDump'
 import getDataDump from './getDataDump'
-import typeCast from './typeCast'
 
 const defaultOptions : CompletedOptions = {
     connection: {
@@ -22,8 +21,8 @@ const defaultOptions : CompletedOptions = {
         schema: {
             autoIncrement: true,
             engine: true,
-            tableDropIfExist: true,
-            tableIfNotExist: false,
+            tableIfNotExist: true,
+            tableDropIfExist: false,
             viewCreateOrReplace: true,
         },
         data: {
@@ -54,7 +53,6 @@ export default async function main(inputOptions : Options) {
     const connection = await mysql.createConnection({
         ...options.connection,
         multipleStatements: true,
-        typeCast,
     })
 
     // list the tables
@@ -73,14 +71,16 @@ export default async function main(inputOptions : Options) {
         dump.schema = dumpLines.join('\n')
     }
 
+    await connection.end()
+
     // dump data if requested
     if (options.dump.data !== false) {
-        dump.data = await getDataDump(connection, options.dump.data!, tables)
+        dump.data = await getDataDump(options.connection, options.dump.data!, tables)
     }
 
     const clob = [
-        dump.data || '',
         dump.schema || '',
+        dump.data || '',
         '',
     ].join('\n')
 

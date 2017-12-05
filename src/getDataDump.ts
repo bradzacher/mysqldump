@@ -1,8 +1,9 @@
-import { IPromiseConnection, IQueryReturn } from 'mysql2/promise'
+import { IQueryReturn, createConnection } from 'mysql2/promise'
 import * as sqlformatter from 'sql-formatter'
 
-import { DataDumpOptions } from './interfaces/Options'
+import { ConnectionOptions, DataDumpOptions } from './interfaces/Options'
 import Table from './interfaces/Table'
+import typeCast from './typeCast'
 
 interface QueryRes {
     [k : string] : any
@@ -13,13 +14,20 @@ function buildInsert(result : IQueryReturn<QueryRes>, table : Table) {
 
     const sqlLines = result[0].map(row => sqlformatter.format([
         `INSERT INTO \`${table.name}\` (\`${cols.join('`,`')}\`)`,
-        `VALUES (${cols.map(c => row[c]).join('m')});`,
+        `VALUES (${cols.map(c => row[c]).join(',')});`,
     ].join(' ')))
 
     return sqlLines
 }
 
-export default async function (connection : IPromiseConnection, options : DataDumpOptions, tables : Table[]) {
+export default async function (connectionOptions : ConnectionOptions, options : DataDumpOptions, tables : Table[]) {
+    // we open a new connection with a special typecast function for dumping data
+    const connection = await createConnection({
+        ...connectionOptions,
+        multipleStatements: true,
+        typeCast,
+    })
+
     const insertBlocks = await Promise.all(
         tables.map(async (table) => {
             if (table.isView && !options.includeViewData) {
@@ -48,10 +56,13 @@ export default async function (connection : IPromiseConnection, options : DataDu
         })
     )
 
+    await connection.end()
+
     return insertBlocks
         // remove tables with no data
         .filter(b => !!b.sql)
         // sort by table name to make sure it always comes out in the same order
         .sort((a, b) => a.table.name.localeCompare(b.table.name, 'en-us'))
+        .map(b => b.sql)
         .join('\n')
 }

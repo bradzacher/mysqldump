@@ -4,7 +4,7 @@
   "description": "Create a DUMP from MySQL",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --verbose --config=./jest.json"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@types/extend": "^3.0.0",
+    "@types/jest": "^21.1.8",
     "@types/mysql": "^2.15.2",
     "eslint": "^4.12.1",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -42,6 +43,8 @@
     "eslint-restricted-globals": "^0.1.1",
     "jest-cli": "^21.2.1",
     "mysql2": "^1.5.1",
+    "source-map-support": "^0.5.0",
+    "ts-jest": "^21.2.4",
     "typescript": "^2.6.2",
     "typescript-eslint-parser": "^9.0.1"
   }

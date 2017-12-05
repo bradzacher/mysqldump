@@ -25,7 +25,7 @@ export default async function (connection : IPromiseConnection, options : Schema
     const getSchemaMultiQuery = tables.map(t => `SHOW CREATE TABLE \`${t.name}\`;`).join('\n')
     const createStatements = (await connection.query<ShowCreateTableStatementRes[]>(getSchemaMultiQuery))[0]
         // mysql2 returns an array of arrays which will all have our one row
-        .map(r => r[0])
+        .map(r => r[0] || r) // mysql2 will return a single record if our multi statement only has one statement
         .map<Table>((res) => {
             if (isCreateView(res)) {
                 return {
@@ -44,10 +44,10 @@ export default async function (connection : IPromiseConnection, options : Schema
         .map((s) => {
             // clean up the generated SQL as per the options
 
-            if (options.autoIncrement) {
+            if (!options.autoIncrement) {
                 s.sql = s.sql.replace(/AUTO_INCREMENT\s*=\s*\d+ /g, '')
             }
-            if (options.engine) {
+            if (!options.engine) {
                 s.sql = s.sql.replace(/ENGINE\s*=\s*\w+ /, '')
             }
             if (s.isView) {

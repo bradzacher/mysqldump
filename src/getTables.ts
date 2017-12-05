@@ -13,7 +13,7 @@ export default async function (connection : IPromiseConnection, dbName : string,
     const showTablesKey = `Tables_in_${dbName}`
     const tablesRes = (await connection.query<ShowTableRes>(`SHOW FULL TABLES FROM ${dbName}`))[0]
     const actualTables = tablesRes.map<Table>(r => ({
-        name: r[showTablesKey],
+        name: r[showTablesKey].replace(/'/g, ''),
         sql: '',
         isView: r.Table_type === 'VIEW',
     }))

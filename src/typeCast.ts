@@ -92,7 +92,7 @@ function parseGeometryValue(buffer : Buffer) {
                 throw new Error(`Unexpected WKBGeometry Type: ${wkbType}`)
         }
 
-        return `${geomConstructors[wkbType]}(${result.join('\n')})`
+        return `${geomConstructors[wkbType]}(${result.join(',')})`
     }
 
     return `GeomFromText('${parseGeometry()}')`
