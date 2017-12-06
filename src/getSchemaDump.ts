@@ -1,8 +1,8 @@
-import { IPromiseConnection } from 'mysql2/promise'
 import * as sqlformatter from 'sql-formatter'
 
 import { SchemaDumpOptions } from './interfaces/Options'
 import Table from './interfaces/Table'
+import DB from './DB'
 
 export interface ShowCreateView {
     View : string
@@ -20,13 +20,13 @@ function isCreateView(v : any) : v is ShowCreateView {
     return 'View' in v
 }
 
-export default async function (connection : IPromiseConnection, options : SchemaDumpOptions, tables : Table[]) {
+export default async function (connection : DB, options : SchemaDumpOptions, tables : Table[]) {
     // we create a multi query here so we can query all at once rather than in individual connections
     const getSchemaMultiQuery = tables.map(t => `SHOW CREATE TABLE \`${t.name}\`;`).join('\n')
-    const createStatements = (await connection.query<ShowCreateTableStatementRes[]>(getSchemaMultiQuery))[0]
+    const createStatements = (await connection.multiQuery<ShowCreateTableStatementRes>(getSchemaMultiQuery))
         // mysql2 returns an array of arrays which will all have our one row
-        .map(r => r[0] || r) // mysql2 will return a single record if our multi statement only has one statement
-        .map((res) => {
+        .map(r => r[0])
+        .map((res, i) => {
             if (isCreateView(res)) {
                 return {
                     name: res.View,

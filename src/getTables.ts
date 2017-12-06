@@ -1,6 +1,5 @@
-import { IPromiseConnection } from 'mysql2/promise'
-
-import Table from './interfaces/Table'
+import { Table, Column } from './interfaces/Table'
+import DB from './DB'
 
 interface ShowTableRes {
     Table_type : 'BASE TABLE' | 'VIEW' // eslint-disable-line camelcase
@@ -8,10 +7,10 @@ interface ShowTableRes {
     [k : string] : string
 }
 
-export default async function (connection : IPromiseConnection, dbName : string, restrictedTables : string[]) {
+export default async function (connection : DB, dbName : string, restrictedTables : string[]) {
     // list the tables
     const showTablesKey = `Tables_in_${dbName}`
-    const tablesRes = (await connection.query<ShowTableRes>(`SHOW FULL TABLES FROM ${dbName}`))[0]
+    const tablesRes = (await connection.query<ShowTableRes>(`SHOW FULL TABLES FROM ${dbName}`))
     const actualTables = tablesRes.map<Table>(r => ({
         name: r[showTablesKey].replace(/'/g, ''),
         schema: null,
