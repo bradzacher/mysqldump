@@ -12,10 +12,17 @@ interface QueryRes {
 function buildInsert(result : IQueryReturn<QueryRes>, table : Table) {
     const cols = result[1].map(f => f.name)
 
-    const sqlLines = result[0].map(row => sqlformatter.format([
-        `INSERT INTO \`${table.name}\` (\`${cols.join('`,`')}\`)`,
-        `VALUES (${cols.map(c => row[c]).join(',')});`,
-    ].join(' ')))
+    const sqlLines = result[0].map((row) => {
+        const formatted = sqlformatter.format([
+            `INSERT INTO \`${table.name}\` (\`${cols.join('`,`')}\`)`,
+            `VALUES (${cols.map(c => row[c]).join(',')});`,
+        ].join(' '))
+
+        // sql-formatter lib doesn't support the X'aaff' or b'01010' literals, and it adds a space in and breaks them
+        // this undoes the wrapping we did to get around the formatting
+        return formatted
+            .replace(/NOFORMAT_WRAP\("##(.+)##"\)/g, '$1')
+    })
 
     return sqlLines
 }
@@ -25,11 +32,12 @@ export default async function (connectionOptions : ConnectionOptions, options : 
     const connection = await createConnection({
         ...connectionOptions,
         multipleStatements: true,
-        typeCast,
+        typeCast: typeCast(tables),
     })
 
+    // to avoid having to load an entire DB's worth of data at once, we select from each table individually
     const insertBlocks = await Promise.all(
-        tables.map(async (table) => {
+        tables.map<Promise<Table>>(async (table) => {
             if (table.isView && !options.includeViewData) {
                 // don't dump data for views
                 return Promise.resolve({

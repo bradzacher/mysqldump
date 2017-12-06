@@ -1,6 +1,9 @@
 import { TypecastField } from 'mysql2/promise'
 import * as sqlstring from 'sqlstring'
 
+import Table from './interfaces/Table'
+import resolveType from './resolveType'
+
 // adapted from https://github.com/mysqljs/mysql/blob/master/lib/protocol/Parser.js
 // changes:
 // - cleaned up to use const/let + types
@@ -98,28 +101,80 @@ function parseGeometryValue(buffer : Buffer) {
     return `GeomFromText('${parseGeometry()}')`
 }
 
-const stringTypes : (TypecastField['type'])[] = [
-    'DATE',
-    'DATETIME',
-    'STRING',
-    'TIME',
-    'TIMESTAMP',
-    'VAR_STRING',
-    'VARCHAR',
-    'YEAR',
-]
-
-export default function (field : TypecastField) {
-    let value : string = ''
-    if (field.type === 'GEOMETRY') {
-        // parse and convert the binary representation to a nice string
-        value = parseGeometryValue(field.buffer())
-    } else if (stringTypes.indexOf(field.type) !== -1) {
-        // sanitize the string types
-        value = sqlstring.escape(field.string())
-    } else {
-        value = field.string()
+function intToBit(int : number) {
+    let bits = int.toString(2)
+    while (bits.length < 8) {
+        bits = `0${bits}`
     }
 
-    return value
+    return bits
+}
+
+/**
+ * sql-formatter doesn't support hex/binary literals
+ * so we wrap them in this fake function call which gets removed later
+ */
+function noformatWrap(str : string) {
+    return `NOFORMAT_WRAP("##${str}##")`
+}
+
+export default function (tables : Table[]) {
+    const tablesByName = tables.reduce((acc, t) => {
+        acc.set(t.name, t)
+
+        return acc
+    }, new Map<string, Table>())
+
+    // eslint-disable-next-line complexity
+    return (field : TypecastField) => {
+        const table = tablesByName.get(field.table)!
+        const columnType = resolveType(table.columns[field.name].type)
+
+        let value : string = ''
+        if (columnType === 'GEOMETRY') {
+            // parse and convert the binary representation to a nice string
+            value = parseGeometryValue(field.buffer())
+        } else if (columnType === 'STRING') {
+            // sanitize the string types
+            value = sqlstring.escape(field.string())
+        } else if (columnType === 'BIT') {
+            // bit fields have a binary representation we have to deal with
+            const buf = field.buffer()
+
+            // represent a binary literal (b'010101')
+            const numBytes = buf.length
+            let bitString = ''
+            for (let i = 0; i < numBytes; i += 1) {
+                const int8 = buf.readUInt8(i)
+                bitString += intToBit(int8)
+            }
+
+            // truncate the bit string to the field length
+            bitString = bitString.substr(-field.length)
+
+            value = noformatWrap(`b'${bitString}'`)
+        } else if (columnType === 'HEX') {
+            // binary blobs
+            const buf = field.buffer()
+
+            // represent a hex literal (X'AF12')
+            const numBytes = buf.length
+            let hexString = ''
+            for (let i = 0; i < numBytes; i += 1) {
+                const int8 = buf.readUInt8(i)
+                hexString += int8.toString(16)
+            }
+
+            value = noformatWrap(`X'${hexString}'`)
+        } else if (columnType === 'NUMBER') {
+            value = field.string()
+        }
+
+        // handle nulls
+        if (value === null) {
+            value = 'NULL'
+        }
+
+        return value
+    }
 }

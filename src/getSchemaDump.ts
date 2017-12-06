@@ -27,12 +27,14 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
         // mysql2 returns an array of arrays which will all have our one row
         .map(r => r[0])
         .map((res, i) => {
+            const table = tables[i]
             if (isCreateView(res)) {
                 return {
                     name: res.View,
                     schema: sqlformatter.format(res['Create View']),
                     data: null,
                     isView: true,
+                    columns: table.columns,
                 }
             }
 
@@ -41,6 +43,7 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                 schema: sqlformatter.format(res['Create Table']),
                 data: null,
                 isView: false,
+                columns: table.columns,
             }
         })
         .map<Table>((s) => {

@@ -1,7 +1,7 @@
-import * as mysql from 'mysql2/promise'
 import * as fs from 'fs'
 import { promisify } from 'util'
 
+import './initDb'
 import testConfig from './testConfig'
 
 import mysqldump from '../src/main'
@@ -9,23 +9,6 @@ import { DumpOptions, SchemaDumpOptions } from '../src/interfaces/Options'
 
 const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
-
-beforeAll(async () => {
-    // setup the database
-
-    const conn = await mysql.createConnection({
-        ...testConfig,
-        multipleStatements: true,
-    })
-
-    const schema = await readFile(`${__dirname}/schema.sql`, 'utf8')
-    const data = await readFile(`${__dirname}/data.sql`, 'utf8')
-
-    await conn.query(schema)
-    await conn.query(data)
-
-    await conn.end()
-})
 
 describe('mysqldump.e2e', () => {
     describe('dump opts', () => {
