@@ -101,7 +101,8 @@ INSERT INTO
     `_double`,
     `_float`,
     `_real`,
-    `_bit`
+    `_bit1`,
+    `_bit24`
   )
 VALUES
   (
@@ -116,7 +117,8 @@ VALUES
     8.2,
     9.3,
     10.4,
-    1
+    b'1',
+    b'101010101010101010101010'
   ),
   (
     null,
@@ -130,7 +132,8 @@ VALUES
     18.2,
     19.3,
     20.4,
-    0
+    b'0',
+    b'010101010101010101010101'
   ),
   (
     null,
@@ -144,57 +147,86 @@ VALUES
     28.2,
     29.3,
     30.4,
-    1
+    b'1',
+    b'111111111111000000000000'
   );
 
 
 -- #################
--- number_types
+-- text_types
+-- #################
+INSERT INTO
+  `text_types`
+  (
+    `ot_id`,
+    `_char`,
+    `_longtext`,
+    `_text`,
+    `_varchar`
+  )
+VALUES
+  (
+    null,
+    'a',
+    '{ "this is how": "we store json objects sometimes", "ONE": 1 }',
+    '"SOME LONG TEXT GOES HERE 1"',
+    'string 1'
+  ),
+  (
+    null,
+    'b',
+    '{ "this is how": "we store json objects sometimes", "TWO": 2 }',
+    '"SOME LONG TEXT GOES HERE 2"',
+    'string 2'
+  ),
+  (
+    null,
+    'c',
+    '{ "this is how": "we store json objects sometimes", "THREE": 3 }',
+    '"SOME LONG TEXT GOES HERE 3"',
+    'string 3'
+  );
+
+
+-- #################
+-- other_types
 -- #################
 INSERT INTO
   `other_types`
   (
     `ot_id`,
-    `_varchar`,
-    `_char`,
     `_blob`,
     `_binary`,
     `_varbinary`,
-    `_text`,
     `_enum`,
-    `_set`
+    `_set`,
+    `_alwaysNull`
   )
 VALUES
   (
     null,
-    'string 1',
-    'a',
     X'1234',
     X'aa',
     X'9876',
-    '"SOME LONG TEXT GOES HERE 1"',
     'red',
-    'a'
+    'a',
+    NULL
   ),
   (
     null,
-    'string 2',
-    'b',
     X'4567',
     X'bb',
     X'6543',
-    '"SOME LONG TEXT GOES HERE 2"',
     'green',
-    'b'
+    'b',
+    NULL
   ),
   (
     null,
-    'string 3',
-    'c',
     X'7890',
     X'cc',
     X'3210',
-    '"SOME LONG TEXT GOES HERE 3"',
     'blue',
-    'c'
+    'c',
+    NULL
   );

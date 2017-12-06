@@ -35,21 +35,30 @@ CREATE TABLE `number_types` (
     `_double` double NOT NULL,
     `_float` float NOT NULL,
     `_real` real NOT NULL,
-    `_bit` bit NOT NULL,
+    `_bit1` bit(1) NOT NULL,
+    `_bit24` bit(24) NOT NULL,
     PRIMARY KEY (`nt_id`)
+);
+
+DROP TABLE IF EXISTS `text_types`;
+CREATE TABLE `text_types` (
+    `ot_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `_char` char NOT NULL,
+    `_longtext` longtext NOT NULL,
+    `_text` text NOT NULL,
+    `_varchar` varchar(128) NOT NULL,
+    PRIMARY KEY (`ot_id`)
 );
 
 DROP TABLE IF EXISTS `other_types`;
 CREATE TABLE `other_types` (
     `ot_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `_varchar` varchar(128) NOT NULL,
-    `_char` char NOT NULL,
     `_blob` blob NOT NULL,
     `_binary` binary NOT NULL,
     `_varbinary` varbinary(64) NOT NULL,
-    `_text` text NOT NULL,
     `_enum` ENUM('red', 'green', 'blue') NOT NULL,
     `_set` SET('a', 'b', 'c') NOT NULL,
+    `_alwaysNull` INT,
     PRIMARY KEY (`ot_id`)
 );
 
