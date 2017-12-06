@@ -34,7 +34,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strictNullChecks": true,
-        "target": "es5",
+        "target": "esnext",
 		"declaration": true,
 		"sourceMap": true
     },
