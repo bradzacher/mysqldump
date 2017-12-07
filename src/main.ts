@@ -20,6 +20,7 @@ const defaultOptions : CompletedOptions = {
     dump: {
         tables: [],
         schema: {
+            format: true,
             autoIncrement: true,
             engine: true,
             tableIfNotExist: true,
@@ -27,6 +28,8 @@ const defaultOptions : CompletedOptions = {
             viewCreateOrReplace: true,
         },
         data: {
+            format: true,
+            includeViewData: false,
             where: {},
         },
     },

@@ -9,18 +9,18 @@ interface QueryRes {
     [k : string] : any
 }
 
-function buildInsert(result : IQueryReturn<QueryRes>, table : Table) {
+function buildInsert(result : IQueryReturn<QueryRes>, table : Table, format : (s : string) => string) {
     const cols = result[1].map(f => f.name)
 
     const sqlLines = result[0].map((row) => {
-        const formatted = sqlformatter.format([
+        const sql = format([
             `INSERT INTO \`${table.name}\` (\`${cols.join('`,`')}\`)`,
             `VALUES (${cols.map(c => row[c]).join(',')});`,
         ].join(' '))
 
         // sql-formatter lib doesn't support the X'aaff' or b'01010' literals, and it adds a space in and breaks them
         // this undoes the wrapping we did to get around the formatting
-        return formatted
+        return sql
             .replace(/NOFORMAT_WRAP\("##(.+)##"\)/g, '$1')
     })
 
@@ -28,6 +28,10 @@ function buildInsert(result : IQueryReturn<QueryRes>, table : Table) {
 }
 
 export default async function (connectionOptions : ConnectionOptions, options : DataDumpOptions, tables : Table[]) {
+    const format = options.format ?
+        (sql : string) => sqlformatter.format(sql) :
+        (sql : string) => sql
+
     // we open a new connection with a special typecast function for dumping data
     const connection = await createConnection({
         ...connectionOptions,
@@ -47,7 +51,7 @@ export default async function (connectionOptions : ConnectionOptions, options : 
             }
 
             const selectAllRes = await connection.query<QueryRes>(`SELECT * FROM \`${table.name}\``)
-            const inserts = buildInsert(selectAllRes, table)
+            const inserts = buildInsert(selectAllRes, table, format)
 
             return {
                 ...table,

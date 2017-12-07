@@ -25,6 +25,11 @@ export interface ConnectionOptions {
 
 export interface SchemaDumpOptions {
     /**
+     * True to run a sql formatter over the output, false otherwise.
+     * Defaults to true.
+     */
+    format ?: boolean
+    /**
      * True to include autoincrement values in schema, false otherwise.
      * Defaults to true.
      */
@@ -52,6 +57,11 @@ export interface SchemaDumpOptions {
 }
 
 export interface DataDumpOptions {
+    /**
+     * True to run a sql formatter over the output, false otherwise.
+     * Defaults to true.
+     */
+    format ?: boolean
     /**
      * A map of tables to additional where strings to add.
      * Use this to limit the number of data that is dumped.

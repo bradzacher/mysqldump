@@ -37,6 +37,7 @@ export default async function (connection : DB, dbName : string, restrictedTable
     // get the column definitions
     const columnsMultiQuery = tables.map(t => `SHOW COLUMNS FROM \`${t.name}\` FROM \`${dbName}\`;`).join('\n')
     const columns = (await connection.multiQuery<ShowColumnsRes>(columnsMultiQuery))
+
     columns.forEach((cols, i) => {
         tables[i].columns = cols.reduce((acc, c) => {
             acc[c.Field] = {

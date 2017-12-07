@@ -21,6 +21,10 @@ function isCreateView(v : any) : v is ShowCreateView {
 }
 
 export default async function (connection : DB, options : SchemaDumpOptions, tables : Table[]) {
+    const format = options.format ?
+        (sql : string) => sqlformatter.format(sql) :
+        (sql : string) => sql
+
     // we create a multi query here so we can query all at once rather than in individual connections
     const getSchemaMultiQuery = tables.map(t => `SHOW CREATE TABLE \`${t.name}\`;`).join('\n')
     const createStatements = (await connection.multiQuery<ShowCreateTableStatementRes>(getSchemaMultiQuery))
@@ -31,7 +35,7 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
             if (isCreateView(res)) {
                 return {
                     name: res.View,
-                    schema: sqlformatter.format(res['Create View']),
+                    schema: format(res['Create View']),
                     data: null,
                     isView: true,
                     columns: table.columns,
@@ -40,7 +44,7 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
 
             return {
                 name: res.Table,
-                schema: sqlformatter.format(res['Create Table']),
+                schema: format(res['Create Table']),
                 data: null,
                 isView: false,
                 columns: table.columns,

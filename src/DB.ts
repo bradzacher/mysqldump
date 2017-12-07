@@ -24,9 +24,19 @@ export class DB {
         return res[0]
     }
     public async multiQuery<T>(sql : string) {
-        const res = await this.connection.query<T[]>(sql)
+        let isMulti = true
+        if (sql.split(';').length === 2) {
+            isMulti = false
+        }
 
-        return res[0].map((r) => {
+        let res = (await this.connection.query<T[]>(sql))[0]
+        if (!isMulti) {
+            // mysql will return a non-array payload if there's only one statement in the query
+            // so standardise the res..
+            res = [res] as any
+        }
+
+        return res.map((r) => {
             // if for some reason, the multi-query only has one statement,
             // mysql will return it as a single element rather than an array
             if (!Array.isArray(r)) {

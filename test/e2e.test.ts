@@ -51,34 +51,65 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.schema).toBeTruthy()
         })
 
-        it('should filter tables if configured', async () => {
-            // ASSEMBLE
-            const tables = ['geometry_types', 'everything']
+        describe('should filter tables if configured', () => {
+            it('single table', async () => {
+                // ASSEMBLE
+                const tables = ['geometry_types']
 
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    tables,
-                },
+                // ACT
+                const res = await mysqldump({
+                    connection: testConfig,
+                    dump: {
+                        tables,
+                    },
+                })
+
+                // ASSERT
+
+                // assert for tables that should be there
+                expect(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `geometry_types`/)
+                expect(res.dump.data).toMatch(/INSERT INTO\n {2}`geometry_types`/)
+
+                // assert for tables that shouldn't be there
+                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `date_types`/)
+                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
+                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
+                expect(res.dump.schema).not.toMatch(/CREATE OR REPLACE .+ VIEW `everything`/)
+
+                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
+                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
+                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
             })
 
-            // ASSERT
+            it('multiple tables', async () => {
+                // ASSEMBLE
+                const tables = ['date_types', 'geometry_types', 'everything']
 
-            // assert for tables that should be there
-            expect(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `geometry_types`/)
-            expect(res.dump.schema).toMatch(/CREATE OR REPLACE .+ VIEW `everything`/)
+                // ACT
+                const res = await mysqldump({
+                    connection: testConfig,
+                    dump: {
+                        tables,
+                    },
+                })
 
-            expect(res.dump.data).toMatch(/INSERT INTO\n {2}`geometry_types`/)
+                // ASSERT
 
-            // assert for tables that shouldn't be there
-            expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `date_types`/)
-            expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
-            expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
+                // assert for tables that should be there
+                expect(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `date_types`/)
+                expect(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `geometry_types`/)
+                expect(res.dump.schema).toMatch(/CREATE OR REPLACE .+ VIEW `everything`/)
 
-            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
-            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
-            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
+                expect(res.dump.data).toMatch(/INSERT INTO\n {2}`geometry_types`/)
+                expect(res.dump.data).toMatch(/INSERT INTO\n {2}`date_types`/)
+
+                // assert for tables that shouldn't be there
+                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
+                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
+
+                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
+                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
+            })
         })
     })
 
@@ -115,6 +146,49 @@ describe('mysqldump.e2e', () => {
         schemaOptTest('tableDropIfExist', /DROP TABLE IF EXISTS `\w+`;\nCREATE TABLE/)
         schemaOptTest('tableIfNotExist', /CREATE TABLE IF NOT EXISTS/)
         schemaOptTest('viewCreateOrReplace', /CREATE OR REPLACE/)
+
+        // ASSEMBLE
+        const regexBase = 'CREATE OR REPLACE ALGORITHM\\s?=\\s?\\w+ DEFINER\\s?=\\s?`.+?`\\s?@\\s?`.+?` SQL SECURITY DEFINER VIEW `everything` AS'
+        const formattedRegEx = new RegExp(`${regexBase} select`)
+        const unformattedRegEx = new RegExp(`${regexBase}\n`)
+
+        it('should format if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    data: false,
+                    schema: {
+                        format: true,
+                        viewCreateOrReplace: true,
+                    },
+                    // mysql will auto format a create table statement...
+                    // so we test this based on the create view statement
+                    tables: ['everything'],
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.schema).not.toMatch(formattedRegEx)
+            expect(res.dump.schema).toMatch(unformattedRegEx)
+        })
+
+        it('should not format if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    data: false,
+                    schema: {
+                        format: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.schema).toMatch(formattedRegEx)
+            expect(res.dump.schema).not.toMatch(unformattedRegEx)
+        })
     })
 
     describe('data dump opts', () => {
@@ -164,6 +238,39 @@ describe('mysqldump.e2e', () => {
 
             // ASSERT
             expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
+        })
+
+        it('should format if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    schema: false,
+                    data: {
+                        format: true,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).not.toMatch(/INSERT INTO `\w+`/)
+            expect(res.dump.data).toMatch(/INSERT INTO\n/)
+        })
+        it('should not format if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    schema: false,
+                    data: {
+                        format: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toMatch(/INSERT INTO `\w+`/)
+            expect(res.dump.data).not.toMatch(/INSERT INTO\n/)
         })
     })
 
