@@ -1,5 +1,5 @@
-node_modules/
-.editorconfig
-.travis.yml
-npm-debug.log
-test.js
+**/*
+!dist/es.js
+!dist/umd.js
+!package.json
+!README.md

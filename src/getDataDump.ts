@@ -1,15 +1,17 @@
-import { IQueryReturn, createConnection } from 'mysql2/promise'
+import * as mysql from 'mysql2/promise'
 import * as sqlformatter from 'sql-formatter'
+import { all as merge } from 'deepmerge'
 
 import { ConnectionOptions, DataDumpOptions } from './interfaces/Options'
 import Table from './interfaces/Table'
 import typeCast from './typeCast'
 
+
 interface QueryRes {
     [k : string] : any
 }
 
-function buildInsert(result : IQueryReturn<QueryRes>, table : Table, format : (s : string) => string) {
+function buildInsert(result : mysql.IQueryReturn<QueryRes>, table : Table, format : (s : string) => string) {
     const cols = result[1].map(f => f.name)
 
     const sqlLines = result[0].map((row) => {
@@ -32,29 +34,26 @@ export default async function (connectionOptions : ConnectionOptions, options : 
         (sql : string) => sql
 
     // we open a new connection with a special typecast function for dumping data
-    const connection = await createConnection({
-        ...connectionOptions,
+    const connection = await mysql.createConnection(merge<any>([connectionOptions, {
         multipleStatements: true,
         typeCast: typeCast(tables),
-    })
+    }]))
 
     // to avoid having to load an entire DB's worth of data at once, we select from each table individually
     const insertBlocks = await Promise.all(
         tables.map<Promise<Table>>(async (table) => {
             if (table.isView && !options.includeViewData) {
                 // don't dump data for views
-                return Promise.resolve({
-                    ...table,
+                return Promise.resolve(merge<any>([table, {
                     data: null,
-                })
+                }]))
             }
 
             const where = options.where![table.name] ? ` WHERE ${options.where![table.name]}` : ''
             const selectAllRes = await connection.query<QueryRes>(`SELECT * FROM \`${table.name}\`${where}`)
             const inserts = buildInsert(selectAllRes, table, format)
 
-            return {
-                ...table,
+            return merge([table, {
                 data: [
                     '# ------------------------------------------------------------',
                     `# DATA DUMP FOR TABLE: ${table.name}`,
@@ -64,7 +63,7 @@ export default async function (connectionOptions : ConnectionOptions, options : 
                     '',
                     '',
                 ].join('\n'),
-            }
+            }])
         })
     )
 

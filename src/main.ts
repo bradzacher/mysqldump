@@ -1,6 +1,5 @@
 import * as fs from 'fs'
-import * as assert from 'assert'
-import * as extend from 'extend'
+import { all as merge } from 'deepmerge'
 
 import { Options, CompletedOptions } from './interfaces/Options'
 import Table from './interfaces/Table'
@@ -44,6 +43,12 @@ export interface DumpReturn {
     tables : Table[],
 }
 
+function assert(condition : any, message : string) {
+    if (!condition) {
+        throw new Error(message)
+    }
+}
+
 export default async function main(inputOptions : Options) {
     let connection
     try {
@@ -54,15 +59,12 @@ export default async function main(inputOptions : Options) {
         // note that you can have empty string passwords, hence the type assertion
         assert(typeof inputOptions.connection.password === 'string', 'Expected to be given `password` connection option.')
 
-        const options : CompletedOptions = extend(true, {}, defaultOptions, inputOptions)
+        const options : CompletedOptions = merge([defaultOptions, inputOptions])
 
         // make sure the port is a number
         options.connection.port = parseInt(options.connection.port as any, 10)
 
-        connection = await DB.connect({
-            ...options.connection,
-            multipleStatements: true,
-        })
+        connection = await DB.connect(merge<any>([options.connection, { multipleStatements: true }]))
 
         // list the tables
         const res : DumpReturn = {

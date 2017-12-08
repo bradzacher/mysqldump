@@ -26,7 +26,7 @@
             "es2017.sharedmemory",
             "esnext.asynciterable"
         ],
-        "module": "commonjs",
+        "module": "es6",
         "noEmitOnError": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
@@ -34,17 +34,19 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strictNullChecks": true,
-        "target": "esnext",
+        "target": "es6",
 		"declaration": true,
-		"sourceMap": true
+        "sourceMap": true,
+        "outDir": "dist/tsbuild",
+        "declarationDir": "dist/ts"
     },
     "include": [
         "src/**/*.ts",
-        "test/**/*.ts",
         "types/**/*.d.ts"
     ],
     "exclude": [
         "node_modules",
+        "test",
         "dist"
     ]
 }

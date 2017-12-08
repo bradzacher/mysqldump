@@ -1,7 +1,4 @@
 {
-    "presets": [
-        "node6"
-    ],
     "plugins": [
         "transform-object-rest-spread"
     ]

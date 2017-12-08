@@ -4,8 +4,10 @@ import { promisify } from 'util'
 import './initDb'
 import testConfig from './testConfig'
 
-import mysqldump from '../src/main'
+// import mysqldump from '../src/main'
 import { DumpOptions, SchemaDumpOptions } from '../src/interfaces/Options'
+
+// const mysqldump = require('..')
 
 const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
