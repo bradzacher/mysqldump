@@ -20,8 +20,7 @@ function buildInsert(result : IQueryReturn<QueryRes>, table : Table, format : (s
 
         // sql-formatter lib doesn't support the X'aaff' or b'01010' literals, and it adds a space in and breaks them
         // this undoes the wrapping we did to get around the formatting
-        return sql
-            .replace(/NOFORMAT_WRAP\("##(.+)##"\)/g, '$1')
+        return sql.replace(/NOFORMAT_WRAP\("##(.+?)##"\)/g, '$1')
     })
 
     return sqlLines
