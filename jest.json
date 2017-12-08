@@ -1,26 +1,4 @@
 {
-    "collectCoverageFrom": [
-        "src/**/*.{ts,tsx}"
-    ],
-    "coverageReporters": [
-        "html",
-        "text-summary"
-    ],
-    "collectCoverage": false,
-    "coverageDirectory": "<rootDir>/coverage",
-    "coveragePathIgnorePatterns": [
-        "/node_modules/",
-        "/__tests__/"
-    ],
-    "coverageThreshold": {
-        "global": {
-            "branches": 50,
-            "functions": 80,
-            "lines": 80,
-            "statements": 80
-        }
-    },
-    "mapCoverage": false,
     "moduleFileExtensions": [
         "ts",
         "tsx",
@@ -36,5 +14,35 @@
     ],
     "setupFiles": [
         "<rootDir>/test/setup.ts"
-    ]
+    ],
+    "globals": {
+        "ts-jest": {
+            "useBabelrc": true
+        }
+    },
+
+    "collectCoverageFrom": [
+        "src/**/*.{ts,tsx}"
+    ],
+    "coverageReporters": [
+        "html",
+        "text-summary"
+    ],
+    "coverageDirectory": "<rootDir>/coverage",
+    "coveragePathIgnorePatterns": [
+        "/node_modules/",
+        "/__tests__/",
+        "/interfaces/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "collectCoverage": true,
+    "mapCoverage": true,
+    "notify": true
 }

@@ -36,15 +36,7 @@ export class DB {
             res = [res] as any
         }
 
-        return res.map((r) => {
-            // if for some reason, the multi-query only has one statement,
-            // mysql will return it as a single element rather than an array
-            if (!Array.isArray(r)) {
-                return [r]
-            }
-
-            return r
-        })
+        return res
     }
 
     public end() {

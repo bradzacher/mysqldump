@@ -61,9 +61,11 @@ export default function resolveType(columnType : string) : ColumnTypes {
         return 'GEOMETRY'
     }
 
+    /* istanbul ignore else */// shouldn't ever happen
     if (bitTypes.has(columnType)) {
         return 'BIT'
     }
 
+    /* istanbul ignore next */// shouldn't ever happen
     throw new Error(`UNKNOWN TYPE "${columnType}"`)
 }

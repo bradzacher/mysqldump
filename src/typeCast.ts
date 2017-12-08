@@ -23,12 +23,14 @@ function parseGeometryValue(buffer : Buffer) {
     }
 
     function readDouble(byteOrder : number) {
+        /* istanbul ignore next */// ignore coverage for this line as it depends on internal db config
         const val = byteOrder ? buffer.readDoubleLE(offset) : buffer.readDoubleBE(offset)
         offset += 8
 
         return val
     }
     function readUInt32(byteOrder : number) {
+        /* istanbul ignore next */// ignore coverage for this line as it depends on internal db config
         const val = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset)
         offset += 4
 
@@ -108,6 +110,7 @@ function parseGeometryValue(buffer : Buffer) {
                 break
             }
 
+            /* istanbul ignore next */// this case shouldn't happen ever
             default:
                 throw new Error(`Unexpected WKBGeometry Type: ${wkbType}`)
         }
@@ -148,6 +151,7 @@ export default function (tables : Table[]) {
         const columnType = resolveType(table.columns[field.name].type)
 
         let value : string = ''
+        /* istanbul ignore else */// the else case shouldn't happen ever
         if (columnType === 'GEOMETRY') {
             // parse and convert the binary representation to a nice string
             value = parseGeometryValue(field.buffer())
@@ -185,6 +189,8 @@ export default function (tables : Table[]) {
             value = noformatWrap(`X'${hexString}'`)
         } else if (columnType === 'NUMBER') {
             value = field.string()
+        } else {
+            throw new Error(`Unknown column type detected: ${columnType}`)
         }
 
         // handle nulls

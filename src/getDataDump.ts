@@ -49,7 +49,8 @@ export default async function (connectionOptions : ConnectionOptions, options : 
                 })
             }
 
-            const selectAllRes = await connection.query<QueryRes>(`SELECT * FROM \`${table.name}\``)
+            const where = options.where![table.name] ? ` WHERE ${options.where![table.name]}` : ''
+            const selectAllRes = await connection.query<QueryRes>(`SELECT * FROM \`${table.name}\`${where}`)
             const inserts = buildInsert(selectAllRes, table, format)
 
             return {
