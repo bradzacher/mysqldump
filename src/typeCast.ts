@@ -86,7 +86,24 @@ function parseGeometryValue(buffer : Buffer) {
                 const num = readUInt32(byteOrder)
                 result = []
                 for (let i = num; i > 0; i--) {
-                    result.push(parseGeometry())
+                    let geom = parseGeometry()
+                    // remove the function name from the sub geometry declaration from the multi declaration
+                    // eslint-disable-next-line default-case
+                    switch (wkbType) {
+                        case 4: // WKBMultiPoint
+                            // multipoint = MULTIPOINT(\d+ \d+, \d+ \d+....)
+                            geom = geom.replace(/POINT\((.+)\)/, '$1')
+                            break
+
+                        case 5: // WKBMultiLineString
+                            geom = geom.replace('LINESTRING', '')
+                            break
+
+                        case 6: // WKBMultiPolygon
+                            geom = geom.replace('POLYGON', '')
+                            break
+                    }
+                    result.push(geom)
                 }
                 break
             }
