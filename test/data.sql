@@ -14,27 +14,27 @@ INSERT INTO
 VALUES
   (
     null,
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  1 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  2 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  3 HOUR),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  4 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  5 YEAR)
+    '2017-01-03',
+    '2017-02-02 12:34:56',
+    '21:43:56',
+    '2017-03-01 15:53:16',
+    '2111'
   ),
   (
     null,
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  6 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  7 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  8 HOUR),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL  9 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 10 YEAR)
+    '2017-04-13',
+    '2017-05-22 22:33:44',
+    '10:11:12',
+    '2017-06-30 09:10:11',
+    '1970'
   ),
   (
     null,
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 11 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 12 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 13 HOUR),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 14 DAY),
-    DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 15 YEAR)
+    '2017-07-23',
+    '2017-08-22 01:02:03',
+    '04:05:06',
+    '2017-09-21 13:41:51',
+    '1901'
   );
 
 -- #################
@@ -61,7 +61,7 @@ VALUES
     GeomFromText('MULTIPOINT(0 1,2 3,4 5)'),
     GeomFromText('MULTILINESTRING((0 1,2 3,4 5),(6 7,8 9,10 11))'),
     GeomFromText('MULTIPOLYGON(((0 1,2 3,4 5,6 7,8 9,0 1),(10 11,12 13,14 15,16 17, 18 19,10 11)),((40 41,42 43,44 45,46 47,48 49,40 41),(50 51,52 53,54 55,56 57, 58 59,50 51)))'),
-    GeomFromText('GEOMETRYCOLLECTION(POINT(1 2),MULTILINESTRING((0 1,2 3,4 5),(6 7,8 9,10 11)),MULTIPOLYGON(((0 1,2 3,4 5,6 7,8 9,0 1),(10 11,12 13,14 15,16 17, 18 19,10 11)),((40 41,42 43,44 45,46 47,48 49,40 41),(50 51,52 53,54 55,56 57, 58 59,50 51))))')
+    GeomFromText('GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(0 1,2 3,4 5),MULTIPOLYGON(((0 1,2 3,4 5,6 7,8 9,0 1),(10 11,12 13,14 15,16 17, 18 19,10 11)),((40 41,42 43,44 45,46 47,48 49,40 41),(50 51,52 53,54 55,56 57, 58 59,50 51))))')
   ),
   (
     null,
@@ -168,21 +168,21 @@ VALUES
   (
     null,
     'a',
-    '{ "this is how": "we store json objects sometimes", "ONE": 1 }',
+    '{ "this is how": "ONE ONE ONE ONE" }',
     '"SOME LONG TEXT GOES HERE 1"',
     'string 1'
   ),
   (
     null,
     'b',
-    '{ "this is how": "we store json objects sometimes", "TWO": 2 }',
+    '{ "this is how": "TWO TWO TWO TWO" }',
     '"SOME LONG TEXT GOES HERE 2"',
     'string 2'
   ),
   (
     null,
     'c',
-    '{ "this is how": "we store json objects sometimes", "THREE": 3 }',
+    '{ "this is how": "THREE THREE THREE THREE" }',
     '"SOME LONG TEXT GOES HERE 3"',
     'string 3'
   );
