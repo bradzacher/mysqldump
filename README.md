@@ -1,176 +1,196 @@
 # Mysql Dump
 
-[![npm version](https://badge.fury.io/js/mysqldump.svg)](http://badge.fury.io/js/mysqldump) [![Build Status](https://travis-ci.org/webcaetano/mysqldump.svg?branch=master)](https://travis-ci.org/webcaetano/mysqldump)
+[![npm version](https://badge.fury.io/js/mysqldump.svg)](https://badge.fury.io/js/mysqldump) [![Build Status](https://travis-ci.org/webcaetano/mysqldump.svg?branch=master)](https://travis-ci.org/webcaetano/mysqldump)
 
-Create a backup from MySQL
+[![npm](https://nodei.co/npm/mysqldump.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/mysqldump)
+
+Create a backup of a MySQL database.
 
 ## Installation
 
 ```
+yarn add mysqldump
+// or
 npm install mysqldump
 ```
 
-Example
-```javascript
-var mysqlDump = require('mysqldump');
+## Usage
+```typescript
+import mysqldump from 'mysqldump'
+// or const mysqldump = require('mysqldump')
 
-mysqlDump({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'test',
-	dest:'./data.sql' // destination file
-},function(err){
-	// create data.sql file;
+// dump the result straight to a file
+mysqldump({
+    connection: {
+        host: 'localhost',
+        user: 'root',
+        password: '123456',
+        database: 'my_database',
+    },
+    dumpToFile: './dump.sql',
 })
-```
 
-Full Options Example :
-
-```javascript
-var mysqlDump = require('mysqldump');
-
-mysqlDump({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'test',
-	tables:['players'], // only these tables
-	where: {'players': 'id < 1000'}, // Only test players with id < 1000
-	ifNotExist:true, // Create table if not exist
-	dest:'./data.sql' // destination file
-},function(err){
-	// create data.sql file;
+// return the dump from the function and not to a file
+const result = await mysqldump({
+    connection: {
+        host: 'localhost',
+        user: 'root',
+        password: '123456',
+        database: 'my_database',
+    },
 })
 ```
 
 
 ## Options
+All the below options are documented in the [typescript declaration file](./dist/mysqldump.d.ts):
+```TS
+interface Options {
+    /**
+     * Database connection options
+     */
+    connection : {
+        /**
+         * The database host to connect to.
+         * Defaults to 'localhost'.
+         */
+        host ?: string
 
+        /**
+         * The port on the host to connect to.
+         * Defaults to 3306.
+         */
+        port ?: number
 
-#### host
+        /**
+         * The database to dump.
+         */
+        database : string
 
-Type: `String`
+        /**
+         * The DB username to use to connect.
+         */
+        user : string
 
-Url to Mysql host. `Default: localhost`
+        /**
+         * The password to use to connect.
+         */
+        password : string
+    }
 
-#### port
+    /**
+     * Dump configuration options
+     */
+    dump ?: {
+        /**
+         * The list of tables that you want to dump.
+         * Defaults to all tables (signalled by passing an empty array).
+         */
+        tables ?: string[]
 
-Type: `String`
+        /**
+         * Explicitly set to false to not include the schema in the dump.
+         * Defaults to including the schema.
+         */
+        schema ?: false | {
+            /**
+             * True to run a sql formatter over the output, false otherwise.
+             * Defaults to true.
+             */
+            format ?: boolean
 
-Port to Mysql host. `Default: 3306`
+            /**
+             * True to include autoincrement values in schema, false otherwise.
+             * Defaults to true.
+             */
+            autoIncrement ?: boolean
 
-#### user
+            /**
+             * True to include engine values in schema, false otherwise.
+             * Defaults to true.
+             */
+            engine ?: boolean
 
-Type: `String`
+            /**
+             * Guard create table calls with an "IF NOT EXIST"
+             * Defaults to true.
+             */
+            tableIfNotExist ?: boolean
 
-The MySQL user to authenticate as.
+            /**
+             * Drop tables before creation (overrides `tableIfNotExist`).
+             * Defaults to false.
+             */
+            tableDropIfExist ?: boolean
 
-#### password
+            /**
+             * Uses `CREATE OR REPLACE` to define views.
+             * Defaults to true.
+             */
+            viewCreateOrReplace ?: boolean
+        }
 
-Type: `String`
+        /**
+         * Explicitly set to false to not include data in the dump.
+         * Defaults to including the data.
+         */
+        data ?: false | {
+            /**
+             * True to run a sql formatter over the output, false otherwise.
+             * Defaults to true.
+             */
+            format ?: boolean
 
-The password of that MySQL user
+            /**
+             * A map of tables to additional where strings to add.
+             * Use this to limit the number of data that is dumped.
+             * Defaults to no limits
+             */
+            where ?: {
+                [k : string]: string
+            }
 
-#### database
+            /**
+             * Dump data from views.
+             * Defaults to false.
+             */
+            includeViewData ?: boolean
+        }
+    }
 
-Type: `String`
-
-Name of the database to dump.
-
-#### tables
-
-Type: `Array`
-
-Array of tables that you want to backup.
-
-Leave Blank for All. `Default: [] ALL`
-
-#### schema
-
-Type: `Boolean`
-
-Output table structure `Default: true`;
-
-#### data
-
-Type: `Boolean`
-
-Output table data for ALL tables `Default: true`;
-
-#### where
-Type: `Object`
-
-Where clauses to limit dumped data `Example: where: {'users': 'id < 1000'}`
-
-Combine with `data: false` to only dump tables with where clauses  `Default: null`;
-
-#### ifNotExist
-
-Type: `Boolean`
-
-Create tables if not exist method `Default: true`;
-
-#### dropTable
-
-Type: `Boolean`
-
-Drop tables if exist `Default: false`;
-
-#### replaceView
-
-Type: `Boolean`
-
-Uses `CREATE OR REPLACE` instead of `CREATE` for views `Default: true`;
-
-#### getDump
-
-Type: `Boolean`
-
-Return dump as a raw data on callback instead of create file `Default: false`;
-
-#### dest
-
-Type: `String`
-
-Output filename with directories `Default: './data.sql'`;
-
-#### socketPath
-
-Type: `String`
-
-Path to a unix domain socket to connect to. When used `host` and `port` are ignored.
-
-[![npm](https://nodei.co/npm/mysqldump.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/mysqldump)
+    /**
+     * Set to a path to dump to a file.
+     * Exclude to just return the string.
+     */
+    dumpToFile ?: string
+}
+```
 
 ---------------------------------
 
-The MIT [License](https://raw.githubusercontent.com/webcaetano/mysqldump/master/LICENSE.md)
+The MIT [License](./LICENSE.md)
 
+## Contributing
 
-Maintainers Wanted
----
+### Installation
 
-![](https://img.shields.io/badge/maintainers-wanted-red.svg)
+Make sure to first install all the required development dependencies:
+```
+yarn
+// or
+npm install .
+```
 
-I am looking for maintainers to help triage issues and merge pull requests for this repository
+### Linting
 
-If you are interested in helping me maintain this library, please let me know! [**Read more here &raquo;**](https://github.com/webcaetano/mysqldump/issues/34)
+We use [eslint](https://www.npmjs.com/package/eslint) in conjunction with [typescript-eslint-parser](https://www.npmjs.com/package/typescript-eslint-parser) for code linting.
 
-Your help would be greatly appreciated!
+PRs are required to pass the linting with no errors and preferrably no warnings.
 
+### Testing
 
+Tests can be run via the `test` script - `yarn test` / `npm test`.
 
+Additionally it's required that you do a build and run your test against the public package to ensure the build doesn't cause regressions - `yarn run test-prod` / `npm run test-prod`.
 
-
-
-
-# TODO
-
-- [ ] Convert to typescript
-    - [X] index.js
-    - [ ] test.js
-- [ ] Convert test from chai+mocha to jest
-- [X] Add support for views
-- [ ] Add build "scripts"
-- [ ] Change inclusion files for package publish
+PRs are required to maintain the 100% test coverage, and all tests must pass successfully.
