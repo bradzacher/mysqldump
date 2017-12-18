@@ -1,5 +1,5 @@
-import main from '../src/main'
-import testConfig from './testConfig'
+import main from '../../src/main'
+import testConfig from '../testConfig'
 
 // entry point for vs-code launch.json runs
 (async () => {
