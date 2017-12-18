@@ -1,4 +1,4 @@
-import pluginTypescript from 'rollup-plugin-typescript'
+import pluginTypescript from 'rollup-plugin-typescript2'
 import typescript from 'typescript'
 
 import packageJson from './package.json'
@@ -9,7 +9,7 @@ export default {
     output: [
         {
             file: packageJson.main,
-            format: 'umd',
+            format: 'cjs',
         },
         {
             file: packageJson.module,
@@ -20,6 +20,8 @@ export default {
     plugins: [
         pluginTypescript({
             typescript,
+            clean: true,
+            useTsconfigDeclarationDir: true,
         }),
     ],
 

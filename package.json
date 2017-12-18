@@ -2,13 +2,16 @@
   "name": "mysqldump",
   "version": "2.0.0",
   "description": "Create a DUMP from MySQL",
-  "main": "dist/umd.js",
+  "main": "dist/cjs.js",
   "module": "dist/es.js",
   "typings": "dist/mysqldump.d.ts",
   "scripts": {
     "test": "jest --verbose --config=./jest.json",
-    "build": "rollup -c && copyfiles -f ./src/mysqldump.d.ts dist",
-    "clean": "rimraf dist"
+    "test-prod": "JEST_USE_NPM_BUILD=true jest --verbose --config=./jest.json",
+    "view-coverage": "open ./coverage/index.html",
+    "build": "rollup -c && dts-bundle-generator -o dist/mysqldump.d.ts build-decl/main.d.ts --umd-module-name=mysqldump && rimraf build-decl",
+    "clean": "rimraf dist && rimraf build-decl",
+    "lint": "eslint src --ext \".ts\""
   },
   "repository": {
     "type": "git",
@@ -46,6 +49,7 @@
     "babel": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "copyfiles": "^1.2.0",
+    "dts-bundle-generator": "^0.6.0",
     "eslint": "^4.12.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
@@ -55,7 +59,7 @@
     "rimraf": "^2.6.2",
     "rollup": "^0.52.1",
     "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-typescript2": "^0.9.0",
     "source-map-support": "^0.5.0",
     "ts-jest": "^21.2.4",
     "ts-node": "^3.3.0",

@@ -13,7 +13,7 @@
         "node_modules"
     ],
     "setupFiles": [
-        "<rootDir>/test/setup.ts"
+        "<rootDir>/test/scripts/setup.ts"
     ],
     "globals": {
         "ts-jest": {

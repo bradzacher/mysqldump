@@ -1,3 +1,7 @@
 node_modules/
 test/testConfig.ts
 coverage/
+build-decl/
+.rpt2_cache/
+
+dist/*.js

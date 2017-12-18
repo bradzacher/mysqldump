@@ -38,7 +38,7 @@
 		"declaration": true,
         "sourceMap": true,
         "outDir": "dist/tsbuild",
-        "declarationDir": "dist/ts"
+        "declarationDir": "build-decl"
     },
     "include": [
         "src/**/*.ts",

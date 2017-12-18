@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import { all as merge } from 'deepmerge'
 
 import { Options, CompletedOptions } from './interfaces/Options'
-import Table from './interfaces/Table'
+import DumpReturn from './interfaces/DumpReturn'
 import getTables from './getTables'
 import getSchemaDump from './getSchemaDump'
 import getDataDump from './getDataDump'
@@ -33,14 +33,6 @@ const defaultOptions : CompletedOptions = {
         },
     },
     dumpToFile: null,
-}
-
-export interface DumpReturn {
-    dump : {
-        schema ?: string,
-        data ?: string,
-    },
-    tables : Table[],
 }
 
 function assert(condition : any, message : string) {
@@ -79,6 +71,8 @@ export default async function main(inputOptions : Options) {
         if (options.dump.schema !== false) {
             res.tables = await getSchemaDump(connection, options.dump.schema!, res.tables)
             res.dump.schema = res.tables.map(t => t.schema).filter(t => t).join('\n')
+        } else {
+            res.dump.schema = null
         }
 
         await connection.end()
@@ -87,6 +81,8 @@ export default async function main(inputOptions : Options) {
         if (options.dump.data !== false) {
             res.tables = await getDataDump(options.connection, options.dump.data!, res.tables)
             res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n')
+        } else {
+            res.dump.data = null
         }
 
         if (options.dumpToFile) {

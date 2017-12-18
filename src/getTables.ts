@@ -1,4 +1,4 @@
-import { Table, Column } from './interfaces/Table'
+import { Table, ColumnList } from './interfaces/Table'
 import DB from './DB'
 
 interface ShowTableRes {
@@ -51,7 +51,7 @@ export default async function (connection : DB, dbName : string, restrictedTable
             }
 
             return acc
-        }, {} as Column)
+        }, {} as ColumnList)
     })
 
 
