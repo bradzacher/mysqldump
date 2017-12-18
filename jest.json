@@ -46,5 +46,5 @@
     },
     "collectCoverage": true,
     "mapCoverage": true,
-    "notify": true
+    "notify": false
 }

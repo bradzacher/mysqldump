@@ -15,6 +15,18 @@
                 "${workspaceFolder}/test/launch.ts"
             ],
             "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Test e2e",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "args": [
+                "-i",
+                "--config", "jest.json",
+                "e2e.test.ts"
+            ],
+            "sourceMaps": true
         }
     ]
 }
