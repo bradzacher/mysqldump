@@ -1,13 +1,13 @@
 import * as fs from 'fs'
 import { promisify } from 'util'
 
-import './initDb'
+import './scripts/initDb'
 import testConfig from './testConfig'
 
-// import mysqldump from '../src/main'
+import mysqldump from './scripts/import'
 import { DumpOptions, SchemaDumpOptions } from '../src/interfaces/Options'
 
-// const mysqldump = require('..')
+import Errors from '../src/Errors'
 
 const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
@@ -111,6 +111,95 @@ describe('mysqldump.e2e', () => {
 
                 expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
                 expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
+            })
+        })
+
+        describe('should error if invalid options are detected', () => {
+            it('should error if no connection object', async () => {
+                // ACT
+                const prom = mysqldump({
+
+                } as any)
+
+                // ASSERT
+                await expect(prom).rejects.toHaveProperty('message', Errors.MISSING_CONNECTION_CONFIG)
+            })
+
+            it('should error if no connection host', async () => {
+                // ACT
+                const prom = mysqldump({
+                    connection: {
+                        host: undefined,
+                        database: 'invalid_database',
+                        user: 'invalid_user',
+                        password: 'invalid_password',
+                    },
+                } as any)
+
+                // ASSERT
+                await expect(prom).rejects.toHaveProperty('message', Errors.MISSING_CONNECTION_HOST)
+            })
+
+            it('should error if no connection database', async () => {
+                // ACT
+                const prom = mysqldump({
+                    connection: {
+                        host: 'invalid_host',
+                        database: undefined,
+                        user: 'invalid_user',
+                        password: 'invalid_password',
+                    },
+                } as any)
+
+                // ASSERT
+                await expect(prom).rejects.toHaveProperty('message', Errors.MISSING_CONNECTION_DATABASE)
+            })
+
+            it('should error if no connection user', async () => {
+                // ACT
+                const prom = mysqldump({
+                    connection: {
+                        host: 'invalid_host',
+                        database: 'invalid_database',
+                        user: undefined,
+                        password: 'invalid_password',
+                    },
+                } as any)
+
+                // ASSERT
+                await expect(prom).rejects.toHaveProperty('message', Errors.MISSING_CONNECTION_USER)
+            })
+
+            it('should error if no connection password', async () => {
+                // ACT
+                const prom = mysqldump({
+                    connection: {
+                        host: 'invalid_host',
+                        database: 'invalid_database',
+                        user: 'invalid_user',
+                        password: undefined,
+                    },
+                } as any)
+
+                // ASSERT
+                await expect(prom).rejects.toHaveProperty('message', Errors.MISSING_CONNECTION_PASSWORD)
+            })
+
+            it('should NOT error if connection password is empty string', async () => {
+                // ACT
+                const prom = mysqldump({
+                    connection: {
+                        host: 'invalid_host',
+                        database: 'invalid_database',
+                        user: 'invalid_user',
+                        password: '',
+                    },
+                })
+
+                // ASSERT
+                // note that this should still reject because we're giving it invalid information
+                // but it won't error withour error message
+                await expect(prom).rejects.not.toHaveProperty('message', Errors.MISSING_CONNECTION_PASSWORD)
             })
         })
     })

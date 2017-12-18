@@ -7,6 +7,7 @@ import getTables from './getTables'
 import getSchemaDump from './getSchemaDump'
 import getDataDump from './getDataDump'
 import DB from './DB'
+import Errors from './Errors'
 
 const defaultOptions : CompletedOptions = {
     connection: {
@@ -45,11 +46,12 @@ export default async function main(inputOptions : Options) {
     let connection
     try {
         // assert the given options have all the required properties
-        assert(inputOptions.connection, 'Expected to be given `connection` options.')
-        assert(inputOptions.connection.host, 'Expected to be given `host` connection option.')
-        assert(inputOptions.connection.user, 'Expected to be given `user` connection option.')
+        assert(inputOptions.connection, Errors.MISSING_CONNECTION_CONFIG)
+        assert(inputOptions.connection.host, Errors.MISSING_CONNECTION_HOST)
+        assert(inputOptions.connection.database, Errors.MISSING_CONNECTION_DATABASE)
+        assert(inputOptions.connection.user, Errors.MISSING_CONNECTION_USER)
         // note that you can have empty string passwords, hence the type assertion
-        assert(typeof inputOptions.connection.password === 'string', 'Expected to be given `password` connection option.')
+        assert(typeof inputOptions.connection.password === 'string', Errors.MISSING_CONNECTION_PASSWORD)
 
         const options : CompletedOptions = merge([defaultOptions, inputOptions])
 

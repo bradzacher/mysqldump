@@ -1,7 +1,7 @@
-import './initDb'
+import './scripts/initDb'
 import testConfig from './testConfig'
 
-import mysqldump from '../src/main'
+import mysqldump from './scripts/import'
 
 describe('insert data types', () => {
     function typeTest(tableName : string, assertion : (values : string) => void) {
