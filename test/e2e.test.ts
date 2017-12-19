@@ -440,6 +440,45 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).not.toMatch(/^SET FOREIGN_KEY_CHECKS=0;$/gm)
             expect(res.dump.data).not.toMatch(/^SET FOREIGN_KEY_CHECKS=1;$/gm)
         })
+
+        const singleInsertRegex = /^INSERT INTO `date_types` .+? VALUES \(([\d-:' ]+,?){6}\);$/gm
+        const multiInsertRegex = /^INSERT INTO `date_types` .+? VALUES \(([\d-:' ]+,?){6}\)(,\(([\d-:' ]+,?){6}\))+;$/gm
+        it('should keep the inserts as single statements if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    tables: ['date_types'],
+                    schema: false,
+                    data: {
+                        maxRowsPerInsertStatement: 1,
+                        format: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toMatch(singleInsertRegex)
+            expect(res.dump.data).not.toMatch(multiInsertRegex)
+        })
+        it('should merge the inserts into multi insert statements if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    tables: ['date_types'],
+                    schema: false,
+                    data: {
+                        maxRowsPerInsertStatement: 50,
+                        format: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toMatch(multiInsertRegex)
+            expect(res.dump.data).not.toMatch(singleInsertRegex)
+        })
     })
 
     describe('dump to file', () => {
@@ -453,11 +492,9 @@ describe('mysqldump.e2e', () => {
                 dumpToFile: filename,
                 dump: opts,
             })
-            const fileProm = readFile(filename, 'utf8')
+            const file = await readFile(filename, 'utf8')
 
             // ASSERT
-            await expect(fileProm).resolves.toBeDefined()
-            const file = await fileProm
             expect(file).toEqual(`${res.dump.schema || ''}\n${res.dump.data || ''}\n`)
             extraAssertion && extraAssertion(file)
 
@@ -484,6 +521,9 @@ describe('mysqldump.e2e', () => {
             snapshotTest({ data: { format: false } })
             snapshotTest({ data: { ignoreForeignKeyChecks: true } })
             snapshotTest({ data: { includeViewData: true } })
+            snapshotTest({ data: { maxRowsPerInsertStatement: 1 } })
+            snapshotTest({ data: { maxRowsPerInsertStatement: 2 } })
+            snapshotTest({ data: { maxRowsPerInsertStatement: 3 } })
             snapshotTest({ schema: false })
             snapshotTest({ schema: { autoIncrement: false } })
             snapshotTest({ schema: { engine: false } })

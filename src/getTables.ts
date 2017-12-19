@@ -26,6 +26,7 @@ export default async function (connection : DB, dbName : string, restrictedTable
         data: null,
         isView: r.Table_type === 'VIEW',
         columns: {},
+        columnsOrdered: [],
     }))
 
     let tables = actualTables
@@ -57,6 +58,7 @@ export default async function (connection : DB, dbName : string, restrictedTable
 
             return acc
         }, {} as ColumnList)
+        tables[i].columnsOrdered = cols.map(c => c.Field)
     })
 
 

@@ -34,6 +34,7 @@ const defaultOptions : CompletedOptions = {
             where: {},
             returnFromFunction: true,
             ignoreForeignKeyChecks: false,
+            maxRowsPerInsertStatement: 1,
         },
     },
     dumpToFile: null,

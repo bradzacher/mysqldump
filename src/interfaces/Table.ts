@@ -34,6 +34,10 @@ export interface Table {
      */
     columns : ColumnList,
     /**
+     * An ordered list of columns (for consistently outputing as per the DB definition)
+     */
+    columnsOrdered : string[],
+    /**
      * True if the table is actually a view, false otherwise.
      */
     isView : boolean,

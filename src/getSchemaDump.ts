@@ -39,6 +39,7 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                     data: null,
                     isView: true,
                     columns: table.columns,
+                    columnsOrdered: table.columnsOrdered,
                 }
             }
 
@@ -48,6 +49,7 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                 data: null,
                 isView: false,
                 columns: table.columns,
+                columnsOrdered: table.columnsOrdered,
             }
         })
         .map<Table>((s) => {
@@ -66,19 +68,16 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                         'CREATE OR REPLACE'
                     )
                 }
-            } else {
-                // eslint-disable-next-line no-lonely-if
-                if (options.tableDropIfExist) {
-                    s.schema = s.schema.replace(
-                        /^CREATE TABLE/,
-                        `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`
-                    )
-                } else if (options.tableIfNotExist) {
-                    s.schema = s.schema.replace(
-                        /^CREATE TABLE/,
-                        'CREATE TABLE IF NOT EXISTS'
-                    )
-                }
+            } else if (options.tableDropIfExist) {
+                s.schema = s.schema.replace(
+                    /^CREATE TABLE/,
+                    `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`
+                )
+            } else if (options.tableIfNotExist) {
+                s.schema = s.schema.replace(
+                    /^CREATE TABLE/,
+                    'CREATE TABLE IF NOT EXISTS'
+                )
             }
 
             // add a semicolon to separate schemas

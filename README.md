@@ -160,6 +160,12 @@ interface Options {
             includeViewData ?: boolean
 
             /**
+             * Maximum number of rows to include in each multi-line insert statement
+             * Defaults to 1 (i.e. new statement per row).
+             */
+            maxRowsPerInsertStatement ?: number
+
+            /**
              * True to return the data in a function, false to not.
              * This is useful in databases with a lot of data.
              *
