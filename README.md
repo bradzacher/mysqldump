@@ -100,12 +100,6 @@ interface Options {
          */
         schema ?: false | {
             /**
-             * True to run a sql formatter over the output, false otherwise.
-             * Defaults to true.
-             */
-            format ?: boolean
-
-            /**
              * True to include autoincrement values in schema, false otherwise.
              * Defaults to true.
              */
@@ -116,6 +110,12 @@ interface Options {
              * Defaults to true.
              */
             engine ?: boolean
+
+            /**
+             * True to run a sql formatter over the output, false otherwise.
+             * Defaults to true.
+             */
+            format ?: boolean
 
             /**
              * Guard create table calls with an "IF NOT EXIST"
@@ -148,13 +148,10 @@ interface Options {
             format ?: boolean
 
             /**
-             * A map of tables to additional where strings to add.
-             * Use this to limit the number of data that is dumped.
-             * Defaults to no limits
+             * True to disable foreign key checks for the data dump, false otherwise.
+             * Defaults to false.
              */
-            where ?: {
-                [k : string]: string
-            }
+            ignoreForeignKeyChecks ?: boolean
 
             /**
              * Dump data from views.
@@ -173,6 +170,15 @@ interface Options {
              * Defaults to true.
              */
             returnFromFunction ?: boolean
+
+            /**
+             * A map of tables to additional where strings to add.
+             * Use this to limit the number of data that is dumped.
+             * Defaults to no limits
+             */
+            where ?: {
+                [k : string]: string
+            }
         }
     }
 
