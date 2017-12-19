@@ -6,6 +6,11 @@ import testConfig from '../testConfig'
     try {
         const res = await main({
             connection: testConfig,
+            dump: {
+                data: {
+                    returnFromFunction: true,
+                },
+            },
             dumpToFile: `${__dirname}/../launch_dump.sql`,
         })
 

@@ -54,9 +54,12 @@ export default async function (connectionOptions : ConnectionOptions,
         encoding: 'utf8',
     }) : null
     const writeChunkToFile = dumpToFile
-        ? (str : string) => {
-            outFileStream!.write(str)
-            outFileStream!.write('\n')
+        ? (str : string | string[]) => {
+            if (!Array.isArray(str)) {
+                str = [str]
+            }
+
+            str.forEach(s => outFileStream!.write(`${s}\n`))
         }
         : () => {}
 
@@ -81,15 +84,17 @@ export default async function (connectionOptions : ConnectionOptions,
             continue
         }
 
+        currentTableLines = options.returnFromFunction ? [] : null
+
         // write the table header to the file
-        writeChunkToFile([
+        const header = [
             '# ------------------------------------------------------------',
             `# DATA DUMP FOR TABLE: ${table.name}`,
             '# ------------------------------------------------------------',
             '',
-        ].join('\n'))
-
-        currentTableLines = options.returnFromFunction ? [] : null
+        ]
+        writeChunkToFile(header)
+        currentTableLines && currentTableLines.push(...header)
 
         await new Promise((resolve, reject) => { // eslint-disable-line no-loop-func
             // send the query
@@ -126,12 +131,14 @@ export default async function (connectionOptions : ConnectionOptions,
             query.on('error', /* istanbul ignore next */err => reject(err))
         })
 
+        // add some newlines to pad the result
+        currentTableLines && currentTableLines.push('', '')
+        writeChunkToFile('')
+
         // update the table definition
         retTables.push(merge<Table>([table, {
             data: currentTableLines ? currentTableLines.join('\n') : null,
         }]))
-
-        writeChunkToFile('\n\n')
     }
 
     if (options.ignoreForeignKeyChecks) {
