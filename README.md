@@ -89,6 +89,12 @@ interface Options {
         tables ?: string[]
 
         /**
+         * True to use the `tables` options as a blacklist, false to use it as a whitelist.
+         * Defaults to false.
+         */
+        excludeTables ?: boolean
+
+        /**
          * Explicitly set to false to not include the schema in the dump.
          * Defaults to including the schema.
          */

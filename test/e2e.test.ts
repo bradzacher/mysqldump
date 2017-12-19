@@ -53,7 +53,16 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.schema).toBeTruthy()
         })
 
-        describe('should filter tables if configured', () => {
+        const tableListTest = (blacklist : boolean) => () => {
+            // flip the expect function if testing the blacklist
+            const jestExpect : jest.Expect = (global as any).expect
+            const expect = blacklist
+                ? (val : any) => jestExpect(val).not
+                : (val : any) => jestExpect(val)
+            const expectNot = blacklist
+                ? (val : any) => jestExpect(val)
+                : (val : any) => jestExpect(val).not
+
             it('single table', async () => {
                 // ASSEMBLE
                 const tables = ['geometry_types']
@@ -63,6 +72,7 @@ describe('mysqldump.e2e', () => {
                     connection: testConfig,
                     dump: {
                         tables,
+                        excludeTables: blacklist,
                     },
                 })
 
@@ -73,14 +83,14 @@ describe('mysqldump.e2e', () => {
                 expect(res.dump.data).toMatch(/INSERT INTO\n {2}`geometry_types`/)
 
                 // assert for tables that shouldn't be there
-                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `date_types`/)
-                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
-                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
-                expect(res.dump.schema).not.toMatch(/CREATE OR REPLACE .+ VIEW `everything`/)
+                expectNot(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `date_types`/)
+                expectNot(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
+                expectNot(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
+                expectNot(res.dump.schema).toMatch(/CREATE OR REPLACE .+ VIEW `everything`/)
 
-                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
-                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
-                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
+                expectNot(res.dump.data).toMatch(/INSERT INTO\n {2}`date_types`/)
+                expectNot(res.dump.data).toMatch(/INSERT INTO\n {2}`number_types`/)
+                expectNot(res.dump.data).toMatch(/INSERT INTO\n {2}`other_types`/)
             })
 
             it('multiple tables', async () => {
@@ -92,6 +102,7 @@ describe('mysqldump.e2e', () => {
                     connection: testConfig,
                     dump: {
                         tables,
+                        excludeTables: blacklist,
                     },
                 })
 
@@ -106,13 +117,15 @@ describe('mysqldump.e2e', () => {
                 expect(res.dump.data).toMatch(/INSERT INTO\n {2}`date_types`/)
 
                 // assert for tables that shouldn't be there
-                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
-                expect(res.dump.schema).not.toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
+                expectNot(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `number_types`/)
+                expectNot(res.dump.schema).toMatch(/CREATE TABLE IF NOT EXISTS `other_types`/)
 
-                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`number_types`/)
-                expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`other_types`/)
+                expectNot(res.dump.data).toMatch(/INSERT INTO\n {2}`number_types`/)
+                expectNot(res.dump.data).toMatch(/INSERT INTO\n {2}`other_types`/)
             })
-        })
+        }
+        describe('should whitelist tables if configured', tableListTest(false))
+        describe('should blacklist tables if configured', tableListTest(true))
 
         describe('should error if invalid options are detected', () => {
             it('should error if no connection object', async () => {

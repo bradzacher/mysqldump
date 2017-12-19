@@ -19,6 +19,7 @@ const defaultOptions : CompletedOptions = {
     },
     dump: {
         tables: [],
+        excludeTables: false,
         schema: {
             format: true,
             autoIncrement: true,
@@ -68,7 +69,7 @@ export default async function main(inputOptions : Options) {
                 schema: '',
                 data: '',
             },
-            tables: (await getTables(connection, options.connection.database, options.dump.tables!)),
+            tables: (await getTables(connection, options.connection.database, options.dump.tables!, options.dump.excludeTables!)),
         }
 
         // dump the schema if requested

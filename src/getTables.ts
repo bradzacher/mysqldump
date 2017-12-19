@@ -16,7 +16,7 @@ interface ShowColumnsRes {
     Extra : string
 }
 
-export default async function (connection : DB, dbName : string, restrictedTables : string[]) {
+export default async function (connection : DB, dbName : string, restrictedTables : string[], restrictedTablesIsBlacklist : boolean) {
     // list the tables
     const showTablesKey = `Tables_in_${dbName}`
     const tablesRes = (await connection.query<ShowTableRes>(`SHOW FULL TABLES FROM ${dbName}`))
@@ -30,8 +30,13 @@ export default async function (connection : DB, dbName : string, restrictedTable
 
     let tables = actualTables
     if (restrictedTables.length > 0) {
-        // grab all of the tables from the options that actually exist in the db
-        tables = tables.filter(t => restrictedTables.indexOf(t.name) !== -1)
+        if (restrictedTablesIsBlacklist) {
+            // exclude the tables from the options that actually exist in the db
+            tables = tables.filter(t => restrictedTables.indexOf(t.name) === -1)
+        } else {
+            // only include the tables from the options that actually exist in the db
+            tables = tables.filter(t => restrictedTables.indexOf(t.name) !== -1)
+        }
     }
 
     // get the column definitions
