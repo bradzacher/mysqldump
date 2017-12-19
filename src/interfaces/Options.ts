@@ -25,11 +25,6 @@ export interface ConnectionOptions {
 
 export interface SchemaDumpOptions {
     /**
-     * True to run a sql formatter over the output, false otherwise.
-     * Defaults to true.
-     */
-    format ?: boolean
-    /**
      * True to include autoincrement values in schema, false otherwise.
      * Defaults to true.
      */
@@ -39,6 +34,11 @@ export interface SchemaDumpOptions {
      * Defaults to true.
      */
     engine ?: boolean
+    /**
+     * True to run a sql formatter over the output, false otherwise.
+     * Defaults to true.
+     */
+    format ?: boolean
     /**
      * Guard create table calls with an "IF NOT EXIST"
      * Defaults to true.
@@ -63,13 +63,10 @@ export interface DataDumpOptions {
      */
     format ?: boolean
     /**
-     * A map of tables to additional where strings to add.
-     * Use this to limit the number of data that is dumped.
-     * Defaults to no limits
+     * True to disable foreign key checks for the data dump, false otherwise.
+     * Defaults to false.
      */
-    where ?: {
-        [k : string] : string
-    }
+    ignoreForeignKeyChecks ?: boolean
     /**
      * Dump data from views.
      * Defaults to false.
@@ -87,10 +84,13 @@ export interface DataDumpOptions {
      */
     returnFromFunction ?: boolean
     /**
-     * True to disable foreign key checks for the data dump, false otherwise.
-     * Defaults to false.
+     * A map of tables to additional where strings to add.
+     * Use this to limit the number of data that is dumped.
+     * Defaults to no limits
      */
-    ignoreForeignKeyChecks ?: boolean
+    where ?: {
+        [k : string] : string
+    }
 }
 
 export interface DumpOptions {

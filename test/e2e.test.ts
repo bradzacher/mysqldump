@@ -443,7 +443,7 @@ describe('mysqldump.e2e', () => {
     })
 
     describe('dump to file', () => {
-        const dumpTest = (opts : DumpOptions) => async () => {
+        const dumpTest = (opts : DumpOptions, extraAssertion ?: (file : string) => void) => async () => {
             // ASSEMBLE
             const filename = `${__dirname}/dump.sql`
 
@@ -459,6 +459,7 @@ describe('mysqldump.e2e', () => {
             await expect(fileProm).resolves.toBeDefined()
             const file = await fileProm
             expect(file).toEqual(`${res.dump.schema || ''}\n${res.dump.data || ''}\n`)
+            extraAssertion && extraAssertion(file)
 
             // remove the file
             await unlink(filename)
@@ -471,5 +472,25 @@ describe('mysqldump.e2e', () => {
         it('should dump not dump data to a file if configured', dumpTest({
             schema: false,
         }))
+
+        describe('dump a consistent snapshot with options...', () => {
+            const snapshotTest = (opts : DumpOptions) => {
+                const testName = JSON.stringify(opts)
+                it(testName, dumpTest(opts, file => expect(file).toMatchSnapshot(testName)))
+            }
+
+            snapshotTest({})
+            snapshotTest({ data: false })
+            snapshotTest({ data: { format: false } })
+            snapshotTest({ data: { ignoreForeignKeyChecks: true } })
+            snapshotTest({ data: { includeViewData: true } })
+            snapshotTest({ schema: false })
+            snapshotTest({ schema: { autoIncrement: false } })
+            snapshotTest({ schema: { engine: false } })
+            snapshotTest({ schema: { format: false } })
+            snapshotTest({ schema: { tableDropIfExist: false, tableIfNotExist: true } })
+            snapshotTest({ schema: { tableDropIfExist: true, tableIfNotExist: false } })
+            snapshotTest({ schema: { viewCreateOrReplace: true } })
+        })
     })
 })
