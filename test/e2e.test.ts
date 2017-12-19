@@ -363,6 +363,37 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).toMatch(/INSERT INTO `\w+`/)
             expect(res.dump.data).not.toMatch(/INSERT INTO\n/)
         })
+
+        it('should return data from the call if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    schema: false,
+                    data: {
+                        returnFromFunction: true,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).not.toBeFalsy()
+        })
+        it('should not return data from the call if not configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    schema: false,
+                    data: {
+                        returnFromFunction: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toBeFalsy()
+        })
     })
 
     describe('dump to file', () => {

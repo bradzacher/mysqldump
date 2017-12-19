@@ -73,6 +73,17 @@ export interface DataDumpOptions {
 	 * Defaults to false.
 	 */
 	includeViewData?: boolean;
+	/**
+	 * True to return the data in a function, false to not.
+	 * This is useful in databases with a lot of data.
+	 *
+	 * We stream data from the DB to reduce the memory footprint.
+	 * However note that if you want the result returned from the function,
+	 * this will result in a larger memory footprint as the string has to be stored in memory.
+	 *
+	 * Defaults to true.
+	 */
+	returnFromFunction?: boolean;
 }
 export interface DumpOptions {
 	/**

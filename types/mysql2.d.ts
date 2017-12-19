@@ -1,10 +1,26 @@
 /* eslint-disable import/no-duplicates, import/no-unresolved, import/no-extraneous-dependencies */
 declare module 'mysql2' {
     export * from 'mysql'
+
+    import { FieldInfo } from 'mysql'
+
+    export interface IQueryReturn<T> {
+        0 : T[]
+        1 : FieldInfo[]
+
+        [Symbol.iterator]() : T[] | FieldInfo[]
+        [index : number] : T[] | FieldInfo[]
+    }
+
+    // for some reason typescript doesn't export the non-js items using the above export....
+    export { Connection, EscapeFunctions, FieldInfo, GeometryType,
+             MysqlError, packetCallback, Pool, PoolCluster, PoolClusterConfig, PoolConfig, PoolConnection,
+             Query, queryCallback, QueryFunction, QueryOptions, TypeCast } from 'mysql'
+    export { TypecastField, IConnectionConfig } from 'mysql2/promise'
 }
 
 declare module 'mysql2/promise' {
-    import * as mysql from 'mysql'
+    import * as mysql from 'mysql2'
 
     export * from 'mysql'
 

@@ -6,11 +6,12 @@ import testConfig from '../testConfig'
     try {
         const res = await main({
             connection: testConfig,
+            dumpToFile: `${__dirname}/../launch_dump.sql`,
         })
 
-        console.log(res.dump.schema)
-        console.log(res.dump.data)
+        console.info(res.dump.schema)
+        console.info(res.dump.data)
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 })()

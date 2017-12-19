@@ -11,8 +11,9 @@
             "name": "Launch Program",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/ts-node",
             "runtimeArgs": [
+                "-P", "${workspaceRoot}/tsconfig.run.json",
                 // launch main
-                "${workspaceFolder}/test/launch.ts"
+                "${workspaceFolder}/test/scripts/launch.ts"
             ],
             "sourceMaps": true
         },

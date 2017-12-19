@@ -11,11 +11,12 @@
     "view-coverage": "open ./coverage/index.html",
     "build": "rollup -c && dts-bundle-generator -o dist/mysqldump.d.ts build-decl/main.d.ts --umd-module-name=mysqldump && rimraf build-decl",
     "clean": "rimraf dist && rimraf build-decl",
-    "lint": "eslint src --ext \".ts\""
+    "lint": "eslint src --ext \".ts\"",
+    "start": "ts-node -P ./tsconfig.run.json ./test/scripts/launch.ts"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webcaetano/mysqldump"
+    "url": "https://github.com/assignar/mysqldump"
   },
   "keywords": [
     "backup",
@@ -27,12 +28,12 @@
     "backup",
     "database"
   ],
-  "author": "Andre Caetano",
+  "author": "Brad Zacher",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/webcaetano/mysqldump/issues"
+    "url": "https://github.com/assignar/mysqldump/issues"
   },
-  "homepage": "https://github.com/webcaetano/mysqldump",
+  "homepage": "https://github.com/assignar/mysqldump",
   "dependencies": {
     "deepmerge": "^2.0.1",
     "mysql2": "^1.5.1",
@@ -48,7 +49,6 @@
     "@types/sqlstring": "^2.2.0",
     "babel": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "copyfiles": "^1.2.0",
     "dts-bundle-generator": "^0.6.0",
     "eslint": "^4.12.1",
     "eslint-config-airbnb-base": "^12.1.0",

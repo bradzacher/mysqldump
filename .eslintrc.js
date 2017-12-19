@@ -109,6 +109,7 @@ module.exports = {
         'newline-before-return': [
             'error'
         ],
+        'no-await-in-loop': 'off',
         'no-console': [
             'error',
             {
@@ -125,6 +126,7 @@ module.exports = {
                 ]
             }
         ],
+        'no-continue': 'off',
         'no-extra-semi': [
             'error'
         ],

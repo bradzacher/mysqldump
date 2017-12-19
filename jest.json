@@ -18,13 +18,12 @@
     "globals": {
         "ts-jest": {
             "useBabelrc": true,
-            "tsConfigFile": "tsconfig.jest.json"
+            "tsConfigFile": "tsconfig.run.json"
         }
     },
 
     "collectCoverageFrom": [
-        "src/**/*.{ts,tsx}",
-        "!src/mysqldump.d.ts"
+        "src/**/*.{ts,tsx}"
     ],
     "coverageReporters": [
         "html",

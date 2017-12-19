@@ -31,6 +31,7 @@ const defaultOptions : CompletedOptions = {
             format: true,
             includeViewData: false,
             where: {},
+            returnFromFunction: true,
         },
     },
     dumpToFile: null,
@@ -42,6 +43,7 @@ function assert(condition : any, message : string) {
     }
 }
 
+// eslint-disable-next-line complexity
 export default async function main(inputOptions : Options) {
     let connection
     try {
@@ -77,11 +79,18 @@ export default async function main(inputOptions : Options) {
             res.dump.schema = null
         }
 
+        // data dump uses its own connection so kill ours
         await connection.end()
+
+        // write the schema to the file now so the data can be stream in as its received
+        if (options.dumpToFile) {
+            fs.writeFileSync(options.dumpToFile, res.dump.schema || '')
+        }
 
         // dump data if requested
         if (options.dump.data !== false) {
-            res.tables = await getDataDump(options.connection, options.dump.data!, res.tables)
+            // don't even try to run the data dump
+            res.tables = await getDataDump(options.connection, options.dump.data!, res.tables, options.dumpToFile)
             res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n')
         } else {
             res.dump.data = null
