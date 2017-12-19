@@ -173,7 +173,7 @@ interface Options {
              * However note that if you want the result returned from the function,
              * this will result in a larger memory footprint as the string has to be stored in memory.
              *
-             * Defaults to true.
+             * Defaults to false if dumpToFile is truthy, or true if not dumpToFile is falsey.
              */
             returnFromFunction ?: boolean
 

@@ -486,6 +486,11 @@ describe('mysqldump.e2e', () => {
             // ASSEMBLE
             const filename = `${__dirname}/dump.sql`
 
+            // force returning from function so we can check values
+            if (opts.data) {
+                opts.data.returnFromFunction = true
+            }
+
             // ACT
             const res = await mysqldump({
                 connection: testConfig,

@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import { all as merge } from 'deepmerge'
 
-import { Options, CompletedOptions } from './interfaces/Options'
+import { Options, CompletedOptions, DataDumpOptions } from './interfaces/Options'
 import DumpReturn from './interfaces/DumpReturn'
 import getTables from './getTables'
 import getSchemaDump from './getSchemaDump'
@@ -32,7 +32,7 @@ const defaultOptions : CompletedOptions = {
             format: true,
             includeViewData: false,
             where: {},
-            returnFromFunction: true,
+            returnFromFunction: false,
             ignoreForeignKeyChecks: false,
             maxRowsPerInsertStatement: 1,
         },
@@ -59,6 +59,16 @@ export default async function main(inputOptions : Options) {
         assert(typeof inputOptions.connection.password === 'string', Errors.MISSING_CONNECTION_PASSWORD)
 
         const options : CompletedOptions = merge([defaultOptions, inputOptions])
+
+        // if not dumping to file and not otherwise configured, set returnFromFunction to true.
+        if (!options.dumpToFile) {
+            const hasValue = inputOptions.dump
+                && inputOptions.dump.data
+                && inputOptions.dump.data.returnFromFunction !== undefined
+            if (options.dump.data && !hasValue) {
+                (options.dump.data as DataDumpOptions).returnFromFunction = true
+            }
+        }
 
         // make sure the port is a number
         options.connection.port = parseInt(options.connection.port as any, 10)
