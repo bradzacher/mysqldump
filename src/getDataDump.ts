@@ -56,6 +56,10 @@ export default async function (connectionOptions : ConnectionOptions,
         }
         : () => {}
 
+    if (options.ignoreForeignKeyChecks) {
+        writeChunkToFile('SET FOREIGN_KEY_CHECKS=0;')
+    }
+
     const retTables : Table[] = []
     let currentTableLines : string[] | null = []
 
@@ -104,6 +108,10 @@ export default async function (connectionOptions : ConnectionOptions,
         }]))
 
         writeChunkToFile('\n\n')
+    }
+
+    if (options.ignoreForeignKeyChecks) {
+        writeChunkToFile('SET FOREIGN_KEY_CHECKS=1;')
     }
 
     // clean up our connections

@@ -407,6 +407,39 @@ describe('mysqldump.e2e', () => {
             // ASSERT
             expect(res.dump.data).toBeFalsy()
         })
+
+        it('should ignore foreign key checks if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    schema: false,
+                    data: {
+                        ignoreForeignKeyChecks: true,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toMatch(/^SET FOREIGN_KEY_CHECKS=0;$/gm)
+            expect(res.dump.data).toMatch(/^SET FOREIGN_KEY_CHECKS=1;$/gm)
+        })
+        it('should not ignore foreign key checks if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    schema: false,
+                    data: {
+                        ignoreForeignKeyChecks: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).not.toMatch(/^SET FOREIGN_KEY_CHECKS=0;$/gm)
+            expect(res.dump.data).not.toMatch(/^SET FOREIGN_KEY_CHECKS=1;$/gm)
+        })
     })
 
     describe('dump to file', () => {

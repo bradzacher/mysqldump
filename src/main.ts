@@ -33,6 +33,7 @@ const defaultOptions : CompletedOptions = {
             includeViewData: false,
             where: {},
             returnFromFunction: true,
+            ignoreForeignKeyChecks: false,
         },
     },
     dumpToFile: null,
@@ -93,6 +94,10 @@ export default async function main(inputOptions : Options) {
             // don't even try to run the data dump
             res.tables = await getDataDump(options.connection, options.dump.data!, res.tables, options.dumpToFile)
             res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n')
+
+            if (res.dump.data && options.dump.data!.ignoreForeignKeyChecks) {
+                res.dump.data = `SET FOREIGN_KEY_CHECKS=0;\n${res.dump.data}\nSET FOREIGN_KEY_CHECKS=1;\n`
+            }
         } else {
             res.dump.data = null
         }

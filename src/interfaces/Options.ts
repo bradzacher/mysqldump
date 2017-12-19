@@ -86,6 +86,11 @@ export interface DataDumpOptions {
      * Defaults to true.
      */
     returnFromFunction ?: boolean
+    /**
+     * True to disable foreign key checks for the data dump, false otherwise.
+     * Defaults to false.
+     */
+    ignoreForeignKeyChecks ?: boolean
 }
 
 export interface DumpOptions {
