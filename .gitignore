@@ -1,6 +1,7 @@
 node_modules/
 test/testConfig.ts
 test/launch_dump.sql
+test/dump.sql
 coverage/
 build-decl/
 .rpt2_cache/

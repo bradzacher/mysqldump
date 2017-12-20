@@ -34,22 +34,20 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
             const table = tables[i]
             if (isCreateView(res)) {
                 return {
+                    ...table,
                     name: res.View,
                     schema: format(res['Create View']),
                     data: null,
                     isView: true,
-                    columns: table.columns,
-                    columnsOrdered: table.columnsOrdered,
                 }
             }
 
             return {
+                ...table,
                 name: res.Table,
                 schema: format(res['Create Table']),
                 data: null,
                 isView: false,
-                columns: table.columns,
-                columnsOrdered: table.columnsOrdered,
             }
         })
         .map<Table>((s) => {
@@ -91,13 +89,10 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                 '',
                 s.schema,
                 '',
-                '',
             ].join('\n')
 
             return s
         })
-        // sort the schemas so that everything is always in a consistent order
-        .sort((a, b) => a.name.localeCompare(b.name, 'en-us'))
 
     return createStatements
 }

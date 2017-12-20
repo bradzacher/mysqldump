@@ -15,9 +15,11 @@ beforeAll(async () => {
     })
 
     const schema = await readFile(`${__dirname}/../fixtures/schema.sql`, 'utf8')
+    const triggers = (await import('../fixtures/triggers')).default as string[]
     const data = await readFile(`${__dirname}/../fixtures/data.sql`, 'utf8')
 
     await conn.query(schema)
+    await Promise.all(triggers.map(t => conn.query(t)))
     await conn.query(data)
 
     await conn.end()

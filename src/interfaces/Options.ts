@@ -56,6 +56,20 @@ export interface SchemaDumpOptions {
     viewCreateOrReplace ?: boolean
 }
 
+export interface TriggerDumpOptions {
+    /**
+     * The temporary delimiter to use between statements.
+     * Set to false to not use delmiters
+     * Defaults to ';;'.
+     */
+    delimiter ?: string | false
+    /**
+     * Drop triggers before creation.
+     * Defaults to false.
+     */
+    dropIfExist ?: boolean
+}
+
 export interface DataDumpOptions {
     /**
      * True to run a sql formatter over the output, false otherwise.
@@ -119,6 +133,11 @@ export interface DumpOptions {
      * Defaults to including the data.
      */
     data ?: false | DataDumpOptions
+    /**
+     * Explicitly set to false to not include triggers in the dump.
+     * Defaults to including the triggers.
+     */
+    trigger ?: false | TriggerDumpOptions
 }
 
 export interface Options {

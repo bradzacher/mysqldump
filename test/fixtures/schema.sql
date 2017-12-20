@@ -59,6 +59,8 @@ CREATE TABLE `other_types` (
     `_enum` ENUM('red', 'green', 'blue') NOT NULL,
     `_set` SET('a', 'b', 'c') NOT NULL,
     `_alwaysNull` INT,
+    `populatedViaTrigger` INT UNSIGNED,
+    `populatedViaTrigger2` INT UNSIGNED,
     PRIMARY KEY (`ot_id`)
 );
 

@@ -6,7 +6,6 @@ export class DB {
     private readonly connection : mysql.IPromiseConnection
 
     // can only instantiate via DB.connect method
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor(connection : mysql.IPromiseConnection) {
         this.connection = connection
     }

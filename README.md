@@ -186,6 +186,31 @@ interface Options {
                 [k : string]: string
             }
         }
+
+        /**
+         * Explicitly set to false to not include triggers in the dump.
+         * Defaults to including the triggers.
+         */
+        trigger ?: false | {
+            /**
+             * True to run a sql formatter over the output, false otherwise.
+             * Defaults to true.
+             */
+            format ?: boolean
+
+            /**
+             * The temporary delimiter to use between statements.
+             * Set to false to not use delmiters
+             * Defaults to ';;'.
+             */
+
+            delimiter ?: string | false
+            /**
+             * Drop triggers before creation.
+             * Defaults to false.
+             */
+            dropIfExist ?: boolean
+        }
     }
 
     /**

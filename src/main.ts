@@ -5,6 +5,7 @@ import { Options, CompletedOptions, DataDumpOptions } from './interfaces/Options
 import DumpReturn from './interfaces/DumpReturn'
 import getTables from './getTables'
 import getSchemaDump from './getSchemaDump'
+import getTriggerDump from './getTriggerDump'
 import getDataDump from './getDataDump'
 import DB from './DB'
 import Errors from './Errors'
@@ -35,6 +36,10 @@ const defaultOptions : CompletedOptions = {
             returnFromFunction: false,
             ignoreForeignKeyChecks: false,
             maxRowsPerInsertStatement: 1,
+        },
+        trigger: {
+            delimiter: ';;',
+            dropIfExist: true,
         },
     },
     dumpToFile: null,
@@ -73,53 +78,69 @@ export default async function main(inputOptions : Options) {
         // make sure the port is a number
         options.connection.port = parseInt(options.connection.port as any, 10)
 
+        // write to the destination file (i.e. clear it)
+        if (options.dumpToFile) {
+            fs.writeFileSync(options.dumpToFile, '')
+        }
+
         connection = await DB.connect(merge<any>([options.connection, { multipleStatements: true }]))
 
         // list the tables
         const res : DumpReturn = {
             dump: {
-                schema: '',
-                data: '',
+                schema: null,
+                data: null,
+                trigger: null,
             },
-            tables: (await getTables(connection, options.connection.database, options.dump.tables!, options.dump.excludeTables!)),
+            tables: (await getTables(
+                connection,
+                options.connection.database,
+                options.dump.tables!,
+                options.dump.excludeTables!
+            )),
         }
 
         // dump the schema if requested
         if (options.dump.schema !== false) {
             res.tables = await getSchemaDump(connection, options.dump.schema!, res.tables)
-            res.dump.schema = res.tables.map(t => t.schema).filter(t => t).join('\n')
-        } else {
-            res.dump.schema = null
+            res.dump.schema = res.tables.map(t => t.schema).filter(t => t).join('\n').trim()
+        }
+
+        // write the schema to the file
+        if (options.dumpToFile && res.dump.schema) {
+            fs.appendFileSync(options.dumpToFile, `${res.dump.schema}\n\n`)
+        }
+
+        // dump the triggers if requested
+        if (options.dump.trigger !== false) {
+            res.tables = await getTriggerDump(
+                connection,
+                options.connection.database,
+                options.dump.trigger!,
+                res.tables
+            )
+            res.dump.trigger = res.tables.map(t => t.triggers.join('\n')).filter(t => t).join('\n').trim()
         }
 
         // data dump uses its own connection so kill ours
         await connection.end()
 
-        // write the schema to the file now so the data can be stream in as its received
-        if (options.dumpToFile) {
-            fs.writeFileSync(options.dumpToFile, res.dump.schema || '')
-        }
-
         // dump data if requested
         if (options.dump.data !== false) {
             // don't even try to run the data dump
             res.tables = await getDataDump(options.connection, options.dump.data!, res.tables, options.dumpToFile)
-            res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n')
+            res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n').trim()
 
+            // to make the file smaller, we don't wrap each table's dump with this statement.
+            // so this is a "hack" to make sure that the in-memory dump string matches the file dump string exactly.
             if (res.dump.data && options.dump.data!.ignoreForeignKeyChecks) {
-                res.dump.data = `SET FOREIGN_KEY_CHECKS=0;\n${res.dump.data}\nSET FOREIGN_KEY_CHECKS=1;\n`
+                res.dump.data = `SET FOREIGN_KEY_CHECKS=0;\n${res.dump.data}\nSET FOREIGN_KEY_CHECKS=1;`
             }
-        } else {
-            res.dump.data = null
         }
 
-        if (options.dumpToFile) {
-            const clob = [
-                res.dump.schema || '',
-                res.dump.data || '',
-                '',
-            ].join('\n')
-            fs.writeFileSync(options.dumpToFile, clob)
+        // write the triggers to the file
+        if (options.dumpToFile && res.dump.trigger) {
+            fs.appendFileSync(options.dumpToFile, `${res.dump.trigger}\n\n`)
         }
 
         return res

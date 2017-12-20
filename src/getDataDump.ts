@@ -48,27 +48,34 @@ export default async function (connectionOptions : ConnectionOptions,
         typeCast: typeCast(tables),
     }]))
 
+    const retTables : Table[] = []
+    let currentTableLines : string[] | null = []
+
     // open the write stream (if configured to)
     const outFileStream = dumpToFile ? fs.createWriteStream(dumpToFile, {
         flags: 'a', // append to the file
         encoding: 'utf8',
     }) : null
-    const writeChunkToFile = dumpToFile
-        ? (str : string | string[]) => {
-            if (!Array.isArray(str)) {
-                str = [str]
-            }
 
+    function saveChunk(str : string | string[], inArray = true) {
+        if (!Array.isArray(str)) {
+            str = [str]
+        }
+
+        // write to file if configured
+        if (outFileStream) {
             str.forEach(s => outFileStream!.write(`${s}\n`))
         }
-        : () => {}
 
-    if (options.ignoreForeignKeyChecks) {
-        writeChunkToFile('SET FOREIGN_KEY_CHECKS=0;')
+        // write to memory if configured
+        if (inArray && currentTableLines) {
+            currentTableLines.push(...str)
+        }
     }
 
-    const retTables : Table[] = []
-    let currentTableLines : string[] | null = []
+    if (options.ignoreForeignKeyChecks) {
+        saveChunk('SET FOREIGN_KEY_CHECKS=0;', false)
+    }
 
     // to avoid having to load an entire DB's worth of data at once, we select from each table individually
     // note that we use async/await within this loop to only process one table at a time (to reduce memory footprint)
@@ -86,6 +93,11 @@ export default async function (connectionOptions : ConnectionOptions,
 
         currentTableLines = options.returnFromFunction ? [] : null
 
+        if (retTables.length > 0) {
+            // add a newline before the next header to pad the dumps
+            saveChunk('')
+        }
+
         // write the table header to the file
         const header = [
             '# ------------------------------------------------------------',
@@ -93,8 +105,7 @@ export default async function (connectionOptions : ConnectionOptions,
             '# ------------------------------------------------------------',
             '',
         ]
-        writeChunkToFile(header)
-        currentTableLines && currentTableLines.push(...header)
+        saveChunk(header)
 
         await new Promise((resolve, reject) => { // eslint-disable-line no-loop-func
             // send the query
@@ -112,8 +123,7 @@ export default async function (connectionOptions : ConnectionOptions,
                 if (rowQueue.length === options.maxRowsPerInsertStatement) {
                     // create and write a fresh statement
                     const insert = buildInsert(table, rowQueue, format)
-                    writeChunkToFile(insert)
-                    currentTableLines && currentTableLines.push(insert)
+                    saveChunk(insert)
                     rowQueue = []
                 }
             })
@@ -121,8 +131,7 @@ export default async function (connectionOptions : ConnectionOptions,
                 // write the remaining rows to disk
                 if (rowQueue.length > 0) {
                     const insert = buildInsert(table, rowQueue, format)
-                    writeChunkToFile(insert)
-                    currentTableLines && currentTableLines.push(insert)
+                    saveChunk(insert)
                     rowQueue = []
                 }
 
@@ -131,10 +140,6 @@ export default async function (connectionOptions : ConnectionOptions,
             query.on('error', /* istanbul ignore next */err => reject(err))
         })
 
-        // add some newlines to pad the result
-        currentTableLines && currentTableLines.push('', '')
-        writeChunkToFile('')
-
         // update the table definition
         retTables.push(merge<Table>([table, {
             data: currentTableLines ? currentTableLines.join('\n') : null,
@@ -142,12 +147,22 @@ export default async function (connectionOptions : ConnectionOptions,
     }
 
     if (options.ignoreForeignKeyChecks) {
-        writeChunkToFile('SET FOREIGN_KEY_CHECKS=1;')
+        saveChunk('SET FOREIGN_KEY_CHECKS=1;', false)
     }
+    saveChunk('')
 
     // clean up our connections
     await connection.end()
-    outFileStream && outFileStream.close()
+
+    if (outFileStream) {
+        // tidy up the file stream, making sure writes are 100% flushed before continuing
+        await new Promise((resolve) => {
+            outFileStream.once('finish', () => {
+                resolve()
+            })
+            outFileStream.end()
+        })
+    }
 
     return retTables
 }

@@ -27,6 +27,7 @@ export default async function (connection : DB, dbName : string, restrictedTable
         isView: r.Table_type === 'VIEW',
         columns: {},
         columnsOrdered: [],
+        triggers: [],
     }))
 
     let tables = actualTables
@@ -39,6 +40,7 @@ export default async function (connection : DB, dbName : string, restrictedTable
             tables = tables.filter(t => restrictedTables.indexOf(t.name) !== -1)
         }
     }
+
 
     // get the column definitions
     const columnsMultiQuery = tables.map(t => `SHOW COLUMNS FROM \`${t.name}\` FROM \`${dbName}\`;`).join('\n')

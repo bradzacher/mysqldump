@@ -5,7 +5,7 @@ import './scripts/initDb'
 import testConfig from './testConfig'
 
 import mysqldump from './scripts/import'
-import { DumpOptions, SchemaDumpOptions } from '../src/interfaces/Options'
+import { DumpOptions, SchemaDumpOptions, DataDumpOptions, TriggerDumpOptions } from '../src/interfaces/Options'
 
 import Errors from '../src/Errors'
 
@@ -13,16 +13,61 @@ const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
 
 describe('mysqldump.e2e', () => {
+    function dumpOptTest<T>(
+        type : 'schema' | 'data' | 'trigger',
+        prop : keyof T,
+        includeValue : any,
+        excludeValue : any,
+        matchRegExp : RegExp,
+        dontMatchRegExp ?: RegExp
+    ) {
+        function createTest(include : boolean, value : any) {
+            it(`should ${include ? 'include' : 'exclude'} ${prop} if configured`, async () => {
+                // ACT
+                const dumpOpt = {
+                    [type]: {
+                        [prop]: value,
+                    },
+                } as DumpOptions
+
+                const res = await mysqldump({
+                    connection: testConfig,
+                    dump: dumpOpt,
+                })
+
+                // ASSERT
+                if (include) {
+                    expect(res.dump[type]).toMatch(matchRegExp)
+                    dontMatchRegExp && expect(res.dump[type]).not.toMatch(dontMatchRegExp)
+                } else {
+                    dontMatchRegExp && expect(res.dump[type]).toMatch(dontMatchRegExp)
+                    expect(res.dump[type]).not.toMatch(matchRegExp)
+                }
+            })
+        }
+        createTest(true, includeValue)
+        createTest(false, excludeValue)
+    }
+    function dumpFlagTest<T>(
+        type : 'schema' | 'data' | 'trigger',
+        prop : keyof T,
+        matchRegExp : RegExp,
+        dontMatchRegExp ?: RegExp
+    ) {
+        return dumpOptTest<T>(type, prop, true, false, matchRegExp, dontMatchRegExp)
+    }
+
     describe('dump opts', () => {
-        it('should provide both a schema dump and a data dump if no config provided', async () => {
+        it('should provide all dumps if no config provided', async () => {
             // ACT
             const res = await mysqldump({
                 connection: testConfig,
             })
 
             // ASSERT
-            expect(res.dump.data).toBeDefined()
-            expect(res.dump.schema).toBeDefined()
+            expect(res.dump.data).toBeTruthy()
+            expect(res.dump.schema).toBeTruthy()
+            expect(res.dump.trigger).toBeTruthy()
         })
 
         it('should not provide a schema dump if configured', async () => {
@@ -37,6 +82,7 @@ describe('mysqldump.e2e', () => {
             // ASSERT
             expect(res.dump.data).toBeTruthy()
             expect(res.dump.schema).toBeFalsy()
+            expect(res.dump.trigger).toBeTruthy()
         })
 
         it('should not provide a data dump if configured', async () => {
@@ -51,6 +97,22 @@ describe('mysqldump.e2e', () => {
             // ASSERT
             expect(res.dump.data).toBeFalsy()
             expect(res.dump.schema).toBeTruthy()
+            expect(res.dump.trigger).toBeTruthy()
+        })
+
+        it('should not provide a trigger dump if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    trigger: false,
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toBeTruthy()
+            expect(res.dump.schema).toBeTruthy()
+            expect(res.dump.trigger).toBeFalsy()
         })
 
         const tableListTest = (blacklist : boolean) => () => {
@@ -218,164 +280,26 @@ describe('mysqldump.e2e', () => {
     })
 
     describe('schema dump opts', () => {
-        function schemaOptTest(prop : keyof SchemaDumpOptions,
-            matchRegExp : RegExp) {
-            function createTest(include : boolean) {
-                it(`should ${include ? 'include' : 'exclude'} ${prop} if configured`, async () => {
-                    // ACT
-                    const dumpOpt = {
-                        schema: {
-                            [prop]: include,
-                        },
-                    } as any
+        dumpFlagTest<SchemaDumpOptions>('schema', 'autoIncrement', /AUTO_INCREMENT\s*=\s*\d+ /)
+        dumpFlagTest<SchemaDumpOptions>('schema', 'engine', /ENGINE\s*=\s*\w+ /)
+        dumpFlagTest<SchemaDumpOptions>('schema', 'tableDropIfExist', /DROP TABLE IF EXISTS `\w+`;\nCREATE TABLE/)
+        dumpFlagTest<SchemaDumpOptions>('schema', 'tableIfNotExist', /CREATE TABLE IF NOT EXISTS/)
+        dumpFlagTest<SchemaDumpOptions>('schema', 'viewCreateOrReplace', /CREATE OR REPLACE/)
 
-                    const res = await mysqldump({
-                        connection: testConfig,
-                        dump: dumpOpt,
-                    })
-
-                    // ASSERT
-                    if (include) {
-                        expect(res.dump.schema).toMatch(matchRegExp)
-                    } else {
-                        expect(res.dump.schema).not.toMatch(matchRegExp)
-                    }
-                })
-            }
-            createTest(true)
-            createTest(false)
-        }
-        schemaOptTest('autoIncrement', /AUTO_INCREMENT\s*=\s*\d+ /)
-        schemaOptTest('engine', /ENGINE\s*=\s*\w+ /)
-        schemaOptTest('tableDropIfExist', /DROP TABLE IF EXISTS `\w+`;\nCREATE TABLE/)
-        schemaOptTest('tableIfNotExist', /CREATE TABLE IF NOT EXISTS/)
-        schemaOptTest('viewCreateOrReplace', /CREATE OR REPLACE/)
-
-        // ASSEMBLE
         const regexBase = 'CREATE OR REPLACE ALGORITHM\\s?=\\s?\\w+ DEFINER\\s?=\\s?`.+?`\\s?@\\s?`.+?` SQL SECURITY DEFINER VIEW `everything` AS'
         const formattedRegEx = new RegExp(`${regexBase} select`)
         const unformattedRegEx = new RegExp(`${regexBase}\n`)
-
-        it('should format if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    data: false,
-                    schema: {
-                        format: true,
-                        viewCreateOrReplace: true,
-                    },
-                    // mysql will auto format a create table statement...
-                    // so we test this based on the create view statement
-                    tables: ['everything'],
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.schema).not.toMatch(formattedRegEx)
-            expect(res.dump.schema).toMatch(unformattedRegEx)
-        })
-
-        it('should not format if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    data: false,
-                    schema: {
-                        format: false,
-                    },
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.schema).toMatch(formattedRegEx)
-            expect(res.dump.schema).not.toMatch(unformattedRegEx)
-        })
+        dumpFlagTest<SchemaDumpOptions>('schema', 'format', unformattedRegEx, formattedRegEx)
     })
 
     describe('data dump opts', () => {
-        it('should include view data if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    data: {
-                        includeViewData: true,
-                    },
-                },
-            })
+        dumpFlagTest<DataDumpOptions>('data', 'includeViewData', /INSERT INTO\n {2}`everything`/)
+        dumpFlagTest<DataDumpOptions>('data', 'format', /INSERT INTO\n/, /INSERT INTO `\w+`/)
 
-            // ASSERT
-            expect(res.dump.data).toMatch(/INSERT INTO\n {2}`everything`/)
-        })
-        it('should exclude view data if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    data: {
-                        includeViewData: false,
-                    },
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`everything`/)
-        })
-
-        it('should handle where if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    tables: ['date_types'],
-                    data: {
-                        where: {
-                            // there shouldn't be more than 3 records...
-                            date_types: 'dt_id > 10',
-                        },
-                    },
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.data).not.toMatch(/INSERT INTO\n {2}`date_types`/)
-        })
-
-        it('should format if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    schema: false,
-                    data: {
-                        format: true,
-                    },
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.data).not.toMatch(/INSERT INTO `\w+`/)
-            expect(res.dump.data).toMatch(/INSERT INTO\n/)
-        })
-        it('should not format if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    schema: false,
-                    data: {
-                        format: false,
-                    },
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.data).toMatch(/INSERT INTO `\w+`/)
-            expect(res.dump.data).not.toMatch(/INSERT INTO\n/)
-        })
+        dumpOptTest<DataDumpOptions>('data', 'where', {}, {
+            // there shouldn't be more than 3 records...
+            date_types: 'dt_id > 10',
+        }, /INSERT INTO\n {2}`date_types`/)
 
         it('should return data from the call if configured', async () => {
             // ACT
@@ -481,12 +405,19 @@ describe('mysqldump.e2e', () => {
         })
     })
 
+    describe('trigger dump opts', () => {
+        dumpFlagTest<TriggerDumpOptions>('trigger', 'dropIfExist', /DROP TRIGGER IF EXISTS/)
+    })
+
     describe('dump to file', () => {
         const dumpTest = (opts : DumpOptions, extraAssertion ?: (file : string) => void) => async () => {
             // ASSEMBLE
             const filename = `${__dirname}/dump.sql`
 
             // force returning from function so we can check values
+            if (opts.data !== false) {
+                opts.data = {}
+            }
             if (opts.data) {
                 opts.data.returnFromFunction = true
             }
@@ -499,20 +430,29 @@ describe('mysqldump.e2e', () => {
             })
             const file = await readFile(filename, 'utf8')
 
-            // ASSERT
-            expect(file).toEqual(`${res.dump.schema || ''}\n${res.dump.data || ''}\n`)
-            extraAssertion && extraAssertion(file)
-
             // remove the file
             await unlink(filename)
+
+            // ASSERT
+            const memoryLines = []
+            res.dump.schema && memoryLines.push(`${res.dump.schema}\n`)
+            res.dump.data && memoryLines.push(`${res.dump.data}\n`)
+            res.dump.trigger && memoryLines.push(`${res.dump.trigger}\n`)
+            memoryLines.push('') // need one extra newline to match the file dump
+
+            expect(file).toEqual(memoryLines.join('\n'))
+            extraAssertion && extraAssertion(file)
         }
 
         it('should dump a file if configured', dumpTest({}))
-        it('should dump not dump schema to a file if configured', dumpTest({
+        it('should not dump schema to a file if configured', dumpTest({
             data: false,
         }))
-        it('should dump not dump data to a file if configured', dumpTest({
+        it('should not dump data to a file if configured', dumpTest({
             schema: false,
+        }))
+        it('should not dump trigger to a file if configured', dumpTest({
+            trigger: false,
         }))
 
         describe('dump a consistent snapshot with options...', () => {
@@ -529,13 +469,18 @@ describe('mysqldump.e2e', () => {
             snapshotTest({ data: { maxRowsPerInsertStatement: 1 } })
             snapshotTest({ data: { maxRowsPerInsertStatement: 2 } })
             snapshotTest({ data: { maxRowsPerInsertStatement: 3 } })
+
             snapshotTest({ schema: false })
             snapshotTest({ schema: { autoIncrement: false } })
             snapshotTest({ schema: { engine: false } })
             snapshotTest({ schema: { format: false } })
             snapshotTest({ schema: { tableDropIfExist: false, tableIfNotExist: true } })
             snapshotTest({ schema: { tableDropIfExist: true, tableIfNotExist: false } })
-            snapshotTest({ schema: { viewCreateOrReplace: true } })
+
+            snapshotTest({ trigger: false })
+            snapshotTest({ trigger: { delimiter: false } })
+            snapshotTest({ trigger: { delimiter: '//' } })
+            snapshotTest({ trigger: { dropIfExist: false } })
         })
     })
 })

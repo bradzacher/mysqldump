@@ -41,6 +41,10 @@ export interface Table {
      * True if the table is actually a view, false otherwise.
      */
     isView : boolean,
+    /**
+     * A list of triggers attached to the table
+     */
+    triggers : string[],
 }
 
 export default Table

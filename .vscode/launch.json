@@ -10,22 +10,26 @@
             "protocol": "inspector",
             "name": "Launch Program",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/ts-node",
-            "runtimeArgs": [
+            "args": [
                 "-P", "${workspaceRoot}/tsconfig.run.json",
                 // launch main
-                "${workspaceFolder}/test/scripts/launch.ts"
+                "${workspaceRoot}/test/scripts/launch.ts"
             ],
             "sourceMaps": true
         },
         {
             "type": "node",
             "request": "launch",
+            "protocol": "inspector",
             "name": "Debug Test e2e",
             "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "args": [
                 "-i",
                 "--config", "jest.json",
                 "e2e.test.ts"
+            ],
+            "outFiles": [
+                "${workspaceRoot}/build/**/*"
             ],
             "sourceMaps": true
         }

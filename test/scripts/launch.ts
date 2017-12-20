@@ -16,6 +16,7 @@ import testConfig from '../testConfig'
 
         console.info(res.dump.schema)
         console.info(res.dump.data)
+        console.info(res.dump.trigger)
     } catch (e) {
         console.error(e)
     }

@@ -15,6 +15,11 @@ export default interface DumpReturn {
          * Null if configured not to dump.
          */
         data : string | null,
+        /**
+         * The concatenated SQL trigger dump for the entire database.
+         * Null if configured not to dump.
+         */
+        trigger : string | null,
     },
     tables : Table[],
 }
