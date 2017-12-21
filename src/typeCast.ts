@@ -154,7 +154,12 @@ export default function (tables : Table[]) {
         /* istanbul ignore else */// the else case shouldn't happen ever
         if (columnType === 'GEOMETRY') {
             // parse and convert the binary representation to a nice string
-            value = parseGeometryValue(field.buffer())
+            const buf = field.buffer()
+            if (buf !== null) {
+                value = parseGeometryValue(buf)
+            } else {
+                value = 'NULL'
+            }
         } else if (columnType === 'STRING') {
             // sanitize the string types
             value = sqlstring.escape(field.string())

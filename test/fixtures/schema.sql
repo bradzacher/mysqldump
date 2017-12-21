@@ -12,6 +12,7 @@ CREATE TABLE `date_types` (
 DROP TABLE IF EXISTS `geometry_types`;
 CREATE TABLE `geometry_types` (
     `gt_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `_nullGeo` point,
     `_point` point NOT NULL,
     `_linestring` linestring NOT NULL,
     `_polygon` polygon NOT NULL,
