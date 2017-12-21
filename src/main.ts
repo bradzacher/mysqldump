@@ -148,3 +148,6 @@ export default async function main(inputOptions : Options) {
         DB.cleanup()
     }
 }
+
+// a hacky way to make the package work with both require and ES modules
+(main as any).default = main
