@@ -1,18 +1,26 @@
 DROP TABLE IF EXISTS `date_types`;
 CREATE TABLE `date_types` (
     `dt_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     `_date` date NOT NULL,
     `_datetime` datetime NOT NULL,
     `_time` time NOT NULL,
     `_timestamp` timestamp NOT NULL,
     `_year` year NOT NULL,
+
+    `_nullDate` date,
+    `_nullDatetime` datetime,
+    `_nullTime` time,
+    `_nullTimestamp` timestamp,
+    `_nullYear` year,
+
     PRIMARY KEY (`dt_id`)
 );
 
 DROP TABLE IF EXISTS `geometry_types`;
 CREATE TABLE `geometry_types` (
     `gt_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `_nullGeo` point,
+
     `_point` point NOT NULL,
     `_linestring` linestring NOT NULL,
     `_polygon` polygon NOT NULL,
@@ -20,12 +28,22 @@ CREATE TABLE `geometry_types` (
     `_multilinestring` multilinestring NOT NULL,
     `_multipolygon` multipolygon NOT NULL,
     `_geometrycollection` geometrycollection NOT NULL,
+
+    `_nullPoint` point,
+    `_nullLinestring` linestring,
+    `_nullPolygon` polygon,
+    `_nullMultipoint` multipoint,
+    `_nullMultilinestring` multilinestring,
+    `_nullMultipolygon` multipolygon,
+    `_nullGeometrycollection` geometrycollection,
+
     PRIMARY KEY (`gt_id`)
 );
 
 DROP TABLE IF EXISTS `number_types`;
 CREATE TABLE `number_types` (
     `nt_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     `_uint` int UNSIGNED NOT NULL,
     `_int` int NOT NULL,
     `_tinyint` tinyint NOT NULL,
@@ -38,22 +56,44 @@ CREATE TABLE `number_types` (
     `_real` real NOT NULL,
     `_bit1` bit(1) NOT NULL,
     `_bit24` bit(24) NOT NULL,
+
+    `_nullUint` int UNSIGNED,
+    `_nullInt` int,
+    `_nullTinyint` tinyint,
+    `_nullSmallint` smallint,
+    `_nullMediumint` mediumint,
+    `_nullBigint` bigint,
+    `_nullDecimal` decimal(6,2),
+    `_nullDouble` double,
+    `_nullFloat` float,
+    `_nullReal` real,
+    `_nullBit1` bit(1),
+    `_nullBit24` bit(24),
+
     PRIMARY KEY (`nt_id`)
 );
 
 DROP TABLE IF EXISTS `text_types`;
 CREATE TABLE `text_types` (
     `ot_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     `_char` char NOT NULL,
     `_longtext` longtext NOT NULL,
     `_text` text NOT NULL,
     `_varchar` varchar(128) NOT NULL,
+
+    `_nullChar` char,
+    `_nullLongtext` longtext,
+    `_nullText` text,
+    `_nullVarchar` varchar(128),
+
     PRIMARY KEY (`ot_id`)
 );
 
 DROP TABLE IF EXISTS `other_types`;
 CREATE TABLE `other_types` (
     `ot_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     `_blob` blob NOT NULL,
     `_binary` binary NOT NULL,
     `_varbinary` varbinary(64) NOT NULL,
@@ -62,6 +102,13 @@ CREATE TABLE `other_types` (
     `_alwaysNull` INT,
     `populatedViaTrigger` INT UNSIGNED,
     `populatedViaTrigger2` INT UNSIGNED,
+
+    `_nullBlob` blob,
+    `_nullBinary` binary,
+    `_nullVarbinary` varbinary(64),
+    `_nullEnum` ENUM('red', 'green', 'blue'),
+    `_nullSet` SET('a', 'b', 'c'),
+
     PRIMARY KEY (`ot_id`)
 );
 
@@ -74,3 +121,10 @@ SELECT *
     ON dt.dt_id = nt.nt_id
  INNER JOIN other_types AS ot
     ON dt.dt_id = ot.ot_id;
+
+DROP TABLE IF EXISTS `multiline_insert_test`;
+CREATE TABLE `multiline_insert_test` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+  PRIMARY KEY (`id`)
+);

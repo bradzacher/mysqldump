@@ -365,15 +365,16 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).not.toMatch(/^SET FOREIGN_KEY_CHECKS=1;$/gm)
         })
 
-        const singleInsertRegex = /^INSERT INTO `date_types` .+? VALUES \(([\d-:' ]+,?){6}\);$/gm
-        const multiInsertRegex = /^INSERT INTO `date_types` .+? VALUES \(([\d-:' ]+,?){6}\)(,\(([\d-:' ]+,?){6}\))+;$/gm
+        const singleInsertRegex = /^(INSERT INTO `multiline_insert_test` \(`id`\) VALUES \(\d\);\n?){3}$/m
+        const multiInsertRegex = /^INSERT INTO `multiline_insert_test` \(`id`\) VALUES \(\d\),\(\d\),\(\d\);$/m
         it('should keep the inserts as single statements if configured', async () => {
             // ACT
             const res = await mysqldump({
                 connection: testConfig,
                 dump: {
-                    tables: ['date_types'],
+                    tables: ['multiline_insert_test'],
                     schema: false,
+                    trigger: false,
                     data: {
                         maxRowsPerInsertStatement: 1,
                         format: false,
@@ -390,7 +391,7 @@ describe('mysqldump.e2e', () => {
             const res = await mysqldump({
                 connection: testConfig,
                 dump: {
-                    tables: ['date_types'],
+                    tables: ['multiline_insert_test'],
                     schema: false,
                     data: {
                         maxRowsPerInsertStatement: 50,

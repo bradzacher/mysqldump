@@ -138,6 +138,8 @@ function noformatWrap(str : string) {
     return `NOFORMAT_WRAP("##${str}##")`
 }
 
+const DBNULL = 'NULL'
+
 export default function (tables : Table[]) {
     const tablesByName = tables.reduce((acc, t) => {
         acc.set(t.name, t)
@@ -150,15 +152,15 @@ export default function (tables : Table[]) {
         const table = tablesByName.get(field.table)!
         const columnType = resolveType(table.columns[field.name].type)
 
-        let value : string = ''
+        let value : string | null = ''
         /* istanbul ignore else */// the else case shouldn't happen ever
         if (columnType === 'GEOMETRY') {
             // parse and convert the binary representation to a nice string
             const buf = field.buffer()
-            if (buf !== null) {
-                value = parseGeometryValue(buf)
+            if (buf === null) {
+                value = null
             } else {
-                value = 'NULL'
+                value = parseGeometryValue(buf)
             }
         } else if (columnType === 'STRING') {
             // sanitize the string types
@@ -167,31 +169,39 @@ export default function (tables : Table[]) {
             // bit fields have a binary representation we have to deal with
             const buf = field.buffer()
 
-            // represent a binary literal (b'010101')
-            const numBytes = buf.length
-            let bitString = ''
-            for (let i = 0; i < numBytes; i += 1) {
-                const int8 = buf.readUInt8(i)
-                bitString += intToBit(int8)
+            if (buf === null) {
+                value = null
+            } else {
+                // represent a binary literal (b'010101')
+                const numBytes = buf.length
+                let bitString = ''
+                for (let i = 0; i < numBytes; i += 1) {
+                    const int8 = buf.readUInt8(i)
+                    bitString += intToBit(int8)
+                }
+
+                // truncate the bit string to the field length
+                bitString = bitString.substr(-field.length)
+
+                value = noformatWrap(`b'${bitString}'`)
             }
-
-            // truncate the bit string to the field length
-            bitString = bitString.substr(-field.length)
-
-            value = noformatWrap(`b'${bitString}'`)
         } else if (columnType === 'HEX') {
             // binary blobs
             const buf = field.buffer()
 
-            // represent a hex literal (X'AF12')
-            const numBytes = buf.length
-            let hexString = ''
-            for (let i = 0; i < numBytes; i += 1) {
-                const int8 = buf.readUInt8(i)
-                hexString += int8.toString(16)
-            }
+            if (buf === null) {
+                value = null
+            } else {
+                // represent a hex literal (X'AF12')
+                const numBytes = buf.length
+                let hexString = ''
+                for (let i = 0; i < numBytes; i += 1) {
+                    const int8 = buf.readUInt8(i)
+                    hexString += int8.toString(16)
+                }
 
-            value = noformatWrap(`X'${hexString}'`)
+                value = noformatWrap(`X'${hexString}'`)
+            }
         } else if (columnType === 'NUMBER') {
             value = field.string()
         } else {
@@ -200,7 +210,7 @@ export default function (tables : Table[]) {
 
         // handle nulls
         if (value === null) {
-            value = 'NULL'
+            value = DBNULL
         }
 
         return value

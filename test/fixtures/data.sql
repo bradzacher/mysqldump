@@ -230,3 +230,23 @@ VALUES
     'c',
     NULL
   );
+
+-- #####################
+-- multiline_insert_test
+-- #####################
+-- this table exists to make the regex for the multiline insert test simpler
+INSERT INTO
+  `multiline_insert_test`
+  (
+    `id`
+  )
+VALUES
+  (
+    NULL
+  ),
+  (
+    NULL
+  ),
+  (
+    NULL
+  );

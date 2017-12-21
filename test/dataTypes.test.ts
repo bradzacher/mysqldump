@@ -39,16 +39,22 @@ describe('insert data types', () => {
     it('should dump date types correctly', typeTest('date_types', (matches) => {
         const values = matches.split(',')
 
-        values.forEach((v) => {
-            // 00's would indicate that something was parsed wrong
-            expect(v).not.toContain('00')
-        })
+        for (let i = 0; i < 6; i += 1) {
+            expect(values[i]).not.toContain('00')
+        }
         expect(values[0]).toMatch(/^\d$/)
         expect(values[1]).toMatch(/^'\d{4}-\d{2}-\d{2}'$/)
         expect(values[2]).toMatch(/^'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'$/)
         expect(values[3]).toMatch(/^'\d{2}:\d{2}:\d{2}'$/)
         expect(values[4]).toMatch(/^'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'$/)
         expect(values[5]).toMatch(/^'\d{4}'$/)
+
+        // nulled columns
+        expect(values[6]).toMatch(/^NULL$/)
+        expect(values[7]).toMatch(/^NULL$/)
+        expect(values[8]).toMatch(/^NULL$/)
+        expect(values[9]).toMatch(/^'0000-00-00 00:00:00'$/)
+        expect(values[10]).toMatch(/^NULL$/)
     }))
 
     it('should dump geometry types correctly', typeTest('geometry_types', (values) => {
@@ -74,6 +80,9 @@ describe('insert data types', () => {
             'MULTIPOLYGON<(<(<(\\d+ \\d+,?)+>,?)+>,?)+>',
             '>',
         ].join(''), false))
+
+        // null values
+        expect(values).toMatch(/NULL,NULL,NULL,NULL,NULL,NULL,NULL/)
     }))
 
     it('should dump number types correctly', typeTest('number_types', (matches) => {
@@ -92,6 +101,20 @@ describe('insert data types', () => {
         expect(values[10]).toMatch(/^\d+\.\d+$/)
         expect(values[11]).toMatch(/^b'[10]+'$/)
         expect(values[12]).toMatch(/^b'[10]+'$/)
+
+        // null values
+        expect(values[13]).toMatch(/^NULL$/)
+        expect(values[14]).toMatch(/^NULL$/)
+        expect(values[15]).toMatch(/^NULL$/)
+        expect(values[16]).toMatch(/^NULL$/)
+        expect(values[17]).toMatch(/^NULL$/)
+        expect(values[18]).toMatch(/^NULL$/)
+        expect(values[19]).toMatch(/^NULL$/)
+        expect(values[20]).toMatch(/^NULL$/)
+        expect(values[21]).toMatch(/^NULL$/)
+        expect(values[22]).toMatch(/^NULL$/)
+        expect(values[23]).toMatch(/^NULL$/)
+        expect(values[24]).toMatch(/^NULL$/)
     }))
 
     it('should dump text types correctly', typeTest('text_types', (matches) => {
@@ -102,6 +125,12 @@ describe('insert data types', () => {
         expect(values[2]).toMatch(/^'.+'$/)
         expect(values[3]).toMatch(/^'.+'$/)
         expect(values[4]).toMatch(/^'.+'$/)
+
+        // null types
+        expect(values[5]).toMatch(/^NULL$/)
+        expect(values[6]).toMatch(/^NULL$/)
+        expect(values[7]).toMatch(/^NULL$/)
+        expect(values[8]).toMatch(/^NULL$/)
     }))
 
     it('should dump "other" types correctly', typeTest('other_types', (matches) => {
@@ -113,5 +142,13 @@ describe('insert data types', () => {
         expect(values[3]).toMatch(/^X'[0-9a-fA-F]+'$/)
         expect(values[4]).toMatch(/^'(red|green|blue)'$/)
         expect(values[5]).toMatch(/^'[abc]'$/)
+        expect(values[6]).toMatch(/^NULL$/)
+
+        // null types
+        expect(values[9]).toMatch(/^NULL$/)
+        expect(values[10]).toMatch(/^NULL$/)
+        expect(values[11]).toMatch(/^NULL$/)
+        expect(values[12]).toMatch(/^NULL$/)
+        expect(values[13]).toMatch(/^NULL$/)
     }))
 })
