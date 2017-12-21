@@ -24,11 +24,6 @@ export interface ConnectionOptions {
 }
 export interface SchemaDumpOptions {
 	/**
-	 * True to run a sql formatter over the output, false otherwise.
-	 * Defaults to true.
-	 */
-	format?: boolean;
-	/**
 	 * True to include autoincrement values in schema, false otherwise.
 	 * Defaults to true.
 	 */
@@ -38,6 +33,11 @@ export interface SchemaDumpOptions {
 	 * Defaults to true.
 	 */
 	engine?: boolean;
+	/**
+	 * True to run a sql formatter over the output, false otherwise.
+	 * Defaults to true.
+	 */
+	format?: boolean;
 	/**
 	 * Guard create table calls with an "IF NOT EXIST"
 	 * Defaults to true.
@@ -54,6 +54,19 @@ export interface SchemaDumpOptions {
 	 */
 	viewCreateOrReplace?: boolean;
 }
+export interface TriggerDumpOptions {
+	/**
+	 * The temporary delimiter to use between statements.
+	 * Set to false to not use delmiters
+	 * Defaults to ';;'.
+	 */
+	delimiter?: string | false;
+	/**
+	 * Drop triggers before creation.
+	 * Defaults to false.
+	 */
+	dropIfExist?: boolean;
+}
 export interface DataDumpOptions {
 	/**
 	 * True to run a sql formatter over the output, false otherwise.
@@ -61,18 +74,20 @@ export interface DataDumpOptions {
 	 */
 	format?: boolean;
 	/**
-	 * A map of tables to additional where strings to add.
-	 * Use this to limit the number of data that is dumped.
-	 * Defaults to no limits
+	 * True to disable foreign key checks for the data dump, false otherwise.
+	 * Defaults to false.
 	 */
-	where?: {
-		[k: string]: string;
-	};
+	ignoreForeignKeyChecks?: boolean;
 	/**
 	 * Dump data from views.
 	 * Defaults to false.
 	 */
 	includeViewData?: boolean;
+	/**
+	 * Maximum number of rows to include in each multi-line insert statement
+	 * Defaults to 1 (i.e. new statement per row).
+	 */
+	maxRowsPerInsertStatement?: number;
 	/**
 	 * True to return the data in a function, false to not.
 	 * This is useful in databases with a lot of data.
@@ -81,9 +96,17 @@ export interface DataDumpOptions {
 	 * However note that if you want the result returned from the function,
 	 * this will result in a larger memory footprint as the string has to be stored in memory.
 	 *
-	 * Defaults to true.
+	 * Defaults to false if dumpToFile is truthy, or true if not dumpToFile is falsey.
 	 */
 	returnFromFunction?: boolean;
+	/**
+	 * A map of tables to additional where strings to add.
+	 * Use this to limit the number of data that is dumped.
+	 * Defaults to no limits
+	 */
+	where?: {
+		[k: string]: string;
+	};
 }
 export interface DumpOptions {
 	/**
@@ -91,6 +114,11 @@ export interface DumpOptions {
 	 * Defaults to all tables (signalled by passing an empty array).
 	 */
 	tables?: string[];
+	/**
+	 * True to use the `tables` options as a blacklist, false to use it as a whitelist.
+	 * Defaults to false.
+	 */
+	excludeTables?: boolean;
 	/**
 	 * Explicitly set to false to not include the schema in the dump.
 	 * Defaults to including the schema.
@@ -101,6 +129,11 @@ export interface DumpOptions {
 	 * Defaults to including the data.
 	 */
 	data?: false | DataDumpOptions;
+	/**
+	 * Explicitly set to false to not include triggers in the dump.
+	 * Defaults to including the triggers.
+	 */
+	trigger?: false | TriggerDumpOptions;
 }
 export interface Options {
 	/**
@@ -152,9 +185,17 @@ export interface Table {
 	 */
 	columns: ColumnList;
 	/**
+	 * An ordered list of columns (for consistently outputing as per the DB definition)
+	 */
+	columnsOrdered: string[];
+	/**
 	 * True if the table is actually a view, false otherwise.
 	 */
 	isView: boolean;
+	/**
+	 * A list of triggers attached to the table
+	 */
+	triggers: string[];
 }
 export default interface DumpReturn {
 	/**
@@ -171,6 +212,11 @@ export default interface DumpReturn {
 		 * Null if configured not to dump.
 		 */
 		data: string | null;
+		/**
+		 * The concatenated SQL trigger dump for the entire database.
+		 * Null if configured not to dump.
+		 */
+		trigger: string | null;
 	};
 	tables: Table[];
 }
