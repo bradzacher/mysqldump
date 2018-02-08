@@ -21,6 +21,7 @@ const stringTypes = new Set([
     'char',
     'varchar',
     'text',
+    'mediumtext',
     'longtext',
     'set',
     'enum',
