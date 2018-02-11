@@ -160,7 +160,7 @@ module.exports = function(options,done){
 				mysql.query("SHOW TABLES FROM `"+options.database+"`",function(err,data){
 					if(err) return callback(err);
 					var resp = [];
-					for(var i=0;i<data.length;i++) resp.push(data[i]['Tables_in_'+options.database]);
+					for(var i=0;i<data.length;i++) resp.push(data[i]['Tables_in_'+options.database.toLowerCase()]);
 					callback(err,resp);
 				});
 			} else {
