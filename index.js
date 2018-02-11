@@ -137,7 +137,7 @@ module.exports = function(options,done){
 		autoIncrement:true,
 		dropTable:false,
 		getDump:false,
-		dest:'./data.sql',
+		// dest:'./data.sql',
 		where: null
 	}
 
@@ -227,6 +227,8 @@ module.exports = function(options,done){
 
 		mysql.connection.end();
 		if(options.getDump) return done(err, results.getDataDump);
-		fs.writeFile(options.dest, results.getDataDump, done);
+		if((options.getDump && !options.dest) || options.dest) {
+			fs.writeFile(options.dest || './data.sql', results.getDataDump, done);
+		}
 	});
 }
