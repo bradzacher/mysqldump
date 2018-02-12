@@ -38,6 +38,7 @@ mysqlDump({
 	tables:['players'], // only these tables
 	where: {'players': 'id < 1000'}, // Only test players with id < 1000
 	ifNotExist:true, // Create table if not exist
+	disableForeignKeyChecks: true, //Adds SET foreign_key_checks = 0; at the file begin
 	dest:'./data.sql' // destination file
 },function(err){
 	// create data.sql file;
