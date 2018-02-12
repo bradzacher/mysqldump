@@ -122,7 +122,7 @@ Drop tables if exist `Default: false`;
 
 Type: `Boolean`
 
-Adds SET foreign_key_checks = 0; at the begin of the generated file `Default: false";
+Adds SET foreign_key_checks = 0; at the begin of the generated file `Default: false`;
 
 #### getDump 
 
