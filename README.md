@@ -118,6 +118,12 @@ Type: `Boolean`
 
 Drop tables if exist `Default: false`;
 
+### disableForeignKeyChecks
+
+Type: `Boolean`
+
+Adds SET foreign_key_checks = 0; at the begin of the generated file `Default: false";
+
 #### getDump 
 
 Type: `Boolean`
