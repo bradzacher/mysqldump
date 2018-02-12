@@ -138,6 +138,7 @@ module.exports = function(options,done){
 		dropTable:false,
 		getDump:false,
 		// dest:'./data.sql',
+		disableForeignKeyChecks: false,
 		where: null
 	}
 
@@ -184,6 +185,7 @@ module.exports = function(options,done){
 				for(var i in data){
 					var r = data[i][0]['Create Table']+";";
 
+					if(options.disableForeignKeyChecks) r = "SET foreign_key_checks = 0;\n" + r;
 					if(options.dropTable) r = r.replace(/CREATE TABLE `/, 'DROP TABLE IF EXISTS `' + data[i][0]['Table'] + '`;\nCREATE TABLE `');
 					if(options.ifNotExist) r = r.replace(/CREATE TABLE `/,'CREATE TABLE IF NOT EXISTS `');
 					if(!options.autoIncrement) r = r.replace(/AUTO_INCREMENT=\d+ /g,'');
