@@ -125,8 +125,7 @@ module.exports = function(options,done){
 		host: 'localhost',
 		user: 'root',
 		password: '',
-		database: 'test',
-		charset: 'UTF8_GENERAL_CI',
+		database: 'test'
 	};
 
 	var defaultOptions = {
@@ -137,8 +136,9 @@ module.exports = function(options,done){
 		autoIncrement:true,
 		dropTable:false,
 		getDump:false,
-		// dest:'./data.sql',
-		where: null
+		dest:'./data.sql',
+		where: null, 
+		disableForeignKeyChecks: false
 	}
 
 	mysql = mqNode(extend({},defaultConnection,{
@@ -147,7 +147,6 @@ module.exports = function(options,done){
 		password:options.password,
 		database:options.database,
 		port:options.port,
-		charset:options.charset,
 		socketPath:options.socketPath,
 	}));
 
@@ -157,10 +156,11 @@ module.exports = function(options,done){
 	async.auto({
 		getTables:function(callback){
 			if(!options.tables || !options.tables.length){ // if not especifed, get all
-				mysql.query("SHOW TABLES FROM `"+options.database+"`",function(err,data){
+				mysql.query("SHOW TABLES FROM OrdersManager",function(err,data){
 					if(err) return callback(err);
 					var resp = [];
 					for(var i=0;i<data.length;i++) resp.push(data[i]['Tables_in_'+options.database.toLowerCase()]);
+					
 					callback(err,resp);
 				});
 			} else {
@@ -183,7 +183,7 @@ module.exports = function(options,done){
 				var resp = [];
 				for(var i in data){
 					var r = data[i][0]['Create Table']+";";
-
+					if(options.disableForeignKeyChecks) r = "SET foreign_key_checks = 0;\n" + r;
 					if(options.dropTable) r = r.replace(/CREATE TABLE `/, 'DROP TABLE IF EXISTS `' + data[i][0]['Table'] + '`;\nCREATE TABLE `');
 					if(options.ifNotExist) r = r.replace(/CREATE TABLE `/,'CREATE TABLE IF NOT EXISTS `');
 					if(!options.autoIncrement) r = r.replace(/AUTO_INCREMENT=\d+ /g,'');
@@ -227,8 +227,6 @@ module.exports = function(options,done){
 
 		mysql.connection.end();
 		if(options.getDump) return done(err, results.getDataDump);
-		if((options.getDump && !options.dest) || options.dest) {
-			fs.writeFile(options.dest || './data.sql', results.getDataDump, done);
-		}
+		fs.writeFile(options.dest, results.getDataDump, done);
 	});
 }
