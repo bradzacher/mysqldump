@@ -156,7 +156,7 @@ module.exports = function(options,done){
 	async.auto({
 		getTables:function(callback){
 			if(!options.tables || !options.tables.length){ // if not especifed, get all
-				mysql.query("SHOW TABLES FROM OrdersManager",function(err,data){
+				mysql.query("SHOW TABLES FROM `"+options.database+"`",function(err,data){
 					if(err) return callback(err);
 					var resp = [];
 					for(var i=0;i<data.length;i++) resp.push(data[i]['Tables_in_'+options.database.toLowerCase()]);
