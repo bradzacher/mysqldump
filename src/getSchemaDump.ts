@@ -78,6 +78,13 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                 )
             }
 
+            // fix up binary/hex default values if formatted
+            if (options.format) {
+                s.schema = s.schema
+                    .replace(/DEFAULT b '(\d+)'/, 'DEFAULT b\'$1')
+                    .replace(/DEFAULT X '(\d+)'/, 'DEFAULT X\'$1')
+            }
+
             // add a semicolon to separate schemas
             s.schema += ';'
 
