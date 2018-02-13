@@ -74,11 +74,6 @@ export interface DataDumpOptions {
 	 */
 	format?: boolean;
 	/**
-	 * True to disable foreign key checks for the data dump, false otherwise.
-	 * Defaults to false.
-	 */
-	ignoreForeignKeyChecks?: boolean;
-	/**
 	 * Dump data from views.
 	 * Defaults to false.
 	 */
