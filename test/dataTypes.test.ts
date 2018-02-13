@@ -4,10 +4,12 @@ import testConfig from './testConfig'
 import mysqldump from './scripts/import'
 
 describe('insert data types', () => {
-    function typeTest(tableName : string, assertion : (values : string) => void) {
+    function typeTest(tableName : string, format : boolean, assertion : (values : string) => void) {
         return async () => {
             // ASSEMBLE
-            const insertRegex = new RegExp(`INSERT INTO \`${tableName}\` \\(.+?\\) VALUES \\((.+)\\)`)
+            const insertRegex = new RegExp(format ?
+                `INSERT INTO  \`${tableName}\` \\(.+?\\)VALUES  \\((.+)\\)` :
+                `INSERT INTO \`${tableName}\` \\(.+?\\) VALUES \\((.+)\\)`)
 
             // ACT
             const res = await mysqldump({
@@ -16,12 +18,23 @@ describe('insert data types', () => {
                     tables: [tableName],
                     schema: false,
                     data: {
-                        format: false,
+                        format,
                     },
                 },
             })
 
-            const lines = res.dump.data!.split('\n')
+            const lines = format ?
+                res.dump.data!
+                    // remove the newlines to compact each insert
+                    .replace(/\n/g, '')
+                    // add a newline after each insert
+                    .replace(/;/g, ';\n')
+                    // handle comments
+                    .replace(/#/g, '\n#')
+                    .split('\n') :
+                res.dump.data!
+                    .split('\n')
+
             const inserts = lines
                 .map(sql => sql.match(insertRegex))
                 .filter(match => !!match)
@@ -36,8 +49,9 @@ describe('insert data types', () => {
         }
     }
 
-    it('should dump date types correctly', typeTest('date_types', (matches) => {
+    const dateTypeTest = (matches : string) => {
         const values = matches.split(',')
+            .map(v => v.trim())
 
         for (let i = 0; i < 6; i += 1) {
             expect(values[i]).not.toContain('00')
@@ -55,9 +69,11 @@ describe('insert data types', () => {
         expect(values[8]).toMatch(/^NULL$/)
         expect(values[9]).toMatch(/^'0000-00-00 00:00:00'$/)
         expect(values[10]).toMatch(/^NULL$/)
-    }))
+    }
+    it('should dump date types correctly - formatted', typeTest('date_types', true, dateTypeTest))
+    it('should dump date types correctly - unformatted', typeTest('date_types', false, dateTypeTest))
 
-    it('should dump geometry types correctly', typeTest('geometry_types', (values) => {
+    it('should dump geometry types correctly', typeTest('geometry_types', false, (values) => {
         // to make these strings a little cleaner with less backslashes, we use <>'s instead of \\(\\) in the strings
         const geomfromtext = (type : string, secondComma = true) => {
             type = type.replace(/</g, '\\(').replace(/>/g, '\\)')
@@ -85,8 +101,9 @@ describe('insert data types', () => {
         expect(values).toMatch(/NULL,NULL,NULL,NULL,NULL,NULL,NULL/)
     }))
 
-    it('should dump number types correctly', typeTest('number_types', (matches) => {
+    const numberTypesTest = (matches : string) => {
         const values = matches.split(',')
+            .map(v => v.trim())
 
         expect(values[0]).toMatch(/^\d$/)
         expect(values[1]).toMatch(/^\d+$/)
@@ -115,10 +132,13 @@ describe('insert data types', () => {
         expect(values[22]).toMatch(/^NULL$/)
         expect(values[23]).toMatch(/^NULL$/)
         expect(values[24]).toMatch(/^NULL$/)
-    }))
+    }
+    it('should dump number types correctly - formatted', typeTest('number_types', true, numberTypesTest))
+    it('should dump number types correctly - unformatted', typeTest('number_types', false, numberTypesTest))
 
-    it('should dump text types correctly', typeTest('text_types', (matches) => {
+    const textTypesTest = (matches : string) => {
         const values = matches.split(',')
+            .map(v => v.trim())
 
         expect(values[0]).toMatch(/^\d$/)
         expect(values[1]).toMatch(/^'.'$/)
@@ -131,10 +151,13 @@ describe('insert data types', () => {
         expect(values[6]).toMatch(/^NULL$/)
         expect(values[7]).toMatch(/^NULL$/)
         expect(values[8]).toMatch(/^NULL$/)
-    }))
+    }
+    it('should dump text types correctly - formatted', typeTest('text_types', true, textTypesTest))
+    it('should dump text types correctly - unformatted', typeTest('text_types', false, textTypesTest))
 
-    it('should dump "other" types correctly', typeTest('other_types', (matches) => {
+    const otherTypesTest = (matches : string) => {
         const values = matches.split(',')
+            .map(v => v.trim())
 
         expect(values[0]).toMatch(/^\d$/)
         expect(values[1]).toMatch(/^X'[0-9a-fA-F]+'$/)
@@ -150,5 +173,7 @@ describe('insert data types', () => {
         expect(values[11]).toMatch(/^NULL$/)
         expect(values[12]).toMatch(/^NULL$/)
         expect(values[13]).toMatch(/^NULL$/)
-    }))
+    }
+    it('should dump "other" types correctly - formatted', typeTest('other_types', true, otherTypesTest))
+    it('should dump "other" types correctly - unformatted', typeTest('other_types', false, otherTypesTest))
 })
