@@ -64,6 +64,9 @@ export default async function (connection : DB, dbName : string, options : Trigg
             // add the delimiter in case it's a multi statement trigger
             if (options.delimiter) {
                 sql = `DELIMITER ${options.delimiter}\n${sql}${options.delimiter}\nDELIMITER ;`
+            } else {
+                // else just add a semicolon
+                sql = `${sql};`
             }
 
             // drop trigger statement should go outside the delimiter mods
