@@ -8,6 +8,7 @@ import mysqldump from './scripts/import'
 import { DumpOptions, SchemaDumpOptions, DataDumpOptions, TriggerDumpOptions } from '../src/interfaces/Options'
 
 import Errors from '../src/Errors'
+import { HEADER_VARIABLES, FOOTER_VARIABLES } from '../src/sessionVariables'
 
 const readFile = promisify(fs.readFile)
 const unlink = promisify(fs.unlink)
@@ -332,39 +333,6 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).toBeFalsy()
         })
 
-        it('should ignore foreign key checks if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    schema: false,
-                    data: {
-                        ignoreForeignKeyChecks: true,
-                    },
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.data).toMatch(/^SET FOREIGN_KEY_CHECKS=0;$/gm)
-            expect(res.dump.data).toMatch(/^SET FOREIGN_KEY_CHECKS=1;$/gm)
-        })
-        it('should not ignore foreign key checks if configured', async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: testConfig,
-                dump: {
-                    schema: false,
-                    data: {
-                        ignoreForeignKeyChecks: false,
-                    },
-                },
-            })
-
-            // ASSERT
-            expect(res.dump.data).not.toMatch(/^SET FOREIGN_KEY_CHECKS=0;$/gm)
-            expect(res.dump.data).not.toMatch(/^SET FOREIGN_KEY_CHECKS=1;$/gm)
-        })
-
         const singleInsertRegex = /^(INSERT INTO `multiline_insert_test` \(`id`\) VALUES \(\d\);\n?){3}$/m
         const multiInsertRegex = /^INSERT INTO `multiline_insert_test` \(`id`\) VALUES \(\d\),\(\d\),\(\d\);$/m
         it('should keep the inserts as single statements if configured', async () => {
@@ -436,10 +404,11 @@ describe('mysqldump.e2e', () => {
 
             // ASSERT
             const memoryLines = []
+            memoryLines.push(HEADER_VARIABLES)
             res.dump.schema && memoryLines.push(`${res.dump.schema}\n`)
             res.dump.data && memoryLines.push(`${res.dump.data}\n`)
             res.dump.trigger && memoryLines.push(`${res.dump.trigger}\n`)
-            memoryLines.push('') // need one extra newline to match the file dump
+            memoryLines.push(FOOTER_VARIABLES)
 
             expect(file).toEqual(memoryLines.join('\n'))
             extraAssertion && extraAssertion(file)
@@ -465,7 +434,6 @@ describe('mysqldump.e2e', () => {
             snapshotTest({})
             snapshotTest({ data: false })
             snapshotTest({ data: { format: false } })
-            snapshotTest({ data: { ignoreForeignKeyChecks: true } })
             snapshotTest({ data: { includeViewData: true } })
             snapshotTest({ data: { maxRowsPerInsertStatement: 1 } })
             snapshotTest({ data: { maxRowsPerInsertStatement: 2 } })

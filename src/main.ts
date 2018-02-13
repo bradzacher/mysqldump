@@ -9,6 +9,7 @@ import getTriggerDump from './getTriggerDump'
 import getDataDump from './getDataDump'
 import DB from './DB'
 import Errors from './Errors'
+import { HEADER_VARIABLES, FOOTER_VARIABLES } from './sessionVariables'
 
 const defaultOptions : CompletedOptions = {
     connection: {
@@ -34,7 +35,6 @@ const defaultOptions : CompletedOptions = {
             includeViewData: false,
             where: {},
             returnFromFunction: false,
-            ignoreForeignKeyChecks: false,
             maxRowsPerInsertStatement: 1,
         },
         trigger: {
@@ -81,6 +81,11 @@ export default async function main(inputOptions : Options) {
         // write to the destination file (i.e. clear it)
         if (options.dumpToFile) {
             fs.writeFileSync(options.dumpToFile, '')
+        }
+
+        // write the initial headers
+        if (options.dumpToFile) {
+            fs.appendFileSync(options.dumpToFile, `${HEADER_VARIABLES}\n`)
         }
 
         connection = await DB.connect(merge<any>([options.connection, { multipleStatements: true }]))
@@ -130,17 +135,16 @@ export default async function main(inputOptions : Options) {
             // don't even try to run the data dump
             res.tables = await getDataDump(options.connection, options.dump.data!, res.tables, options.dumpToFile)
             res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n').trim()
-
-            // to make the file smaller, we don't wrap each table's dump with this statement.
-            // so this is a "hack" to make sure that the in-memory dump string matches the file dump string exactly.
-            if (res.dump.data && options.dump.data!.ignoreForeignKeyChecks) {
-                res.dump.data = `SET FOREIGN_KEY_CHECKS=0;\n${res.dump.data}\nSET FOREIGN_KEY_CHECKS=1;`
-            }
         }
 
         // write the triggers to the file
         if (options.dumpToFile && res.dump.trigger) {
             fs.appendFileSync(options.dumpToFile, `${res.dump.trigger}\n\n`)
+        }
+
+        // reset all of the variables
+        if (options.dumpToFile) {
+            fs.appendFileSync(options.dumpToFile, FOOTER_VARIABLES)
         }
 
         return res

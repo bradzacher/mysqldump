@@ -73,10 +73,6 @@ export default async function (connectionOptions : ConnectionOptions,
         }
     }
 
-    if (options.ignoreForeignKeyChecks) {
-        saveChunk('SET FOREIGN_KEY_CHECKS=0;', false)
-    }
-
     // to avoid having to load an entire DB's worth of data at once, we select from each table individually
     // note that we use async/await within this loop to only process one table at a time (to reduce memory footprint)
     while (tables.length > 0) {
@@ -146,9 +142,6 @@ export default async function (connectionOptions : ConnectionOptions,
         }]))
     }
 
-    if (options.ignoreForeignKeyChecks) {
-        saveChunk('SET FOREIGN_KEY_CHECKS=1;', false)
-    }
     saveChunk('')
 
     // clean up our connections
