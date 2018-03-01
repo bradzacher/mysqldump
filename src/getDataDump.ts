@@ -59,7 +59,7 @@ export default async function (connectionOptions : ConnectionOptions,
 
     function saveChunk(str : string | string[], inArray = true) {
         if (!Array.isArray(str)) {
-            str = [str]
+            str = [str] // eslint-disable-line no-param-reassign
         }
 
         // write to file if configured

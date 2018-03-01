@@ -16,7 +16,12 @@ interface ShowColumnsRes {
     Extra : string
 }
 
-export default async function (connection : DB, dbName : string, restrictedTables : string[], restrictedTablesIsBlacklist : boolean) {
+export default async function (
+    connection : DB,
+    dbName : string,
+    restrictedTables : string[],
+    restrictedTablesIsBlacklist : boolean,
+) {
     // list the tables
     const showTablesKey = `Tables_in_${dbName}`
     const tablesRes = (await connection.query<ShowTableRes>(`SHOW FULL TABLES FROM ${dbName}`))

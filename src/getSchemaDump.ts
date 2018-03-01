@@ -50,6 +50,7 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                 isView: false,
             }
         })
+        // eslint-disable-next-line complexity
         .map<Table>((s) => {
             // clean up the generated SQL as per the options
 
@@ -60,21 +61,40 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                 s.schema = s.schema.replace(/ENGINE\s*=\s*\w+ /, '')
             }
             if (s.isView) {
-                if (options.viewCreateOrReplace) {
+                if (options.view!.createOrReplace) {
                     s.schema = s.schema.replace(
                         /^CREATE/,
-                        'CREATE OR REPLACE'
+                        'CREATE OR REPLACE',
                     )
                 }
-            } else if (options.tableDropIfExist) {
+                if (!options.view!.algorithm) {
+                    s.schema = s.schema.replace(
+                        /^CREATE( OR REPLACE)? ALGORITHM[ ]?=[ ]?\w+/,
+                        'CREATE$1',
+                    )
+                }
+                if (!options.view!.definer) {
+                    s.schema = s.schema.replace(
+                        /^CREATE( OR REPLACE)?( ALGORITHM[ ]?=[ ]?\w+)? DEFINER[ ]?=[ ]?.+?@.+?( )/,
+                        'CREATE$1$2$3',
+                    )
+                }
+                if (!options.view!.sqlSecurity) {
+                    s.schema = s.schema.replace(
+                        // eslint-disable-next-line max-len
+                        /^CREATE( OR REPLACE)?( ALGORITHM[ ]?=[ ]?\w+)?( DEFINER[ ]?=[ ]?.+?@.+)? SQL SECURITY (?:DEFINER|INVOKER)/,
+                        'CREATE$1$2$3',
+                    )
+                }
+            } else if (options.table!.dropIfExist) {
                 s.schema = s.schema.replace(
                     /^CREATE TABLE/,
-                    `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`
+                    `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`,
                 )
-            } else if (options.tableIfNotExist) {
+            } else if (options.table!.ifNotExist) {
                 s.schema = s.schema.replace(
                     /^CREATE TABLE/,
-                    'CREATE TABLE IF NOT EXISTS'
+                    'CREATE TABLE IF NOT EXISTS',
                 )
             }
 

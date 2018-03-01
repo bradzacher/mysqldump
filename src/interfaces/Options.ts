@@ -40,20 +40,42 @@ export interface SchemaDumpOptions {
      */
     format ?: boolean
     /**
-     * Guard create table calls with an "IF NOT EXIST"
-     * Defaults to true.
+     * Options for table dumps
      */
-    tableIfNotExist ?: boolean
-    /**
-     * Drop tables before creation (overrides `tableIfNotExist`).
-     * Defaults to false.
-     */
-    tableDropIfExist ?: boolean
-    /**
-     * Uses `CREATE OR REPLACE` to define views.
-     * Defaults to true.
-     */
-    viewCreateOrReplace ?: boolean
+    table ?: {
+        /**
+         * Guard create table calls with an "IF NOT EXIST"
+         * Defaults to true.
+         */
+        ifNotExist ?: boolean
+        /**
+         * Drop tables before creation (overrides `ifNotExist`).
+         * Defaults to false.
+         */
+        dropIfExist ?: boolean
+    }
+    view ?: {
+        /**
+         * Uses `CREATE OR REPLACE` to define views.
+         * Defaults to true.
+         */
+        createOrReplace ?: boolean
+        /**
+         * Include the `DEFINER = {\`user\`@\`host\` | CURRENT_USER}` in the view definition or not
+         * Defaults to false.
+         */
+        definer ?: boolean
+        /**
+         * Include the `ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}` in the view definition or not
+         * Defaults to false.
+         */
+        algorithm ?: boolean
+        /**
+         * Incldue the `SQL SECURITY {DEFINER | INVOKER}` in the view definition or not
+         * Defaults to false.
+         */
+        sqlSecurity ?: boolean
+    }
 }
 
 export interface TriggerDumpOptions {

@@ -26,9 +26,16 @@ const defaultOptions : CompletedOptions = {
             format: true,
             autoIncrement: true,
             engine: true,
-            tableIfNotExist: true,
-            tableDropIfExist: false,
-            viewCreateOrReplace: true,
+            table: {
+                ifNotExist: true,
+                dropIfExist: false,
+            },
+            view: {
+                createOrReplace: true,
+                algorithm: false,
+                definer: false,
+                sqlSecurity: false,
+            },
         },
         data: {
             format: true,
@@ -101,7 +108,7 @@ export default async function main(inputOptions : Options) {
                 connection,
                 options.connection.database,
                 options.dump.tables!,
-                options.dump.excludeTables!
+                options.dump.excludeTables!,
             )),
         }
 
@@ -122,7 +129,7 @@ export default async function main(inputOptions : Options) {
                 connection,
                 options.connection.database,
                 options.dump.trigger!,
-                res.tables
+                res.tables,
             )
             res.dump.trigger = res.tables.map(t => t.triggers.join('\n')).filter(t => t).join('\n').trim()
         }
