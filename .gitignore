@@ -6,4 +6,5 @@ coverage/
 build-decl/
 .rpt2_cache/
 
-dist/*.js
+dist/**/*.js
+dist/**/*.js.map

@@ -5,15 +5,12 @@
         "js"
     ],
     "transform": {
-        ".tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.ts$",
     "moduleDirectories": [
         "src",
         "node_modules"
-    ],
-    "setupFiles": [
-        "<rootDir>/test/scripts/setup.ts"
     ],
     "globals": {
         "ts-jest": {
@@ -44,6 +41,5 @@
       }
     },
     "collectCoverage": true,
-    "mapCoverage": true,
     "notify": false
 }

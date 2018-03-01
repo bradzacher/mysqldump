@@ -20,18 +20,21 @@
         {
             "type": "node",
             "request": "launch",
-            "protocol": "inspector",
-            "name": "Debug Test e2e",
-            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "name": "Debug Test current test",
+            "program": "${workspaceRoot}/node_modules/.bin/jest",
             "args": [
-                "-i",
                 "--config", "jest.json",
-                "e2e.test.ts"
+                "e2e"
+            ],
+            "runtimeArgs": [
+                "--nolazy"
             ],
             "outFiles": [
-                "${workspaceRoot}/build/**/*"
+                "${workspaceRoot}/dist/tsbuild/**/*"
             ],
-            "sourceMaps": true
+            "sourceMaps": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }
