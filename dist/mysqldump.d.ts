@@ -88,6 +88,11 @@ export interface TriggerDumpOptions {
 	 * Defaults to false.
 	 */
 	dropIfExist?: boolean;
+	/**
+	 * Include the `DEFINER = {\`user\`@\`host\` | CURRENT_USER}` in the view definition or not
+	 * Defaults to false.
+	 */
+	definer?: boolean;
 }
 export interface DataDumpOptions {
 	/**
