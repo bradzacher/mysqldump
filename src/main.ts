@@ -47,6 +47,7 @@ const defaultOptions : CompletedOptions = {
         trigger: {
             delimiter: ';;',
             dropIfExist: true,
+            definer: false,
         },
     },
     dumpToFile: null,

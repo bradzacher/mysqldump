@@ -61,6 +61,13 @@ export default async function (connection : DB, dbName : string, options : Trigg
             // clean up the generated SQL
             let sql = `${(res['SQL Original Statement'])}`
 
+            if (!options.definer) {
+                sql = sql.replace(
+                    /CREATE DEFINER=.+?@.+? /,
+                    'CREATE ',
+                )
+            }
+
             // add the delimiter in case it's a multi statement trigger
             if (options.delimiter) {
                 sql = `DELIMITER ${options.delimiter}\n${sql}${options.delimiter}\nDELIMITER ;`

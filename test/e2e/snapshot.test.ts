@@ -31,5 +31,6 @@ describe('mysqldump.e2e', () => {
         snapshotTest({ trigger: { delimiter: false } })
         snapshotTest({ trigger: { delimiter: '//' } })
         snapshotTest({ trigger: { dropIfExist: false } })
+        snapshotTest({ trigger: { definer: true } })
     })
 })
