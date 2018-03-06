@@ -128,8 +128,8 @@ module.exports = function(options,done){
 		database: 'test',
 		charset: 'UTF8_GENERAL_CI',
 		ssl  : {
-		  rejectUnauthorized: false
-		},
+		  	rejectUnauthorized: false
+		}
 	};
 
 	var defaultOptions = {
