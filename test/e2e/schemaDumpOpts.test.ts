@@ -7,6 +7,7 @@ describe('mysqldump.e2e', () => {
         dumpFlagTest<SchemaDumpOptions>('schema', 'engine', /ENGINE\s*=\s*\w+ /)
         dumpFlagTest<SchemaDumpOptions>('schema', ['table', 'dropIfExist'], /DROP TABLE IF EXISTS `\w+`;\nCREATE TABLE/)
         dumpFlagTest<SchemaDumpOptions>('schema', ['table', 'ifNotExist'], /CREATE TABLE IF NOT EXISTS/)
+        dumpFlagTest<SchemaDumpOptions>('schema', ['table', 'charset'], /CHARSET = latin1/)
         dumpFlagTest<SchemaDumpOptions>('schema', ['view', 'createOrReplace'], /CREATE OR REPLACE/)
         dumpFlagTest<SchemaDumpOptions>('schema', ['view', 'algorithm'], /CREATE OR REPLACE ALGORITHM = UNDEFINED/)
         dumpFlagTest<SchemaDumpOptions>('schema', ['view', 'definer'], /CREATE OR REPLACE.+?DEFINER = /)

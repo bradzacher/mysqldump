@@ -86,16 +86,24 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                         'CREATE$1$2$3',
                     )
                 }
-            } else if (options.table!.dropIfExist) {
-                s.schema = s.schema.replace(
-                    /^CREATE TABLE/,
-                    `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`,
-                )
-            } else if (options.table!.ifNotExist) {
-                s.schema = s.schema.replace(
-                    /^CREATE TABLE/,
-                    'CREATE TABLE IF NOT EXISTS',
-                )
+            } else {
+                if (options.table!.dropIfExist) {
+                    s.schema = s.schema.replace(
+                        /^CREATE TABLE/,
+                        `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`,
+                    )
+                } else if (options.table!.ifNotExist) {
+                    s.schema = s.schema.replace(
+                        /^CREATE TABLE/,
+                        'CREATE TABLE IF NOT EXISTS',
+                    )
+                }
+                if (options.table!.charset === false) {
+                    s.schema = s.schema.replace(
+                        /( )?(DEFAULT )?(CHARSET|CHARACTER SET) = \w+/,
+                        '',
+                    )
+                }
             }
 
             // fix up binary/hex default values if formatted

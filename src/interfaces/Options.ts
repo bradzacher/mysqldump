@@ -53,6 +53,14 @@ export interface SchemaDumpOptions {
          * Defaults to false.
          */
         dropIfExist ?: boolean
+        /**
+         * Include the `DEFAULT CHARSET = x` at the end of the table definition
+         * Set to true to include the value form the DB.
+         * Set to false to exclude it altogether.
+         * Set to a string to explicitly set the charset.
+         * Defaults to true.
+         */
+        charset ?: boolean | string
     }
     view ?: {
         /**

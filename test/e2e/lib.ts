@@ -12,7 +12,7 @@ export function dumpOptTest<T>(
     includeValue : any,
     excludeValue : any,
     matchRegExp : RegExp,
-    dontMatchRegExp ?: RegExp
+    dontMatchRegExp ?: RegExp,
 ) {
     function createTest(include : boolean, value : any) {
         it(`should ${include ? 'include' : 'exclude'} ${prop} if configured`, async () => {
@@ -52,7 +52,7 @@ export function dumpFlagTest<T>(
     type : 'schema' | 'data' | 'trigger',
     prop : keyof T | ['table', keyof SchemaDumpOptions['table']] | ['view', keyof SchemaDumpOptions['view']],
     matchRegExp : RegExp,
-    dontMatchRegExp ?: RegExp
+    dontMatchRegExp ?: RegExp,
 ) {
     return dumpOptTest<T>(type, prop, true, false, matchRegExp, dontMatchRegExp)
 }

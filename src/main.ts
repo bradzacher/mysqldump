@@ -29,6 +29,7 @@ const defaultOptions : CompletedOptions = {
             table: {
                 ifNotExist: true,
                 dropIfExist: false,
+                charset: true,
             },
             view: {
                 createOrReplace: true,
