@@ -1,10 +1,12 @@
 import * as fs from 'fs'
-import { promisify } from 'util'
 
 import * as mysql from 'mysql2/promise'
 import testConfig from '../testConfig'
 
-const readFile = promisify(fs.readFile)
+import schema from '../fixtures/schema'
+import triggers from '../fixtures/triggers'
+
+const data = fs.readFileSync(`${__dirname}/../fixtures/data.sql`, 'utf8')
 
 beforeAll(async () => {
     try {
@@ -15,12 +17,12 @@ beforeAll(async () => {
             multipleStatements: true,
         })
 
-        const schema = await readFile(`${__dirname}/../fixtures/schema.sql`, 'utf8')
-        const triggers = (await import('../fixtures/triggers')).default as string[]
-        const data = await readFile(`${__dirname}/../fixtures/data.sql`, 'utf8')
-
-        await conn.query(schema)
-        await Promise.all(triggers.map(t => conn.query(t)))
+        await Promise.all(
+            Object.keys(schema).map(k => conn.query(schema[k])),
+        )
+        await Promise.all(
+            triggers.map(t => conn.query(t)),
+        )
         await conn.query(data)
 
         await conn.end()
