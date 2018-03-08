@@ -103,14 +103,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -190,18 +190,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -971,14 +969,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -1058,18 +1056,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -1839,14 +1835,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -1926,18 +1922,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -2707,14 +2701,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -2794,18 +2788,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -3575,14 +3567,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -3662,18 +3654,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -4443,14 +4433,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -4530,18 +4520,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -4701,14 +4689,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -4788,18 +4776,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -5569,14 +5555,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -5656,18 +5642,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -7224,14 +7208,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -7311,18 +7295,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -8093,14 +8075,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -8184,18 +8166,16 @@ CREATE TABLE \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -8966,14 +8946,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -9053,18 +9033,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -9834,14 +9812,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -9921,18 +9899,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -10702,14 +10678,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -10789,18 +10765,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -11570,14 +11544,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -11657,18 +11631,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -13094,14 +13066,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -13181,18 +13153,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -13962,14 +13932,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -14049,18 +14019,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -14830,14 +14798,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -14917,18 +14885,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -15694,14 +15660,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -15781,18 +15747,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -16560,14 +16524,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -16647,18 +16611,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
@@ -17400,14 +17362,14 @@ select
   \`ot\`.\`_nullSet\` AS \`_nullSet\`
 from
   (
+  (
     (
-      (
-        \`date_types\` \`dt\`
-        join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-      )
-      join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
     )
-    join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );
 
 # ------------------------------------------------------------
@@ -17487,18 +17449,16 @@ CREATE TABLE IF NOT EXISTS \`other_types\` (
   \`_binary\` binary(1) NOT NULL,
   \`_varbinary\` varbinary(64) NOT NULL,
   \`_enum\` enum('red', 'green', 'blue') NOT NULL,
-  \`_set\`
-  set('a', 'b', 'c') NOT NULL,
-    \`_alwaysNull\` int(11) DEFAULT NULL,
-    \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
-    \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
-    \`_nullBlob\` blob,
-    \`_nullBinary\` binary(1) DEFAULT NULL,
-    \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
-    \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
-    \`_nullSet\`
-  set('a', 'b', 'c') DEFAULT NULL,
-    PRIMARY KEY (\`ot_id\`)
+  \`_set\` set('a', 'b', 'c') NOT NULL,
+  \`_alwaysNull\` int(11) DEFAULT NULL,
+  \`populatedViaTrigger\` int(10) unsigned DEFAULT NULL,
+  \`populatedViaTrigger2\` int(10) unsigned DEFAULT NULL,
+  \`_nullBlob\` blob,
+  \`_nullBinary\` binary(1) DEFAULT NULL,
+  \`_nullVarbinary\` varbinary(64) DEFAULT NULL,
+  \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
+  \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
+  PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------

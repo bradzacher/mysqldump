@@ -109,8 +109,12 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
             // fix up binary/hex default values if formatted
             if (options.format) {
                 s.schema = s.schema
+                    // fix up binary and hex strings
                     .replace(/DEFAULT b '(\d+)'/g, 'DEFAULT b\'$1\'')
                     .replace(/DEFAULT X '(\d+)'/g, 'DEFAULT X\'$1\'')
+                    // fix up set defs which get split over two lines and then cause next lines to be extra indented
+                    .replace(/\n {2}set/g, ' set')
+                    .replace(/ {4}/g, '  ')
             }
 
             // add a semicolon to separate schemas
