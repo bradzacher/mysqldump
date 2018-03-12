@@ -129,8 +129,9 @@ SELECT *
  INNER JOIN number_types AS nt
     ON dt.dt_id = nt.nt_id
  INNER JOIN other_types AS ot
-    ON dt.dt_id = ot.ot_id;
+    ON dt.dt_id = ot.ot_id;`,
 
+    multiline_insert_test: `
 DROP TABLE IF EXISTS \`multiline_insert_test\`;
 CREATE TABLE \`multiline_insert_test\` (
   \`id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,
