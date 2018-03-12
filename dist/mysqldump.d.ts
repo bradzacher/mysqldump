@@ -21,6 +21,11 @@ export interface ConnectionOptions {
 	 * The password to use to connect.
 	 */
 	password: string;
+	/**
+	 * The charset to use for the connection.
+     * Defaults to 'UTF8_GENERAL_CI'.
+	 */
+	charset?: string;
 }
 export interface SchemaDumpOptions {
 	/**

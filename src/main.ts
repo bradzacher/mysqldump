@@ -18,6 +18,7 @@ const defaultOptions : CompletedOptions = {
         user: '',
         password: '',
         database: '',
+        charset: 'UTF8_GENERAL_CI',
     },
     dump: {
         tables: [],
