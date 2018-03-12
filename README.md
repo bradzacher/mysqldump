@@ -118,22 +118,56 @@ interface Options {
             format ?: boolean
 
             /**
-             * Guard create table calls with an "IF NOT EXIST"
-             * Defaults to true.
+             * Options for table dumps
              */
-            tableIfNotExist ?: boolean
+            table ?: {
+                /**
+                 * Guard create table calls with an "IF NOT EXIST"
+                 * Defaults to true.
+                 */
+                ifNotExist ?: boolean
+
+                /**
+                 * Drop tables before creation (overrides `ifNotExist`).
+                 * Defaults to false.
+                 */
+                dropIfExist ?: boolean
+
+                /**
+                 * Include the `DEFAULT CHARSET = x` at the end of the table definition
+                 * Set to true to include the value form the DB.
+                 * Set to false to exclude it altogether.
+                 * Set to a string to explicitly set the charset.
+                 * Defaults to true.
+                 */
+                charset : boolean | string;
+            }
 
             /**
-             * Drop tables before creation (overrides `tableIfNotExist`).
-             * Defaults to false.
+             * Options for view dumps
              */
-            tableDropIfExist ?: boolean
-
-            /**
-             * Uses `CREATE OR REPLACE` to define views.
-             * Defaults to true.
-             */
-            viewCreateOrReplace ?: boolean
+            view ?: {
+                /**
+                 * Uses `CREATE OR REPLACE` to define views.
+                 * Defaults to true.
+                 */
+                createOrReplace ?: boolean
+                /**
+                 * Include the `DEFINER = {\`user\`@\`host\` | CURRENT_USER}` in the view definition or not
+                 * Defaults to false.
+                 */
+                definer ?: boolean
+                /**
+                 * Include the `ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}` in the view definition or not
+                 * Defaults to false.
+                 */
+                algorithm ?: boolean
+                /**
+                 * Incldue the `SQL SECURITY {DEFINER | INVOKER}` in the view definition or not
+                 * Defaults to false.
+                 */
+                sqlSecurity ?: boolean
+            }
         }
 
         /**
