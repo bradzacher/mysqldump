@@ -23,6 +23,7 @@ const stringTypes = new Set([
     'text',
     'mediumtext',
     'longtext',
+    'tinytext',
     'set',
     'enum',
 ])
