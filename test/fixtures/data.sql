@@ -196,6 +196,9 @@ INSERT INTO
   (
     `ot_id`,
     `_blob`,
+    `_tinyblob`,
+    `_mediumblob`,
+    `_longblob`,
     `_binary`,
     `_varbinary`,
     `_enum`,
@@ -206,6 +209,9 @@ VALUES
   (
     null,
     X'1234',
+    X'4321',
+    X'ff',
+    X'abc123',
     X'aa',
     X'9876',
     'red',
@@ -215,6 +221,9 @@ VALUES
   (
     null,
     X'4567',
+    X'7654',
+    X'ee',
+    X'cba321',
     X'bb',
     X'6543',
     'green',
@@ -224,6 +233,9 @@ VALUES
   (
     null,
     X'7890',
+    X'0987',
+    X'dd',
+    X'abc321',
     X'cc',
     X'3210',
     'blue',

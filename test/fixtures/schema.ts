@@ -103,6 +103,9 @@ CREATE TABLE \`other_types\` (
     \`ot_id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
     \`_blob\` blob NOT NULL,
+    \`_tinyblob\` tinyblob NOT NULL,
+    \`_mediumblob\` mediumblob NOT NULL,
+    \`_longblob\` longblob NOT NULL,
     \`_binary\` binary NOT NULL,
     \`_varbinary\` varbinary(64) NOT NULL,
     \`_enum\` ENUM('red', 'green', 'blue') NOT NULL,
@@ -112,6 +115,9 @@ CREATE TABLE \`other_types\` (
     \`populatedViaTrigger2\` INT UNSIGNED,
 
     \`_nullBlob\` blob,
+    \`_nullTinyblob\` tinyblob,
+    \`_nullMediumblob\` mediumblob,
+    \`_nullLongblob\` longblob,
     \`_nullBinary\` binary,
     \`_nullVarbinary\` varbinary(64),
     \`_nullEnum\` ENUM('red', 'green', 'blue'),

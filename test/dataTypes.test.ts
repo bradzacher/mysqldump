@@ -164,20 +164,30 @@ describe('insert data types', () => {
         const values = matches.split(',')
             .map(v => v.trim())
 
-        expect(values[0]).toMatch(/^\d$/)
-        expect(values[1]).toMatch(/^X'[0-9a-fA-F]+'$/)
-        expect(values[2]).toMatch(/^X'[0-9a-fA-F]+'$/)
-        expect(values[3]).toMatch(/^X'[0-9a-fA-F]+'$/)
-        expect(values[4]).toMatch(/^'(red|green|blue)'$/)
-        expect(values[5]).toMatch(/^'[abc]'$/)
-        expect(values[6]).toMatch(/^NULL$/)
+        let i = 0
+        /* eslint-disable no-plusplus */
+        expect(values[i++]).toMatch(/^\d$/)
+        expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
+        expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
+        expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
+        expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
+        expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
+        expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
+        expect(values[i++]).toMatch(/^'(red|green|blue)'$/)
+        expect(values[i++]).toMatch(/^'[abc]'$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        i++ // populated via trigger - don't care
 
         // null types
-        expect(values[9]).toMatch(/^NULL$/)
-        expect(values[10]).toMatch(/^NULL$/)
-        expect(values[11]).toMatch(/^NULL$/)
-        expect(values[12]).toMatch(/^NULL$/)
-        expect(values[13]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        expect(values[i++]).toMatch(/^NULL$/)
+        /* eslint-enable no-plusplus */
     }
     it('should dump "other" types correctly - formatted', typeTest('other_types', true, otherTypesTest))
     it('should dump "other" types correctly - unformatted', typeTest('other_types', false, otherTypesTest))

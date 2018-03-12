@@ -31,6 +31,9 @@ const bitTypes = new Set([
 ])
 const hexTypes = new Set([
     'blob',
+    'tinyblob',
+    'mediumblob',
+    'longblob',
     'binary',
     'varbinary',
 ])
