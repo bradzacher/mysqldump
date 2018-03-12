@@ -26,7 +26,7 @@ export interface ShowCreateTrigger {
 /* eslint-ensable camelcase */
 
 export default async function (connection : DB, dbName : string, options : TriggerDumpOptions, tables : Table[]) {
-    const triggers = (await connection.query<ShowTriggers>(`SHOW TRIGGERS FROM ${dbName}`))
+    const triggers = (await connection.query<ShowTriggers>(`SHOW TRIGGERS FROM \`${dbName}\``))
         // only include triggers from the tables that we have
         .filter(trig => tables.some(t => t.name === trig.Table))
         // convert to a trigger name => table index map for easy lookup
