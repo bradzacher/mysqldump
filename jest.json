@@ -18,9 +18,10 @@
             "tsConfigFile": "tsconfig.run.json"
         }
     },
+    "rootDir": ".",
 
     "collectCoverageFrom": [
-        "src/**/*.{ts,tsx}"
+        "src/**/*"
     ],
     "coverageReporters": [
         "html",
@@ -33,12 +34,12 @@
         "/interfaces/"
     ],
     "coverageThreshold": {
-      "global": {
-        "branches": 90,
-        "functions": 90,
-        "lines": 90,
-        "statements": 90
-      }
+        "src/**/*.{ts,tsx}": {
+            "branches": 90,
+            "functions": 90,
+            "lines": 90,
+            "statements": 90
+        }
     },
     "collectCoverage": true,
     "notify": false

@@ -8,7 +8,7 @@ import triggers from '../fixtures/triggers'
 
 const data = fs.readFileSync(`${__dirname}/../fixtures/data.sql`, 'utf8')
 
-beforeAll(async () => {
+async function initDb() {
     try {
         // setup the database
 
@@ -31,4 +31,6 @@ beforeAll(async () => {
 
         process.exit(1)
     }
-})
+}
+
+initDb()

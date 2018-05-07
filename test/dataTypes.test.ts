@@ -1,4 +1,3 @@
-import './scripts/initDb'
 import testConfig from './testConfig'
 
 import mysqldump from './scripts/import'
@@ -7,9 +6,9 @@ describe('insert data types', () => {
     function typeTest(tableName : string, format : boolean, assertion : (values : string) => void) {
         return async () => {
             // ASSEMBLE
-            const insertRegex = new RegExp(format ?
-                `INSERT INTO  \`${tableName}\` \\(.+?\\)VALUES  \\((.+)\\)` :
-                `INSERT INTO \`${tableName}\` \\(.+?\\) VALUES \\((.+)\\)`)
+            const insertRegex = new RegExp(format
+                ? `INSERT INTO  \`${tableName}\` \\(.+?\\)VALUES  \\((.+)\\)`
+                : `INSERT INTO \`${tableName}\` \\(.+?\\) VALUES \\((.+)\\)`)
 
             // ACT
             const res = await mysqldump({
@@ -23,16 +22,16 @@ describe('insert data types', () => {
                 },
             })
 
-            const lines = format ?
-                res.dump.data!
+            const lines = format
+                ? res.dump.data!
                     // remove the newlines to compact each insert
                     .replace(/\n/g, '')
                     // add a newline after each insert
                     .replace(/;/g, ';\n')
                     // handle comments
                     .replace(/#/g, '\n#')
-                    .split('\n') :
-                res.dump.data!
+                    .split('\n')
+                : res.dump.data!
                     .split('\n')
 
             const inserts = lines

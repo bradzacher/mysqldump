@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import * as tmp from 'tmp'
 
 import { DumpOptions, SchemaDumpOptions, DataDumpOptions, TriggerDumpOptions } from '../../src/interfaces/Options'
 import testConfig from '../testConfig'
@@ -60,7 +61,8 @@ export function dumpFlagTest<T>(
 export function dumpTest(opts : DumpOptions, extraAssertion ?: (file : string) => void) {
     return async () => {
         // ASSEMBLE
-        const filename = `${__dirname}/dump.sql`
+        const tmpFile = tmp.fileSync()
+        const filename = tmpFile.name
 
         // force returning from function so we can check values
         if (opts.data !== false) {

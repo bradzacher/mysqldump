@@ -52,6 +52,10 @@
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@types/sqlstring/-/sqlstring-2.2.0.tgz#53d1a815506b2a468ba3117f57be09d3640a0de2"
 
+"@types/tmp@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/tmp/-/tmp-0.0.33.tgz#1073c4bc824754ae3d10cfab88ab0237ba964e4d"
+
 abab@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"

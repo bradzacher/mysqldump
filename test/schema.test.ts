@@ -1,4 +1,3 @@
-import './scripts/initDb'
 import testConfig from './testConfig'
 
 import mysqldump from './scripts/import'
