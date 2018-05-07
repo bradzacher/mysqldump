@@ -5,3 +5,7 @@ node_js:
   - '6.2.0'
   - '4.4.4'
   - '0.12'
+install: yarn
+script:
+  - yarn build
+  - yarn test-prod
