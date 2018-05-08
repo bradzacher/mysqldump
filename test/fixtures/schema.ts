@@ -1,3 +1,5 @@
+import testConfig from '../testConfig'
+
 export default {
     date_types: `
 DROP TABLE IF EXISTS \`date_types\`;
@@ -127,7 +129,7 @@ CREATE TABLE \`other_types\` (
 );`,
 
     everything: `
-CREATE OR REPLACE VIEW \`everything\` AS
+CREATE OR REPLACE DEFINER = \`${testConfig.user}\` @\`${testConfig.host}\` VIEW \`everything\` AS
 SELECT *
   FROM date_types AS dt
  INNER JOIN geometry_types AS gt

@@ -11189,7 +11189,7 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 # SCHEMA DUMP FOR TABLE: everything
 # ------------------------------------------------------------
 
-CREATE OR REPLACE DEFINER = \`root\` @\`%\` VIEW \`everything\` AS
+CREATE OR REPLACE DEFINER = \`root\` @\`localhost\` VIEW \`everything\` AS
 select
   \`dt\`.\`dt_id\` AS \`dt_id\`,
   \`dt\`.\`_date\` AS \`_date\`,
@@ -14560,7 +14560,7 @@ VALUES
 
 DROP TRIGGER IF EXISTS trigger_juan;
 DELIMITER ;;
-CREATE DEFINER=\`root\`@\`%\` TRIGGER trigger_juan BEFORE INSERT ON other_types
+CREATE DEFINER=\`root\`@\`localhost\` TRIGGER trigger_juan BEFORE INSERT ON other_types
        FOR EACH ROW
      BEGIN
            SET NEW.populatedViaTrigger = 2;
@@ -14573,7 +14573,7 @@ DELIMITER ;
 
 DROP TRIGGER IF EXISTS trigger_two;
 DELIMITER ;;
-CREATE DEFINER=\`root\`@\`%\` TRIGGER trigger_two AFTER UPDATE ON other_types
+CREATE DEFINER=\`root\`@\`localhost\` TRIGGER trigger_two AFTER UPDATE ON other_types
        FOR EACH ROW
      BEGIN
            UPDATE other_types
