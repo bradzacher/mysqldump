@@ -6,7 +6,13 @@ node_js:
   - '6.2.2'
   - '5.7.0'
   - '4.8.0'
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS mysqldump_test;'
 install: yarn
 script:
   - yarn build
+  - yarn setup-travis
+  - yarn test
   - yarn test-prod
