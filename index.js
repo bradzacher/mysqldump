@@ -2,125 +2,126 @@ var async = require('async');
 var mqNode = require('mq-node');
 var _ = require('lodash');
 var fs = require('fs');
-var mysql;
 
-var extend = function(obj) {
-	for (var i = 1; i < arguments.length; i++) for (var key in arguments[i]) obj[key] = arguments[i][key];
-	return obj;
-}
+module.exports = function(options, done) {
+	var mysql;
 
-var typeCastOptions = { typeCast: function (field, next) {
-	if (field.type === "GEOMETRY") {
-		var offset = field.parser._offset;
-		var buffer = field.buffer();
-		field.parser._offset = offset;
-		var result = field.geometry();
-		annotateWkbTypes(result, buffer, 4);
-		return result;
-	}
-	return next();
-}}
-
-var annotateWkbTypes = function(geometry, buffer, offset) {
-
-	if (!buffer) return offset;
-
-	var byteOrder = buffer.readUInt8(offset); offset += 1;
-	var ignorePoints = function(count) { offset += count * 16; }
-	var readInt = function() {
-		var result = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
-		offset += 4;
-		return result;
+	var extend = function(obj) {
+		for (var i = 1; i < arguments.length; i++) for (var key in arguments[i]) obj[key] = arguments[i][key];
+		return obj;
 	}
 
-	geometry._wkbType = readInt();
+	var typeCastOptions = { typeCast: function (field, next) {
+		if (field.type === "GEOMETRY") {
+			var offset = field.parser._offset;
+			var buffer = field.buffer();
+			field.parser._offset = offset;
+			var result = field.geometry();
+			annotateWkbTypes(result, buffer, 4);
+			return result;
+		}
+		return next();
+	}}
 
-	if (geometry._wkbType === 1) {
-		ignorePoints(1);
-	} else if (geometry._wkbType === 2) {
-		ignorePoints(readInt());
-	} else if (geometry._wkbType === 3) {
-		var rings = readInt();
-		for (var i=0; i<rings; i++) {
+	var annotateWkbTypes = function(geometry, buffer, offset) {
+
+		if (!buffer) return offset;
+
+		var byteOrder = buffer.readUInt8(offset); offset += 1;
+		var ignorePoints = function(count) { offset += count * 16; }
+		var readInt = function() {
+			var result = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
+			offset += 4;
+			return result;
+		}
+
+		geometry._wkbType = readInt();
+
+		if (geometry._wkbType === 1) {
+			ignorePoints(1);
+		} else if (geometry._wkbType === 2) {
 			ignorePoints(readInt());
-		}
-	} else if (geometry._wkbType === 7) {
-		var elements = readInt();
-		for (var i=0; i<elements; i++) {
-			offset = annotateWkbTypes(geometry[i], buffer, offset);
-		}
-	} 
-	return offset
-}
-
-var escapeGeometryType = function(val) {
-	
-	var constructors = {1: "POINT", 2: "LINESTRING", 3: "POLYGON", 4: "MULTIPOINT", 5: "MULTILINESTRING", 6: "MULTIPOLYGON", 7: "GEOMETRYCOLLECTION" };
-
-	var isPointType = function(val) { return val && typeof val.x === 'number' && typeof val.y === 'number'; }
-	var close = function(str) { return str.length && str[0] === '(' ? str : '(' + str + ')'; }
-
-	function escape(val) {
-
-		var result = isPointType(val) ? (val.x + " " + val.y) :
-			"(" + val.map(escape).join(',') + ")";
-		if (val._wkbType) {
-			result = constructors[val._wkbType] + close(result);
-		}
-		return result;
-	}
-
-	return "GeomFromText('" + escape(val) + "')";
-}
-
-var isset = function(){
-	var a = arguments;
-	var l = a.length;
-	var i = 0;
-	var undef;
-
-	if (l === 0) throw new Error('Empty isset');
-
-	while (i!==l) {
-		if(a[i]===undef || a[i]===null) return false;
-		++i;
-	}
-	return true;
-}
-
-var buildInsert = function(rows,table,cols){
-	var cols = _.keys(rows[0]);
-	var sql = [];
-	for(var i in rows){
-		var values=[];
-		for(var k in rows[i]){
-			if(typeof rows[i][k]==='function') continue;
-			if(!isset(rows[i][k])){
-				if(rows[i][k]==null){
-					values.push("NULL");
-				} else {
-					values.push(" ");
-				}
-			} else if  (rows[i][k]!=='') {
-				
-				if (rows[i][k]._wkbType) {
-					var geometry = escapeGeometryType(rows[i][k]);
-					values.push(geometry);
-				} else  if(typeof rows[i][k] === 'number'){
-					values.push(rows[i][k]);
-				} else {
-					values.push(mysql.escape(rows[i][k]));
-				}
-			} else {
-				values.push("''");
+		} else if (geometry._wkbType === 3) {
+			var rings = readInt();
+			for (var i=0; i<rings; i++) {
+				ignorePoints(readInt());
+			}
+		} else if (geometry._wkbType === 7) {
+			var elements = readInt();
+			for (var i=0; i<elements; i++) {
+				offset = annotateWkbTypes(geometry[i], buffer, offset);
 			}
 		}
-		sql.push("INSERT INTO `"+table+"` (`"+cols.join("`,`")+"`) VALUES ("+values.join()+");");
+		return offset
 	}
-	return sql.join('\n');
-}
 
-module.exports = function(options,done){
+	var escapeGeometryType = function(val) {
+
+		var constructors = {1: "POINT", 2: "LINESTRING", 3: "POLYGON", 4: "MULTIPOINT", 5: "MULTILINESTRING", 6: "MULTIPOLYGON", 7: "GEOMETRYCOLLECTION" };
+
+		var isPointType = function(val) { return val && typeof val.x === 'number' && typeof val.y === 'number'; }
+		var close = function(str) { return str.length && str[0] === '(' ? str : '(' + str + ')'; }
+
+		function escape(val) {
+
+			var result = isPointType(val) ? (val.x + " " + val.y) :
+				"(" + val.map(escape).join(',') + ")";
+			if (val._wkbType) {
+				result = constructors[val._wkbType] + close(result);
+			}
+			return result;
+		}
+
+		return "GeomFromText('" + escape(val) + "')";
+	}
+
+	var isset = function(){
+		var a = arguments;
+		var l = a.length;
+		var i = 0;
+		var undef;
+
+		if (l === 0) throw new Error('Empty isset');
+
+		while (i!==l) {
+			if(a[i]===undef || a[i]===null) return false;
+			++i;
+		}
+		return true;
+	}
+
+	var buildInsert = function(rows,table,cols){
+		var cols = _.keys(rows[0]);
+		var sql = [];
+		for(var i in rows){
+			var values=[];
+			for(var k in rows[i]){
+				if(typeof rows[i][k]==='function') continue;
+				if(!isset(rows[i][k])){
+					if(rows[i][k]==null){
+						values.push("NULL");
+					} else {
+						values.push(" ");
+					}
+				} else if  (rows[i][k]!=='') {
+
+					if (rows[i][k]._wkbType) {
+						var geometry = escapeGeometryType(rows[i][k]);
+						values.push(geometry);
+					} else  if(typeof rows[i][k] === 'number'){
+						values.push(rows[i][k]);
+					} else {
+						values.push(mysql.escape(rows[i][k]));
+					}
+				} else {
+					values.push("''");
+				}
+			}
+			sql.push("INSERT INTO `"+table+"` (`"+cols.join("`,`")+"`) VALUES ("+values.join()+");");
+		}
+		return sql.join('\n');
+	}
+
 	var defaultConnection = {
 		host: 'localhost',
 		user: 'root',
