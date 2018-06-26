@@ -15,7 +15,7 @@
     "globals": {
         "ts-jest": {
             "useBabelrc": true,
-            "tsConfigFile": "tsconfig.run.json"
+            "tsConfigFile": "tsconfig.json"
         }
     },
     "rootDir": ".",

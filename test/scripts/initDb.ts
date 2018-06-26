@@ -18,7 +18,7 @@ async function initDb() {
         })
 
         await Promise.all(
-            Object.keys(schema).map(k => conn.query(schema[k])),
+            Object.keys(schema).map((k : keyof typeof schema) => conn.query(schema[k])),
         )
         await Promise.all(
             triggers.map(t => conn.query(t)),

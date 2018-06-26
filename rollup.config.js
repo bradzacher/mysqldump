@@ -22,6 +22,7 @@ export default {
             typescript,
             clean: true,
             useTsconfigDeclarationDir: true,
+            tsconfig: './tsconfig.build.json',
         }),
     ],
 

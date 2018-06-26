@@ -232,7 +232,7 @@ export interface Table {
 	 */
 	triggers: string[];
 }
-export default interface DumpReturn {
+export interface DumpReturn {
 	/**
 	 * The result of the dump
 	 */
