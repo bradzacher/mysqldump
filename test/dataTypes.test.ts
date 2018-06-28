@@ -166,7 +166,8 @@ describe('insert data types', () => {
         let i = 0
         /* eslint-disable no-plusplus */
         expect(values[i++]).toMatch(/^\d$/)
-        expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
+        // check for correct hex formatting
+        expect(values[i++]).toMatch(/^X'0\d0\d'$/)
         expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
         expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)
         expect(values[i++]).toMatch(/^X'[0-9a-fA-F]+'$/)

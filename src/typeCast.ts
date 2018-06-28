@@ -197,7 +197,11 @@ export default function (tables : Table[]) {
                 let hexString = ''
                 for (let i = 0; i < numBytes; i += 1) {
                     const int8 = buf.readUInt8(i)
-                    hexString += int8.toString(16)
+                    const hex = int8.toString(16)
+                    if (hex.length < 2) {
+                        hexString += '0'
+                    }
+                    hexString += hex
                 }
 
                 value = noformatWrap(`X'${hexString}'`)

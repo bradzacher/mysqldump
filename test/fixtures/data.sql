@@ -208,7 +208,7 @@ INSERT INTO
 VALUES
   (
     null,
-    X'1234',
+    X'0102',
     X'4321',
     X'ff',
     X'abc123',
@@ -220,7 +220,7 @@ VALUES
   ),
   (
     null,
-    X'4567',
+    X'0304',
     X'7654',
     X'ee',
     X'cba321',
@@ -232,7 +232,7 @@ VALUES
   ),
   (
     null,
-    X'7890',
+    X'0506',
     X'0987',
     X'dd',
     X'abc321',
