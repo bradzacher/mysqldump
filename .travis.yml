@@ -2,6 +2,15 @@ dist: trusty
 sudo: required
 language: node_js
 node_js:
-  - '6.2.0'
-  - '4.4.4'
-  - '0.12'
+  - '8.10.0'
+  - '6.2.2'
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS mysqldump_test;'
+install: yarn
+script:
+  - yarn build
+  - yarn setup-travis
+  - yarn test
+  - yarn test-prod

@@ -1,0 +1,46 @@
+{
+    "moduleFileExtensions": [
+        "ts",
+        "tsx",
+        "js"
+    ],
+    "transform": {
+        "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.ts$",
+    "moduleDirectories": [
+        "src",
+        "node_modules"
+    ],
+    "globals": {
+        "ts-jest": {
+            "useBabelrc": true,
+            "tsConfigFile": "tsconfig.json"
+        }
+    },
+    "rootDir": ".",
+
+    "collectCoverageFrom": [
+        "src/**/*"
+    ],
+    "coverageReporters": [
+        "html",
+        "text-summary"
+    ],
+    "coverageDirectory": "<rootDir>/coverage",
+    "coveragePathIgnorePatterns": [
+        "/node_modules/",
+        "/__tests__/",
+        "/interfaces/"
+    ],
+    "coverageThreshold": {
+        "src/**/*.{ts,tsx}": {
+            "branches": 90,
+            "functions": 90,
+            "lines": 90,
+            "statements": 90
+        }
+    },
+    "collectCoverage": true,
+    "notify": false
+}
