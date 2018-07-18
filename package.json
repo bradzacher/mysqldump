@@ -1,5 +1,5 @@
 {
-  "name": "@assignar/mysqldump",
+  "name": "mysqldump",
   "version": "2.1.1",
   "description": "Create a DUMP from MySQL",
   "main": "dist/cjs.js",

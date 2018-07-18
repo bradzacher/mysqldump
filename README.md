@@ -1,23 +1,23 @@
 # Mysql Dump
 
-[![npm version](https://badge.fury.io/js/%40assignar%2Fmysqldump.svg)](https://badge.fury.io/js/%40assignar%2Fmysqldump) [![Build Status](https://travis-ci.org/assignar/mysqldump.svg?branch=v2)](https://travis-ci.org/assignar/mysqldump)
+[![npm version](https://badge.fury.io/js/mysqldump.svg)](https://badge.fury.io/js/mysqldump) [![Build Status](https://travis-ci.org/mysqldump.svg?branch=v2)](https://travis-ci.org/mysqldump)
 
-[![NPM](https://nodeico.herokuapp.com/@assignar/mysqldump.svg)](https://npmjs.com/package/@assignar/mysqldump)
+[![NPM](https://nodeico.herokuapp.com/mysqldump.svg)](https://npmjs.com/package/mysqldump)
 
 Create a backup of a MySQL database.
 
 ## Installation
 
 ```
-yarn add @assignar/mysqldump
+yarn add mysqldump
 // or
-npm install @assignar/mysqldump
+npm install mysqldump
 ```
 
 ## Usage
 ```typescript
-import mysqldump from '@assignar/mysqldump'
-// or const mysqldump = require('@assignar/mysqldump')
+import mysqldump from 'mysqldump'
+// or const mysqldump = require('mysqldump')
 
 // dump the result straight to a file
 mysqldump({
