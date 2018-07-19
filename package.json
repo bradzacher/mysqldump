@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/assignar/mysqldump",
   "dependencies": {
+    "@types/node": "^10.5.2",
     "deepmerge": "^2.1.1",
     "mysql2": "^1.5.3",
     "sql-formatter": "^2.3.1",

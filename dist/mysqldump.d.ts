@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 export interface ConnectionOptions {
 	/**
 	 * The database host to connect to.
@@ -26,6 +28,52 @@ export interface ConnectionOptions {
 	 * Defaults to 'UTF8_GENERAL_CI'.
 	 */
 	charset?: string;
+	/**
+	 * SSL configuration options.
+	 * Passing 'Amazon RDS' will use Amazon's RDS CA certificate.
+	 *
+	 * Otherwise you can pass the options which get passed to tls.createSecureContext.
+	 * See: https://nodejs.org/api/tls.html#tls_tls_createsecurecontext_options
+	 */
+	ssl?: 'Amazon RDS' | {
+		/**
+		 * Optionally override the trusted CA certificates. Default is to trust the well-known CAs curated by Mozilla.
+		 */
+		ca?: string | Buffer;
+		/**
+		 * Optional cert chains in PEM format.
+		 */
+		cert?: string | Buffer;
+		/**
+		 * Optional cipher suite specification, replacing the default.
+		 */
+		ciphers?: string;
+		/**
+		 * Optional PEM formatted CRLs (Certificate Revocation Lists).
+		 */
+		crl?: string | string[];
+		/**
+		 * Attempt to use the server's cipher suite preferences instead of the client's.
+		 */
+		honorCipherOrder?: boolean;
+		/**
+		 * Optional private keys in PEM format.
+		 */
+		key?: string | Buffer;
+		/**
+		 * Optional shared passphrase used for a single private key and/or a PFX.
+		 */
+		passphrase?: string;
+		/**
+		 * Optional PFX or PKCS12 encoded private key and certificate chain.
+		 */
+		pfx?: string | Buffer;
+		/**
+		 * DO NOT USE THIS OPTION UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!!!
+		 * Set to false to allow connection to a MySQL server without properly providing the appropraite CA to trust.
+		 */
+		rejectUnauthorized?: boolean;
+	};
 }
 export interface SchemaDumpOptions {
 	/**

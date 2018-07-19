@@ -48,6 +48,10 @@
   dependencies:
     "@types/events" "*"
 
+"@types/node@^10.5.2":
+  version "10.5.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.2.tgz#f19f05314d5421fe37e74153254201a7bf00a707"
+
 "@types/sqlstring@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@types/sqlstring/-/sqlstring-2.2.0.tgz#53d1a815506b2a468ba3117f57be09d3640a0de2"
