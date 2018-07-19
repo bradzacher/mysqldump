@@ -1,8 +1,6 @@
 # Mysql Dump
 
-[![npm version](https://badge.fury.io/js/mysqldump.svg)](https://badge.fury.io/js/mysqldump) [![Build Status](https://travis-ci.org/mysqldump.svg?branch=v2)](https://travis-ci.org/mysqldump)
-
-[![NPM](https://nodeico.herokuapp.com/mysqldump.svg)](https://npmjs.com/package/mysqldump)
+[![npm version](https://badge.fury.io/js/mysqldump.svg)](https://npmjs.com/package/mysqldump) [![Build Status](https://travis-ci.org/assignar/mysqldump.svg)](https://travis-ci.org/assignar/mysqldump)
 
 Create a backup of a MySQL database.
 
