@@ -57,7 +57,7 @@ function parseGeometryValue(buffer : Buffer) {
             case 2: { // WKBLineString - LINESTRING(0 0,1 1,2 2)
                 const numPoints = readUInt32(byteOrder)
                 result = []
-                for (let i = numPoints; i > 0; i--) {
+                for (let i = numPoints; i > 0; i -= 1) {
                     const x = readDouble(byteOrder)
                     const y = readDouble(byteOrder)
                     result.push(`${x} ${y}`)
@@ -68,10 +68,10 @@ function parseGeometryValue(buffer : Buffer) {
             case 3: { // WKBPolygon - POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5))
                 const numRings = readUInt32(byteOrder)
                 result = []
-                for (let i = numRings; i > 0; i--) {
+                for (let i = numRings; i > 0; i -= 1) {
                     const numPoints = readUInt32(byteOrder)
                     const line : string[] = []
-                    for (let j = numPoints; j > 0; j--) {
+                    for (let j = numPoints; j > 0; j -= 1) {
                         const x = readDouble(byteOrder)
                         const y = readDouble(byteOrder)
                         line.push(`${x} ${y}`)
@@ -87,7 +87,7 @@ function parseGeometryValue(buffer : Buffer) {
             case 7: { // WKBGeometryCollection - GEOMETRYCOLLECTION(POINT(1 1),LINESTRING(0 0,1 1,2 2,3 3,4 4))
                 const num = readUInt32(byteOrder)
                 result = []
-                for (let i = num; i > 0; i--) {
+                for (let i = num; i > 0; i -= 1) {
                     let geom = parseGeometry()
                     // remove the function name from the sub geometry declaration from the multi declaration
                     // eslint-disable-next-line default-case
@@ -140,7 +140,7 @@ function noformatWrap(str : string) {
 
 const DBNULL = 'NULL'
 
-export default function (tables : Table[]) {
+export default function typeCast(tables : Table[]) {
     const tablesByName = tables.reduce((acc, t) => {
         acc.set(t.name, t)
 

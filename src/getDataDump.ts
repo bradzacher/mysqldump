@@ -26,16 +26,17 @@ function buildInsertValue(row : QueryRes, table : Table) {
     return `(${table.columnsOrdered.map(c => row[c]).join(',')})`
 }
 
-// eslint-disable-next-line complexity
-export default async function (connectionOptions : ConnectionOptions,
+export default async function getDataDump(
+    connectionOptions : ConnectionOptions,
     options : DataDumpOptions,
     tables : Table[],
-    dumpToFile : string | null) {
+    dumpToFile : string | null,
+) {
     // ensure we have a non-zero max row option
     options.maxRowsPerInsertStatement = Math.max(options.maxRowsPerInsertStatement!, 0)
 
     // clone the array
-    tables = [...tables] // eslint-disable-line no-param-reassign
+    tables = [...tables]
 
     // build the format function if requested
     const format = options.format
@@ -59,7 +60,7 @@ export default async function (connectionOptions : ConnectionOptions,
 
     function saveChunk(str : string | string[], inArray = true) {
         if (!Array.isArray(str)) {
-            str = [str] // eslint-disable-line no-param-reassign
+            str = [str]
         }
 
         // write to file if configured
@@ -84,6 +85,7 @@ export default async function (connectionOptions : ConnectionOptions,
                 data: null,
             }]) as Table)
 
+            // eslint-disable-next-line no-continue
             continue
         }
 
@@ -103,7 +105,8 @@ export default async function (connectionOptions : ConnectionOptions,
         ]
         saveChunk(header)
 
-        await new Promise((resolve, reject) => { // eslint-disable-line no-loop-func
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((resolve, reject) => {
             // send the query
             const where = options.where![table.name] ? ` WHERE ${options.where![table.name]}` : ''
             const query = connection.query(`SELECT * FROM \`${table.name}\`${where}`)

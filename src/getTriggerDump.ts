@@ -23,9 +23,14 @@ export interface ShowCreateTrigger {
     coallation_connection : string
     'Database Collation' : string
 }
-/* eslint-ensable camelcase */
+/* eslint-enable camelcase */
 
-export default async function (connection : DB, dbName : string, options : TriggerDumpOptions, tables : Table[]) {
+export default async function getTriggerDump(
+    connection : DB,
+    dbName : string,
+    options : TriggerDumpOptions,
+    tables : Table[],
+) {
     const triggers = (await connection.query<ShowTriggers>(`SHOW TRIGGERS FROM \`${dbName}\``))
         // only include triggers from the tables that we have
         .filter(trig => tables.some(t => t.name === trig.Table))
@@ -51,10 +56,11 @@ export default async function (connection : DB, dbName : string, options : Trigg
 
     // we create a multi query here so we can query all at once rather than in individual connections
     const getSchemaMultiQuery : string[] = []
-    triggers.forEach((_, t) => getSchemaMultiQuery.push(`SHOW CREATE TRIGGER \`${t}\`;`));
-    (await connection.multiQuery<ShowCreateTrigger>(getSchemaMultiQuery.join('\n')))
-        // mysql2 returns an array of arrays which will all have our one row
-        .map(r => r[0])
+    triggers.forEach((_, t) => getSchemaMultiQuery.push(`SHOW CREATE TRIGGER \`${t}\`;`))
+
+    const result = await connection.multiQuery<ShowCreateTrigger>(getSchemaMultiQuery.join('\n'))
+    // mysql2 returns an array of arrays which will all have our one row
+    result.map(r => r[0])
         .forEach((res) => {
             const table = tables[triggers.get(res.Trigger)!]
 

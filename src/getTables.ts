@@ -16,7 +16,7 @@ interface ShowColumnsRes {
     Extra : string
 }
 
-export default async function (
+export default async function getTables(
     connection : DB,
     dbName : string,
     restrictedTables : string[],

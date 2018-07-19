@@ -9,17 +9,17 @@ export default interface DumpReturn {
          * The concatenated SQL schema dump for the entire database.
          * Null if configured not to dump.
          */
-        schema : string | null,
+        schema : string | null
         /**
          * The concatenated SQL data dump for the entire database.
          * Null if configured not to dump.
          */
-        data : string | null,
+        data : string | null
         /**
          * The concatenated SQL trigger dump for the entire database.
          * Null if configured not to dump.
          */
-        trigger : string | null,
-    },
-    tables : Table[],
+        trigger : string | null
+    }
+    tables : Table[]
 }

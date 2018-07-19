@@ -20,10 +20,14 @@ function isCreateView(v : any) : v is ShowCreateView {
     return 'View' in v
 }
 
-export default async function (connection : DB, options : SchemaDumpOptions, tables : Table[]) {
-    const format = options.format ?
-        (sql : string) => sqlformatter.format(sql) :
-        (sql : string) => sql
+export default async function getSchemaDump(
+    connection : DB,
+    options : SchemaDumpOptions,
+    tables : Table[],
+) : Promise<Table[]> {
+    const format = options.format
+        ? (sql : string) => sqlformatter.format(sql)
+        : (sql : string) => sql
 
     // we create a multi query here so we can query all at once rather than in individual connections
     const getSchemaMultiQuery = tables.map(t => `SHOW CREATE TABLE \`${t.name}\`;`).join('\n')
@@ -50,8 +54,7 @@ export default async function (connection : DB, options : SchemaDumpOptions, tab
                 isView: false,
             }
         })
-        // eslint-disable-next-line complexity
-        .map<Table>((s) => {
+        .map((s) => {
             // clean up the generated SQL as per the options
 
             if (!options.autoIncrement) {
