@@ -28,12 +28,12 @@ function buildInsertValue(row : QueryRes, table : Table) {
 
 export default async function getDataDump(
     connectionOptions : ConnectionOptions,
-    options : DataDumpOptions,
+    options : Required<DataDumpOptions>,
     tables : Table[],
     dumpToFile : string | null,
 ) {
     // ensure we have a non-zero max row option
-    options.maxRowsPerInsertStatement = Math.max(options.maxRowsPerInsertStatement!, 0)
+    options.maxRowsPerInsertStatement = Math.max(options.maxRowsPerInsertStatement, 0)
 
     // clone the array
     tables = [...tables]
@@ -65,7 +65,7 @@ export default async function getDataDump(
 
         // write to file if configured
         if (outFileStream) {
-            str.forEach(s => outFileStream!.write(`${s}\n`))
+            str.forEach(s => outFileStream.write(`${s}\n`))
         }
 
         // write to memory if configured
@@ -108,7 +108,7 @@ export default async function getDataDump(
         // eslint-disable-next-line no-await-in-loop
         await new Promise((resolve, reject) => {
             // send the query
-            const where = options.where![table.name] ? ` WHERE ${options.where![table.name]}` : ''
+            const where = options.where[table.name] ? ` WHERE ${options.where[table.name]}` : ''
             const query = connection.query(`SELECT * FROM \`${table.name}\`${where}`)
 
             let rowQueue : string[] = []

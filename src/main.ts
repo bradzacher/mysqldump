@@ -11,7 +11,7 @@ import DB from './DB'
 import Errors from './Errors'
 import { HEADER_VARIABLES, FOOTER_VARIABLES } from './sessionVariables'
 
-const defaultOptions : CompletedOptions = {
+const defaultOptions : Options = {
     connection: {
         host: 'localhost',
         port: 3306,
@@ -19,6 +19,7 @@ const defaultOptions : CompletedOptions = {
         password: '',
         database: '',
         charset: 'UTF8_GENERAL_CI',
+        ssl: null,
     },
     dump: {
         tables: [],
@@ -73,7 +74,7 @@ export default async function main(inputOptions : Options) {
         // note that you can have empty string passwords, hence the type assertion
         assert(typeof inputOptions.connection.password === 'string', Errors.MISSING_CONNECTION_PASSWORD)
 
-        const options : CompletedOptions = merge([defaultOptions, inputOptions])
+        const options = merge([defaultOptions, inputOptions]) as CompletedOptions
 
         // if not dumping to file and not otherwise configured, set returnFromFunction to true.
         if (!options.dumpToFile) {
@@ -110,14 +111,14 @@ export default async function main(inputOptions : Options) {
             tables: (await getTables(
                 connection,
                 options.connection.database,
-                options.dump.tables!,
-                options.dump.excludeTables!,
+                options.dump.tables,
+                options.dump.excludeTables,
             )),
         }
 
         // dump the schema if requested
         if (options.dump.schema !== false) {
-            res.tables = await getSchemaDump(connection, options.dump.schema!, res.tables)
+            res.tables = await getSchemaDump(connection, options.dump.schema, res.tables)
             res.dump.schema = res.tables.map(t => t.schema).filter(t => t).join('\n').trim()
         }
 
@@ -131,7 +132,7 @@ export default async function main(inputOptions : Options) {
             res.tables = await getTriggerDump(
                 connection,
                 options.connection.database,
-                options.dump.trigger!,
+                options.dump.trigger,
                 res.tables,
             )
             res.dump.trigger = res.tables.map(t => t.triggers.join('\n')).filter(t => t).join('\n').trim()
@@ -143,7 +144,7 @@ export default async function main(inputOptions : Options) {
         // dump data if requested
         if (options.dump.data !== false) {
             // don't even try to run the data dump
-            res.tables = await getDataDump(options.connection, options.dump.data!, res.tables, options.dumpToFile)
+            res.tables = await getDataDump(options.connection, options.dump.data, res.tables, options.dumpToFile)
             res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n').trim()
         }
 

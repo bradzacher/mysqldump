@@ -69,6 +69,6 @@
     "tmp": "^0.0.33",
     "ts-jest": "^22.4.6",
     "ts-node": "^7.0.0",
-    "typescript": "^2.9.2"
+    "typescript": "2.9.2"
   }
 }

@@ -16,13 +16,13 @@ export interface ShowCreateTable {
 }
 export type ShowCreateTableStatementRes = ShowCreateView | ShowCreateTable
 
-function isCreateView(v : any) : v is ShowCreateView {
+function isCreateView(v : ShowCreateTableStatementRes) : v is ShowCreateView {
     return 'View' in v
 }
 
 export default async function getSchemaDump(
     connection : DB,
-    options : SchemaDumpOptions,
+    options : Required<SchemaDumpOptions>,
     tables : Table[],
 ) : Promise<Table[]> {
     const format = options.format
@@ -64,25 +64,25 @@ export default async function getSchemaDump(
                 s.schema = s.schema.replace(/ENGINE\s*=\s*\w+ /, '')
             }
             if (s.isView) {
-                if (options.view!.createOrReplace) {
+                if (options.view.createOrReplace) {
                     s.schema = s.schema.replace(
                         /^CREATE/,
                         'CREATE OR REPLACE',
                     )
                 }
-                if (!options.view!.algorithm) {
+                if (!options.view.algorithm) {
                     s.schema = s.schema.replace(
                         /^CREATE( OR REPLACE)? ALGORITHM[ ]?=[ ]?\w+/,
                         'CREATE$1',
                     )
                 }
-                if (!options.view!.definer) {
+                if (!options.view.definer) {
                     s.schema = s.schema.replace(
                         /^CREATE( OR REPLACE)?( ALGORITHM[ ]?=[ ]?\w+)? DEFINER[ ]?=[ ]?.+?@.+?( )/,
                         'CREATE$1$2$3',
                     )
                 }
-                if (!options.view!.sqlSecurity) {
+                if (!options.view.sqlSecurity) {
                     s.schema = s.schema.replace(
                         // eslint-disable-next-line max-len
                         /^CREATE( OR REPLACE)?( ALGORITHM[ ]?=[ ]?\w+)?( DEFINER[ ]?=[ ]?.+?@.+)? SQL SECURITY (?:DEFINER|INVOKER)/,
@@ -90,18 +90,18 @@ export default async function getSchemaDump(
                     )
                 }
             } else {
-                if (options.table!.dropIfExist) {
+                if (options.table.dropIfExist) {
                     s.schema = s.schema.replace(
                         /^CREATE TABLE/,
                         `DROP TABLE IF EXISTS \`${s.name}\`;\nCREATE TABLE`,
                     )
-                } else if (options.table!.ifNotExist) {
+                } else if (options.table.ifNotExist) {
                     s.schema = s.schema.replace(
                         /^CREATE TABLE/,
                         'CREATE TABLE IF NOT EXISTS',
                     )
                 }
-                if (options.table!.charset === false) {
+                if (options.table.charset === false) {
                     s.schema = s.schema.replace(
                         /( )?(DEFAULT )?(CHARSET|CHARACTER SET) = \w+/,
                         '',

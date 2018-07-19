@@ -33,7 +33,7 @@ export interface ConnectionOptions {
      * Otherwise you can pass the options which get passed to tls.createSecureContext.
      * See: https://nodejs.org/api/tls.html#tls_tls_createsecurecontext_options
      */
-    ssl ?: 'Amazon RDS' | {
+    ssl ?: 'Amazon RDS' | null | {
         /**
          * Optionally override the trusted CA certificates. Default is to trust the well-known CAs curated by Mozilla.
          */
@@ -234,12 +234,20 @@ export interface Options {
      * Set to a path to dump to a file.
      * Exclude to just return the string.
      */
-    dumpToFile ?: string
+    dumpToFile ?: string | null
+}
+
+// Recursively requires all properties on an object
+type RequiredRecursive<T> = {
+    // eslint-disable-next-line typescript/type-annotation-spacing
+    [P in keyof T] -?: Exclude<T[P], undefined> extends (string | number | boolean | string[] | number[] | boolean[])
+        ? T[P]
+        : RequiredRecursive<T[P]> // eslint-disable-line no-use-before-define, typescript/no-use-before-define
 }
 
 export interface CompletedOptions {
-    connection : ConnectionOptions
-    dump : DumpOptions
+    connection : Required<ConnectionOptions>
+    dump : RequiredRecursive<DumpOptions>
     dumpToFile : string | null
 }
 

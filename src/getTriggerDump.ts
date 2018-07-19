@@ -28,7 +28,7 @@ export interface ShowCreateTrigger {
 export default async function getTriggerDump(
     connection : DB,
     dbName : string,
-    options : TriggerDumpOptions,
+    options : Required<TriggerDumpOptions>,
     tables : Table[],
 ) {
     const triggers = (await connection.query<ShowTriggers>(`SHOW TRIGGERS FROM \`${dbName}\``))
