@@ -38,6 +38,7 @@ const hexTypes = new Set([
     'varbinary',
 ])
 const geometryTypes = new Set([
+    'geometry',
     'point',
     'linestring',
     'polygon',
