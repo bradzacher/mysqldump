@@ -1,6 +1,6 @@
 {
   "name": "@icracked/mysqldump",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Create a DUMP from MySQL",
   "main": "dist/cjs.js",
   "module": "dist/es.js",
