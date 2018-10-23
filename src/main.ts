@@ -1,5 +1,4 @@
 import * as fs from 'fs'
-import { all as merge } from 'deepmerge'
 
 import { Options, CompletedOptions, DataDumpOptions } from './interfaces/Options'
 import DumpReturn from './interfaces/DumpReturn'
@@ -10,6 +9,8 @@ import getDataDump from './getDataDump'
 import DB from './DB'
 import Errors from './Errors'
 import { HEADER_VARIABLES, FOOTER_VARIABLES } from './sessionVariables'
+
+const merge = require('deepmerge');
 
 const defaultOptions : Options = {
     connection: {
@@ -74,7 +75,7 @@ export default async function main(inputOptions : Options) {
         // note that you can have empty string passwords, hence the type assertion
         assert(typeof inputOptions.connection.password === 'string', Errors.MISSING_CONNECTION_PASSWORD)
 
-        const options = merge([defaultOptions, inputOptions]) as CompletedOptions
+        const options = merge(defaultOptions, inputOptions) as CompletedOptions
 
         // if not dumping to file and not otherwise configured, set returnFromFunction to true.
         if (!options.dumpToFile) {
@@ -99,7 +100,7 @@ export default async function main(inputOptions : Options) {
             fs.appendFileSync(options.dumpToFile, `${HEADER_VARIABLES}\n`)
         }
 
-        connection = await DB.connect(merge<any>([options.connection, { multipleStatements: true }]))
+        connection = await DB.connect(merge(options.connection, { multipleStatements: true }))
 
         // list the tables
         const res : DumpReturn = {

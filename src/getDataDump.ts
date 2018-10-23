@@ -1,12 +1,12 @@
 import * as fs from 'fs'
 import * as mysql from 'mysql2'
 import * as sqlformatter from 'sql-formatter'
-import { all as merge } from 'deepmerge'
 
 import { ConnectionOptions, DataDumpOptions } from './interfaces/Options'
 import Table from './interfaces/Table'
 import typeCast from './typeCast'
 
+const merge = require('deepmerge');
 
 interface QueryRes {
     [k : string] : any
@@ -44,10 +44,10 @@ export default async function getDataDump(
         : (sql : string) => sql
 
     // we open a new connection with a special typecast function for dumping data
-    const connection = mysql.createConnection(merge<any>([connectionOptions, {
+    const connection = mysql.createConnection(merge(connectionOptions, {
         multipleStatements: true,
         typeCast: typeCast(tables),
-    }]))
+    }))
 
     const retTables : Table[] = []
     let currentTableLines : string[] | null = []
@@ -81,9 +81,9 @@ export default async function getDataDump(
 
         if (table.isView && !options.includeViewData) {
             // don't dump data for views
-            retTables.push(merge<Table>([table, {
+            retTables.push(merge(table, {
                 data: null,
-            }]) as Table)
+            }) as Table)
 
             // eslint-disable-next-line no-continue
             continue
@@ -140,9 +140,9 @@ export default async function getDataDump(
         })
 
         // update the table definition
-        retTables.push(merge<Table>([table, {
+        retTables.push(merge(table, {
             data: currentTableLines ? currentTableLines.join('\n') : null,
-        }]))
+        }))
     }
 
     saveChunk('')
