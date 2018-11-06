@@ -41,8 +41,28 @@ const result = await mysqldump({
 ## Result
 The returned result contains the dump property, which is split into schema and data.
 ```TS
-interface DumpResult {
-    dump: {schema: string, data: string};
+export default interface DumpReturn {
+    /**
+     * The result of the dump
+     */
+    dump : {
+        /**
+         * The concatenated SQL schema dump for the entire database.
+         * Null if configured not to dump.
+         */
+        schema : string | null
+        /**
+         * The concatenated SQL data dump for the entire database.
+         * Null if configured not to dump.
+         */
+        data : string | null
+        /**
+         * The concatenated SQL trigger dump for the entire database.
+         * Null if configured not to dump.
+         */
+        trigger : string | null
+    }
+    tables : Table[]
 }
 
 ```
