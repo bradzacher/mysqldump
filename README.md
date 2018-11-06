@@ -38,7 +38,14 @@ const result = await mysqldump({
     },
 })
 ```
+## Result
+The returned result contains the dump property, which is split into schema and data.
+```TS
+interface DumpResult {
+    dump: {schema: string, data: string};
+}
 
+```
 
 ## Options
 All the below options are documented in the [typescript declaration file](./dist/mysqldump.d.ts):
