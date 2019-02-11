@@ -163,6 +163,10 @@ export interface DataDumpOptions {
      */
     format ?: boolean
     /**
+     * Include file headers in output
+     */
+    verbose ?: boolean
+    /**
      * Dump data from views.
      * Defaults to false.
      */
