@@ -136,5 +136,7 @@ export default async function getSchemaDump(
             return s
         })
 
+    createStatements.sort((a, b) => +a.isView - +b.isView)
+
     return createStatements
 }
