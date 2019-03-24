@@ -49,7 +49,7 @@ export interface ConnectionOptions {
         /**
          * Optional PEM formatted CRLs (Certificate Revocation Lists).
          */
-        crl ?: string | string[]
+        crl ?: string | Array<string>
         /**
          * Attempt to use the server's cipher suite preferences instead of the client's.
          */
@@ -198,7 +198,7 @@ export interface DumpOptions {
      * The list of tables that you want to dump.
      * Defaults to all tables (signalled by passing an empty array).
      */
-    tables ?: string[]
+    tables ?: Array<string>
     /**
      * True to use the `tables` options as a blacklist, false to use it as a whitelist.
      * Defaults to false.
@@ -239,10 +239,9 @@ export interface Options {
 
 // Recursively requires all properties on an object
 type RequiredRecursive<T> = {
-    // eslint-disable-next-line typescript/type-annotation-spacing
-    [P in keyof T] -?: Exclude<T[P], undefined> extends (string | number | boolean | string[] | number[] | boolean[])
-        ? T[P]
-        : RequiredRecursive<T[P]> // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+    [TK in keyof T] -?: Exclude<T[TK], undefined> extends (string | number | boolean | Array<string> | Array<number> | Array<boolean>)
+        ? T[TK]
+        : RequiredRecursive<T[TK]>
 }
 
 export interface CompletedOptions {

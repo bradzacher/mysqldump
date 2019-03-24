@@ -2,7 +2,6 @@ import { TriggerDumpOptions } from './interfaces/Options'
 import Table from './interfaces/Table'
 import DB from './DB'
 
-/* eslint-disable camelcase */
 export interface ShowTriggers {
     Trigger : string
     Event : 'INSERT' | 'UPDATE' | 'DELETE'
@@ -23,13 +22,12 @@ export interface ShowCreateTrigger {
     coallation_connection : string
     'Database Collation' : string
 }
-/* eslint-enable camelcase */
 
 export default async function getTriggerDump(
     connection : DB,
     dbName : string,
     options : Required<TriggerDumpOptions>,
-    tables : Table[],
+    tables : Array<Table>,
 ) {
     const triggers = (await connection.query<ShowTriggers>(`SHOW TRIGGERS FROM \`${dbName}\``))
         // only include triggers from the tables that we have
@@ -55,13 +53,13 @@ export default async function getTriggerDump(
     }
 
     // we create a multi query here so we can query all at once rather than in individual connections
-    const getSchemaMultiQuery : string[] = []
+    const getSchemaMultiQuery : Array<string> = []
     triggers.forEach((_, t) => getSchemaMultiQuery.push(`SHOW CREATE TRIGGER \`${t}\`;`))
 
     const result = await connection.multiQuery<ShowCreateTrigger>(getSchemaMultiQuery.join('\n'))
     // mysql2 returns an array of arrays which will all have our one row
     result.map(r => r[0])
-        .forEach((res) => {
+        .forEach(res => {
             const table = tables[triggers.get(res.Trigger)!]
 
             // clean up the generated SQL

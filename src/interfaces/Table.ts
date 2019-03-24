@@ -36,7 +36,7 @@ export interface Table {
     /**
      * An ordered list of columns (for consistently outputing as per the DB definition)
      */
-    columnsOrdered : string[]
+    columnsOrdered : Array<string>
     /**
      * True if the table is actually a view, false otherwise.
      */
@@ -44,7 +44,7 @@ export interface Table {
     /**
      * A list of triggers attached to the table
      */
-    triggers : string[]
+    triggers : Array<string>
 }
 
 export default Table

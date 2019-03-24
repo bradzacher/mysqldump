@@ -21,5 +21,5 @@ export default interface DumpReturn {
          */
         trigger : string | null
     }
-    tables : Table[]
+    tables : Array<Table>
 }
