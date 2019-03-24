@@ -3,14 +3,16 @@ import testConfig from './testConfig'
 import mysqldump from './scripts/import'
 
 describe('schema dumps tests', () => {
-    function clean(str : string) {
+    function clean(str : string | null) {
+        str = str || ''
+
         return str
             .split('\n')
             .map(l => l.trimRight())
             .filter(l => l.length > 0)
             .join('\n')
     }
-    function test(tableName : string, tableDef : string) {
+    function testDump(tableName : string, tableDef : string) {
         tableDef = clean(`
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: ${tableName}
@@ -46,7 +48,7 @@ ${tableDef}`)
         })
     }
 
-    test('date_types', `
+    testDump('date_types', `
 CREATE TABLE \`date_types\` (
   \`dt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_date\` date NOT NULL,
@@ -62,7 +64,7 @@ CREATE TABLE \`date_types\` (
   PRIMARY KEY (\`dt_id\`)
 );`)
 
-    test('geometry_types', `
+    testDump('geometry_types', `
 CREATE TABLE \`geometry_types\` (
   \`gt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_point\` point NOT NULL,
@@ -82,7 +84,7 @@ CREATE TABLE \`geometry_types\` (
   PRIMARY KEY (\`gt_id\`)
 );`)
 
-    test('number_types', `
+    testDump('number_types', `
 CREATE TABLE \`number_types\` (
   \`nt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_uint\` int(10) unsigned NOT NULL,
@@ -114,7 +116,7 @@ CREATE TABLE \`number_types\` (
   PRIMARY KEY (\`nt_id\`)
 );`)
 
-    test('other_types', `
+    testDump('other_types', `
 CREATE TABLE \`other_types\` (
   \`ot_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_blob\` blob NOT NULL,
@@ -139,7 +141,7 @@ CREATE TABLE \`other_types\` (
   PRIMARY KEY (\`ot_id\`)
 );`)
 
-    test('text_types', `
+    testDump('text_types', `
 CREATE TABLE \`text_types\` (
   \`ot_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_char\` char(1) NOT NULL,
@@ -153,7 +155,7 @@ CREATE TABLE \`text_types\` (
   PRIMARY KEY (\`ot_id\`)
 );`)
 
-    test('everything', `
+    testDump('everything', `
 CREATE OR REPLACE VIEW \`everything\` AS
 select
   \`dt\`.\`dt_id\` AS \`dt_id\`,

@@ -18,9 +18,11 @@ async function initDb() {
         })
 
         await Promise.all(
+            // eslint-disable-next-line @typescript-eslint/promise-function-async
             Object.keys(schema).map((k : keyof typeof schema) => conn.query(schema[k])),
         )
         await Promise.all(
+            // eslint-disable-next-line @typescript-eslint/promise-function-async
             triggers.map(t => conn.query(t)),
         )
         await conn.query(data)

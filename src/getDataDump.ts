@@ -12,7 +12,7 @@ interface QueryRes {
     [k : string] : any
 }
 
-function buildInsert(table : Table, values : string[], format : (s : string) => string) {
+function buildInsert(table : Table, values : Array<string>, format : (s : string) => string) {
     const sql = format([
         `INSERT INTO \`${table.name}\` (\`${table.columnsOrdered.join('`,`')}\`)`,
         `VALUES ${values.join(',')};`,
@@ -23,13 +23,14 @@ function buildInsert(table : Table, values : string[], format : (s : string) => 
     return sql.replace(/NOFORMAT_WRAP\("##(.+?)##"\)/g, '$1')
 }
 function buildInsertValue(row : QueryRes, table : Table) {
+    // eslint-disable-next-line @typescript-eslint/promise-function-async
     return `(${table.columnsOrdered.map(c => row[c]).join(',')})`
 }
 
 export default async function getDataDump(
     connectionOptions : ConnectionOptions,
     options : Required<DataDumpOptions>,
-    tables : Table[],
+    tables : Array<Table>,
     dumpToFile : string | null,
 ) {
     // ensure we have a non-zero max row option
@@ -49,8 +50,8 @@ export default async function getDataDump(
         typeCast: typeCast(tables),
     }]))
 
-    const retTables : Table[] = []
-    let currentTableLines : string[] | null = []
+    const retTables : Array<Table> = []
+    let currentTableLines : Array<string> | null = []
 
     // open the write stream (if configured to)
     const outFileStream = dumpToFile ? fs.createWriteStream(dumpToFile, {
@@ -58,7 +59,7 @@ export default async function getDataDump(
         encoding: 'utf8',
     }) : null
 
-    function saveChunk(str : string | string[], inArray = true) {
+    function saveChunk(str : string | Array<string>, inArray = true) {
         if (!Array.isArray(str)) {
             str = [str]
         }
@@ -83,7 +84,7 @@ export default async function getDataDump(
             // don't dump data for views
             retTables.push(merge<Table>([table, {
                 data: null,
-            }]) as Table)
+            }]))
 
             // eslint-disable-next-line no-continue
             continue
@@ -113,7 +114,7 @@ export default async function getDataDump(
             const where = options.where[table.name] ? ` WHERE ${options.where[table.name]}` : ''
             const query = connection.query(`SELECT * FROM \`${table.name}\`${where}`)
 
-            let rowQueue : string[] = []
+            let rowQueue : Array<string> = []
 
             // stream the data to the file
             query.on('result', (row : QueryRes) => {
@@ -154,7 +155,7 @@ export default async function getDataDump(
 
     if (outFileStream) {
         // tidy up the file stream, making sure writes are 100% flushed before continuing
-        await new Promise((resolve) => {
+        await new Promise(resolve => {
             outFileStream.once('finish', () => {
                 resolve()
             })
