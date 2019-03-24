@@ -42,7 +42,7 @@ describe('insert data types', () => {
             // ASSERT
             expect(lines.length).toBeGreaterThan(0)
             expect(inserts.length).toBeGreaterThan(0)
-            inserts.forEach((matches) => {
+            inserts.forEach(matches => {
                 assertion(matches)
             })
         }
@@ -69,10 +69,12 @@ describe('insert data types', () => {
         expect(values[9]).toMatch(/^'0000-00-00 00:00:00'$/)
         expect(values[10]).toMatch(/^NULL$/)
     }
+    // eslint-disable-next-line jest/expect-expect
     it('should dump date types correctly - formatted', typeTest('date_types', true, dateTypeTest))
+    // eslint-disable-next-line jest/expect-expect
     it('should dump date types correctly - unformatted', typeTest('date_types', false, dateTypeTest))
 
-    it('should dump geometry types correctly', typeTest('geometry_types', false, (values) => {
+    it('should dump geometry types correctly', typeTest('geometry_types', false, values => {
         // to make these strings a little cleaner with less backslashes, we use <>'s instead of \\(\\) in the strings
         const geomfromtext = (type : string, secondComma = true) => {
             type = type.replace(/</g, '\\(').replace(/>/g, '\\)')
@@ -137,7 +139,9 @@ describe('insert data types', () => {
         expect(values[i++]).toMatch(/^NULL$/)
         /* eslint-enable no-plusplus */
     }
+    // eslint-disable-next-line jest/expect-expect
     it('should dump number types correctly - formatted', typeTest('number_types', true, numberTypesTest))
+    // eslint-disable-next-line jest/expect-expect
     it('should dump number types correctly - unformatted', typeTest('number_types', false, numberTypesTest))
 
     const textTypesTest = (matches : string) => {
@@ -156,7 +160,9 @@ describe('insert data types', () => {
         expect(values[7]).toMatch(/^NULL$/)
         expect(values[8]).toMatch(/^NULL$/)
     }
+    // eslint-disable-next-line jest/expect-expect
     it('should dump text types correctly - formatted', typeTest('text_types', true, textTypesTest))
+    // eslint-disable-next-line jest/expect-expect
     it('should dump text types correctly - unformatted', typeTest('text_types', false, textTypesTest))
 
     const otherTypesTest = (matches : string) => {
@@ -189,6 +195,8 @@ describe('insert data types', () => {
         expect(values[i++]).toMatch(/^NULL$/)
         /* eslint-enable no-plusplus */
     }
+    // eslint-disable-next-line jest/expect-expect
     it('should dump "other" types correctly - formatted', typeTest('other_types', true, otherTypesTest))
+    // eslint-disable-next-line jest/expect-expect
     it('should dump "other" types correctly - unformatted', typeTest('other_types', false, otherTypesTest))
 })

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { dumpFlagTest, dumpOptTest } from './lib'
 import { DataDumpOptions } from '../../src/interfaces/Options'
 import mysqldump from '../scripts/import'

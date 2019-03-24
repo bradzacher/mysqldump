@@ -14,7 +14,7 @@
     "view-coverage": "open ./coverage/index.html",
     "build": "rollup -c && dts-bundle-generator -o dist/mysqldump.d.ts build-decl/main.d.ts --umd-module-name=mysqldump && rimraf build-decl",
     "clean": "rimraf dist && rimraf build-decl",
-    "lint": "eslint src --ext \".ts\"",
+    "lint": "eslint src test --ext \".ts\"",
     "start": "ts-node -P ./tsconfig.json --files ./test/scripts/launch.ts",
     "ci": "yarn lint --quiet && yarn build"
   },
