@@ -39,7 +39,7 @@ function parseGeometryValue(buffer : Buffer) {
 
     // eslint-disable-next-line complexity
     function parseGeometry() {
-        let result : string[] = []
+        let result : Array<string> = []
 
         const byteOrder = buffer.readUInt8(offset)
         offset += 1
@@ -70,7 +70,7 @@ function parseGeometryValue(buffer : Buffer) {
                 result = []
                 for (let i = numRings; i > 0; i -= 1) {
                     const numPoints = readUInt32(byteOrder)
-                    const line : string[] = []
+                    const line : Array<string> = []
                     for (let j = numPoints; j > 0; j -= 1) {
                         const x = readDouble(byteOrder)
                         const y = readDouble(byteOrder)
@@ -140,7 +140,7 @@ function noformatWrap(str : string) {
 
 const DBNULL = 'NULL'
 
-export default function typeCast(tables : Table[]) {
+export default function typeCast(tables : Array<Table>) {
     const tablesByName = tables.reduce((acc, t) => {
         acc.set(t.name, t)
 

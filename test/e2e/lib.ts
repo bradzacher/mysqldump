@@ -1,15 +1,19 @@
 import * as fs from 'fs'
 import * as tmp from 'tmp'
 
-import { DumpOptions, SchemaDumpOptions, DataDumpOptions, TriggerDumpOptions } from '../../src/interfaces/Options'
+import { DumpOptions, SchemaDumpOptions } from '../../src/interfaces/Options'
 import testConfig from '../testConfig'
 import mysqldump from '../scripts/import'
 
 import { HEADER_VARIABLES, FOOTER_VARIABLES } from '../../src/sessionVariables'
 
+type TableProp = keyof Required<SchemaDumpOptions>['table'];
+type ViewProp = keyof Required<SchemaDumpOptions>['view'];
+type PropType = ['table', TableProp] | ['view', ViewProp]
+// eslint-disable-next-line max-params
 export function dumpOptTest<T>(
     type : 'schema' | 'data' | 'trigger',
-    prop : keyof T | ['table', keyof SchemaDumpOptions['table']] | ['view', keyof SchemaDumpOptions['view']],
+    prop : keyof T | PropType,
     includeValue : any,
     excludeValue : any,
     matchRegExp : RegExp,
@@ -18,17 +22,17 @@ export function dumpOptTest<T>(
     function createTest(include : boolean, value : any) {
         it(`should ${include ? 'include' : 'exclude'} ${prop} if configured`, async () => {
             // ACT
-            const dumpOpt = typeof prop !== 'string' ? {
+            const dumpOpt : DumpOptions = typeof prop !== 'string' ? {
                 [type]: {
-                    [prop[0]]: {
-                        [prop[1]]: value,
+                    [(prop as PropType)[0]]: {
+                        [(prop as PropType)[1]]: value,
                     },
                 },
             } : {
                 [type]: {
                     [prop]: value,
                 },
-            } as DumpOptions
+            }
 
             const res = await mysqldump({
                 connection: testConfig,
@@ -51,7 +55,7 @@ export function dumpOptTest<T>(
 
 export function dumpFlagTest<T>(
     type : 'schema' | 'data' | 'trigger',
-    prop : keyof T | ['table', keyof SchemaDumpOptions['table']] | ['view', keyof SchemaDumpOptions['view']],
+    prop : keyof T | PropType,
     matchRegExp : RegExp,
     dontMatchRegExp ?: RegExp,
 ) {

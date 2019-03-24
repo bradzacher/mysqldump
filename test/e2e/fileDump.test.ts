@@ -1,3 +1,4 @@
+/* eslint-disable jest/expect-expect */
 import { dumpTest } from './lib'
 
 describe('mysqldump.e2e', () => {

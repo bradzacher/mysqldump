@@ -118,7 +118,8 @@ export default async function main(inputOptions : Options) {
 
         // dump the schema if requested
         if (options.dump.schema !== false) {
-            res.tables = await getSchemaDump(connection, options.dump.schema, res.tables)
+            const tables = res.tables
+            res.tables = await getSchemaDump(connection, options.dump.schema, tables)
             res.dump.schema = res.tables.map(t => t.schema).filter(t => t).join('\n').trim()
         }
 
@@ -129,11 +130,12 @@ export default async function main(inputOptions : Options) {
 
         // dump the triggers if requested
         if (options.dump.trigger !== false) {
+            const tables = res.tables
             res.tables = await getTriggerDump(
                 connection,
                 options.connection.database,
                 options.dump.trigger,
-                res.tables,
+                tables,
             )
             res.dump.trigger = res.tables.map(t => t.triggers.join('\n')).filter(t => t).join('\n').trim()
         }
@@ -144,7 +146,8 @@ export default async function main(inputOptions : Options) {
         // dump data if requested
         if (options.dump.data !== false) {
             // don't even try to run the data dump
-            res.tables = await getDataDump(options.connection, options.dump.data, res.tables, options.dumpToFile)
+            const tables = res.tables
+            res.tables = await getDataDump(options.connection, options.dump.data, tables, options.dumpToFile)
             res.dump.data = res.tables.map(t => t.data).filter(t => t).join('\n').trim()
         }
 

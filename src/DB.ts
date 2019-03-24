@@ -1,6 +1,6 @@
 import * as mysql from 'mysql2/promise'
 
-const pool : DB[] = []
+const pool : Array<DB> = []
 
 export class DB {
     private readonly connection : mysql.IPromiseConnection
@@ -28,7 +28,7 @@ export class DB {
             isMulti = false
         }
 
-        let res = (await this.connection.query<T[]>(sql))[0]
+        let res = (await this.connection.query<Array<T>>(sql))[0]
         if (!isMulti) {
             // mysql will return a non-array payload if there's only one statement in the query
             // so standardise the res..
@@ -38,12 +38,14 @@ export class DB {
         return res
     }
 
-    public end() {
-        return this.connection.end().catch(() => {})
+    public async end() {
+        await this.connection.end().catch(() => {})
     }
 
-    public static cleanup() {
-        return Promise.all(pool.map(p => p.end()))
+    public static async cleanup() {
+        await Promise.all(pool.map(async p => {
+            await p.end()
+        }))
     }
 }
 

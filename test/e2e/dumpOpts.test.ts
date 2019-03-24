@@ -132,7 +132,9 @@ describe('mysqldump.e2e', () => {
                 expectNot(res.dump.data).toMatch(/INSERT INTO\n {2}`other_types`/)
             })
         }
+        // eslint-disable-next-line jest/valid-describe
         describe('should whitelist tables if configured', tableListTest(false))
+        // eslint-disable-next-line jest/valid-describe
         describe('should blacklist tables if configured', tableListTest(true))
 
         describe('should error if invalid options are detected', () => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import testConfig from '../testConfig'
 
 export default {

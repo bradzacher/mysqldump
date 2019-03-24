@@ -2,7 +2,7 @@ import { Table, ColumnList } from './interfaces/Table'
 import DB from './DB'
 
 interface ShowTableRes {
-    Table_type : 'BASE TABLE' | 'VIEW' // eslint-disable-line camelcase
+    Table_type : 'BASE TABLE' | 'VIEW'
 
     [k : string] : string
 }
@@ -19,7 +19,7 @@ interface ShowColumnsRes {
 export default async function getTables(
     connection : DB,
     dbName : string,
-    restrictedTables : string[],
+    restrictedTables : Array<string>,
     restrictedTablesIsBlacklist : boolean,
 ) {
     // list the tables
@@ -52,7 +52,7 @@ export default async function getTables(
     const columns = (await connection.multiQuery<ShowColumnsRes>(columnsMultiQuery))
 
     columns.forEach((cols, i) => {
-        tables[i].columns = cols.reduce((acc, c) => {
+        tables[i].columns = cols.reduce<ColumnList>((acc, c) => {
             acc[c.Field] = {
                 type: c.Type
                     // split to remove things like 'unsigned' from the string
@@ -64,7 +64,7 @@ export default async function getTables(
             }
 
             return acc
-        }, {} as ColumnList)
+        }, {})
         tables[i].columnsOrdered = cols.map(c => c.Field)
     })
 
