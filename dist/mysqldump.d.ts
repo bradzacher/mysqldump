@@ -51,7 +51,7 @@ export interface ConnectionOptions {
 		/**
 		 * Optional PEM formatted CRLs (Certificate Revocation Lists).
 		 */
-		crl?: string | string[];
+		crl?: string | Array<string>;
 		/**
 		 * Attempt to use the server's cipher suite preferences instead of the client's.
 		 */
@@ -162,6 +162,10 @@ export interface DataDumpOptions {
 	 */
 	format?: boolean;
 	/**
+	 * Include file headers in output
+	 */
+	verbose?: boolean;
+	/**
 	 * Dump data from views.
 	 * Defaults to false.
 	 */
@@ -196,7 +200,7 @@ export interface DumpOptions {
 	 * The list of tables that you want to dump.
 	 * Defaults to all tables (signalled by passing an empty array).
 	 */
-	tables?: string[];
+	tables?: Array<string>;
 	/**
 	 * True to use the `tables` options as a blacklist, false to use it as a whitelist.
 	 * Defaults to false.
@@ -270,7 +274,7 @@ export interface Table {
 	/**
 	 * An ordered list of columns (for consistently outputing as per the DB definition)
 	 */
-	columnsOrdered: string[];
+	columnsOrdered: Array<string>;
 	/**
 	 * True if the table is actually a view, false otherwise.
 	 */
@@ -278,7 +282,7 @@ export interface Table {
 	/**
 	 * A list of triggers attached to the table
 	 */
-	triggers: string[];
+	triggers: Array<string>;
 }
 export interface DumpReturn {
 	/**
@@ -301,7 +305,7 @@ export interface DumpReturn {
 		 */
 		trigger: string | null;
 	};
-	tables: Table[];
+	tables: Array<Table>;
 }
 export default function main(inputOptions: Options): Promise<DumpReturn>;
 

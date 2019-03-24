@@ -135,6 +135,18 @@ export default async function getSchemaDump(
 
             return s
         })
+        .sort((a, b) => {
+            // sort the views to be last
+
+            if (a.isView && !b.isView) {
+                return 1
+            }
+            if (!a.isView && b.isView) {
+                return -1
+            }
+
+            return 0
+        })
 
     return createStatements
 }

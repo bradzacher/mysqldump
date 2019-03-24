@@ -29,97 +29,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -230,6 +139,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -943,97 +943,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -1144,6 +1053,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -1857,97 +1857,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -2058,6 +1967,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -2771,97 +2771,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -2972,6 +2881,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -3685,97 +3685,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -3886,6 +3795,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -4599,97 +4599,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -4800,6 +4709,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # TRIGGER DUMP FOR: trigger_juan
@@ -4867,97 +4867,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -5068,6 +4977,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -5781,97 +5781,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -5982,6 +5891,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -6695,12 +6695,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS select \`dt\`.\`dt_id\` AS \`dt_id\`,\`dt\`.\`_date\` AS \`_date\`,\`dt\`.\`_datetime\` AS \`_datetime\`,\`dt\`.\`_time\` AS \`_time\`,\`dt\`.\`_timestamp\` AS \`_timestamp\`,\`dt\`.\`_year\` AS \`_year\`,\`dt\`.\`_nullDate\` AS \`_nullDate\`,\`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,\`dt\`.\`_nullTime\` AS \`_nullTime\`,\`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,\`dt\`.\`_nullYear\` AS \`_nullYear\`,\`gt\`.\`gt_id\` AS \`gt_id\`,\`gt\`.\`_point\` AS \`_point\`,\`gt\`.\`_linestring\` AS \`_linestring\`,\`gt\`.\`_polygon\` AS \`_polygon\`,\`gt\`.\`_multipoint\` AS \`_multipoint\`,\`gt\`.\`_multilinestring\` AS \`_multilinestring\`,\`gt\`.\`_multipolygon\` AS \`_multipolygon\`,\`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,\`gt\`.\`_nullPoint\` AS \`_nullPoint\`,\`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,\`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,\`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,\`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,\`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,\`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,\`nt\`.\`nt_id\` AS \`nt_id\`,\`nt\`.\`_uint\` AS \`_uint\`,\`nt\`.\`_int\` AS \`_int\`,\`nt\`.\`_tinyint\` AS \`_tinyint\`,\`nt\`.\`_smallint\` AS \`_smallint\`,\`nt\`.\`_mediumint\` AS \`_mediumint\`,\`nt\`.\`_bigint\` AS \`_bigint\`,\`nt\`.\`_decimal\` AS \`_decimal\`,\`nt\`.\`_double\` AS \`_double\`,\`nt\`.\`_float\` AS \`_float\`,\`nt\`.\`_real\` AS \`_real\`,\`nt\`.\`_bit1\` AS \`_bit1\`,\`nt\`.\`_bit24\` AS \`_bit24\`,\`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,\`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,\`nt\`.\`_nullUint\` AS \`_nullUint\`,\`nt\`.\`_nullInt\` AS \`_nullInt\`,\`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,\`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,\`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,\`nt\`.\`_nullBigint\` AS \`_nullBigint\`,\`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,\`nt\`.\`_nullDouble\` AS \`_nullDouble\`,\`nt\`.\`_nullFloat\` AS \`_nullFloat\`,\`nt\`.\`_nullReal\` AS \`_nullReal\`,\`nt\`.\`_nullBit1\` AS \`_nullBit1\`,\`nt\`.\`_nullBit24\` AS \`_nullBit24\`,\`ot\`.\`ot_id\` AS \`ot_id\`,\`ot\`.\`_blob\` AS \`_blob\`,\`ot\`.\`_tinyblob\` AS \`_tinyblob\`,\`ot\`.\`_mediumblob\` AS \`_mediumblob\`,\`ot\`.\`_longblob\` AS \`_longblob\`,\`ot\`.\`_binary\` AS \`_binary\`,\`ot\`.\`_varbinary\` AS \`_varbinary\`,\`ot\`.\`_enum\` AS \`_enum\`,\`ot\`.\`_set\` AS \`_set\`,\`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,\`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,\`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,\`ot\`.\`_nullBlob\` AS \`_nullBlob\`,\`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,\`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,\`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,\`ot\`.\`_nullBinary\` AS \`_nullBinary\`,\`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,\`ot\`.\`_nullEnum\` AS \`_nullEnum\`,\`ot\`.\`_nullSet\` AS \`_nullSet\` from (((\`date_types\` \`dt\` join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))) join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))) join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`)));
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -6811,6 +6805,12 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS select \`dt\`.\`dt_id\` AS \`dt_id\`,\`dt\`.\`_date\` AS \`_date\`,\`dt\`.\`_datetime\` AS \`_datetime\`,\`dt\`.\`_time\` AS \`_time\`,\`dt\`.\`_timestamp\` AS \`_timestamp\`,\`dt\`.\`_year\` AS \`_year\`,\`dt\`.\`_nullDate\` AS \`_nullDate\`,\`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,\`dt\`.\`_nullTime\` AS \`_nullTime\`,\`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,\`dt\`.\`_nullYear\` AS \`_nullYear\`,\`gt\`.\`gt_id\` AS \`gt_id\`,\`gt\`.\`_point\` AS \`_point\`,\`gt\`.\`_linestring\` AS \`_linestring\`,\`gt\`.\`_polygon\` AS \`_polygon\`,\`gt\`.\`_multipoint\` AS \`_multipoint\`,\`gt\`.\`_multilinestring\` AS \`_multilinestring\`,\`gt\`.\`_multipolygon\` AS \`_multipolygon\`,\`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,\`gt\`.\`_nullPoint\` AS \`_nullPoint\`,\`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,\`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,\`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,\`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,\`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,\`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,\`nt\`.\`nt_id\` AS \`nt_id\`,\`nt\`.\`_uint\` AS \`_uint\`,\`nt\`.\`_int\` AS \`_int\`,\`nt\`.\`_tinyint\` AS \`_tinyint\`,\`nt\`.\`_smallint\` AS \`_smallint\`,\`nt\`.\`_mediumint\` AS \`_mediumint\`,\`nt\`.\`_bigint\` AS \`_bigint\`,\`nt\`.\`_decimal\` AS \`_decimal\`,\`nt\`.\`_double\` AS \`_double\`,\`nt\`.\`_float\` AS \`_float\`,\`nt\`.\`_real\` AS \`_real\`,\`nt\`.\`_bit1\` AS \`_bit1\`,\`nt\`.\`_bit24\` AS \`_bit24\`,\`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,\`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,\`nt\`.\`_nullUint\` AS \`_nullUint\`,\`nt\`.\`_nullInt\` AS \`_nullInt\`,\`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,\`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,\`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,\`nt\`.\`_nullBigint\` AS \`_nullBigint\`,\`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,\`nt\`.\`_nullDouble\` AS \`_nullDouble\`,\`nt\`.\`_nullFloat\` AS \`_nullFloat\`,\`nt\`.\`_nullReal\` AS \`_nullReal\`,\`nt\`.\`_nullBit1\` AS \`_nullBit1\`,\`nt\`.\`_nullBit24\` AS \`_nullBit24\`,\`ot\`.\`ot_id\` AS \`ot_id\`,\`ot\`.\`_blob\` AS \`_blob\`,\`ot\`.\`_tinyblob\` AS \`_tinyblob\`,\`ot\`.\`_mediumblob\` AS \`_mediumblob\`,\`ot\`.\`_longblob\` AS \`_longblob\`,\`ot\`.\`_binary\` AS \`_binary\`,\`ot\`.\`_varbinary\` AS \`_varbinary\`,\`ot\`.\`_enum\` AS \`_enum\`,\`ot\`.\`_set\` AS \`_set\`,\`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,\`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,\`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,\`ot\`.\`_nullBlob\` AS \`_nullBlob\`,\`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,\`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,\`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,\`ot\`.\`_nullBinary\` AS \`_nullBinary\`,\`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,\`ot\`.\`_nullEnum\` AS \`_nullEnum\`,\`ot\`.\`_nullSet\` AS \`_nullSet\` from (((\`date_types\` \`dt\` join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))) join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))) join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`)));
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -7524,97 +7524,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -7725,6 +7634,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -8439,97 +8439,6 @@ CREATE TABLE \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -8645,6 +8554,97 @@ CREATE TABLE \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -9358,97 +9358,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE ALGORITHM = UNDEFINED VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -9559,6 +9468,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE ALGORITHM = UNDEFINED VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -10272,97 +10272,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -10473,6 +10382,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -11186,97 +11186,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE SQL SECURITY DEFINER VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -11387,6 +11296,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE SQL SECURITY DEFINER VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -12792,97 +12792,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -12993,6 +12902,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -13706,97 +13706,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -13907,6 +13816,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -14616,97 +14616,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -14817,6 +14726,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -15528,97 +15528,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -15729,6 +15638,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
@@ -16414,97 +16414,6 @@ CREATE TABLE IF NOT EXISTS \`date_types\` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: everything
-# ------------------------------------------------------------
-
-CREATE OR REPLACE VIEW \`everything\` AS
-select
-  \`dt\`.\`dt_id\` AS \`dt_id\`,
-  \`dt\`.\`_date\` AS \`_date\`,
-  \`dt\`.\`_datetime\` AS \`_datetime\`,
-  \`dt\`.\`_time\` AS \`_time\`,
-  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
-  \`dt\`.\`_year\` AS \`_year\`,
-  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
-  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
-  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
-  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
-  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
-  \`gt\`.\`gt_id\` AS \`gt_id\`,
-  \`gt\`.\`_point\` AS \`_point\`,
-  \`gt\`.\`_linestring\` AS \`_linestring\`,
-  \`gt\`.\`_polygon\` AS \`_polygon\`,
-  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
-  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
-  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
-  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
-  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
-  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
-  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
-  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
-  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
-  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
-  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
-  \`nt\`.\`nt_id\` AS \`nt_id\`,
-  \`nt\`.\`_uint\` AS \`_uint\`,
-  \`nt\`.\`_int\` AS \`_int\`,
-  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
-  \`nt\`.\`_smallint\` AS \`_smallint\`,
-  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
-  \`nt\`.\`_bigint\` AS \`_bigint\`,
-  \`nt\`.\`_decimal\` AS \`_decimal\`,
-  \`nt\`.\`_double\` AS \`_double\`,
-  \`nt\`.\`_float\` AS \`_float\`,
-  \`nt\`.\`_real\` AS \`_real\`,
-  \`nt\`.\`_bit1\` AS \`_bit1\`,
-  \`nt\`.\`_bit24\` AS \`_bit24\`,
-  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
-  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
-  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
-  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
-  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
-  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
-  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
-  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
-  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
-  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
-  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
-  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
-  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
-  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
-  \`ot\`.\`ot_id\` AS \`ot_id\`,
-  \`ot\`.\`_blob\` AS \`_blob\`,
-  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
-  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
-  \`ot\`.\`_longblob\` AS \`_longblob\`,
-  \`ot\`.\`_binary\` AS \`_binary\`,
-  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
-  \`ot\`.\`_enum\` AS \`_enum\`,
-  \`ot\`.\`_set\` AS \`_set\`,
-  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
-  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
-  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
-  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
-  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
-  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
-  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
-  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
-  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
-  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
-  \`ot\`.\`_nullSet\` AS \`_nullSet\`
-from
-  (
-  (
-    (
-    \`date_types\` \`dt\`
-    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
-    )
-    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
-  )
-  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );
-
-# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: geometry_types
 # ------------------------------------------------------------
 
@@ -16615,6 +16524,97 @@ CREATE TABLE IF NOT EXISTS \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: everything
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW \`everything\` AS
+select
+  \`dt\`.\`dt_id\` AS \`dt_id\`,
+  \`dt\`.\`_date\` AS \`_date\`,
+  \`dt\`.\`_datetime\` AS \`_datetime\`,
+  \`dt\`.\`_time\` AS \`_time\`,
+  \`dt\`.\`_timestamp\` AS \`_timestamp\`,
+  \`dt\`.\`_year\` AS \`_year\`,
+  \`dt\`.\`_nullDate\` AS \`_nullDate\`,
+  \`dt\`.\`_nullDatetime\` AS \`_nullDatetime\`,
+  \`dt\`.\`_nullTime\` AS \`_nullTime\`,
+  \`dt\`.\`_nullTimestamp\` AS \`_nullTimestamp\`,
+  \`dt\`.\`_nullYear\` AS \`_nullYear\`,
+  \`gt\`.\`gt_id\` AS \`gt_id\`,
+  \`gt\`.\`_point\` AS \`_point\`,
+  \`gt\`.\`_linestring\` AS \`_linestring\`,
+  \`gt\`.\`_polygon\` AS \`_polygon\`,
+  \`gt\`.\`_multipoint\` AS \`_multipoint\`,
+  \`gt\`.\`_multilinestring\` AS \`_multilinestring\`,
+  \`gt\`.\`_multipolygon\` AS \`_multipolygon\`,
+  \`gt\`.\`_geometrycollection\` AS \`_geometrycollection\`,
+  \`gt\`.\`_nullPoint\` AS \`_nullPoint\`,
+  \`gt\`.\`_nullLinestring\` AS \`_nullLinestring\`,
+  \`gt\`.\`_nullPolygon\` AS \`_nullPolygon\`,
+  \`gt\`.\`_nullMultipoint\` AS \`_nullMultipoint\`,
+  \`gt\`.\`_nullMultilinestring\` AS \`_nullMultilinestring\`,
+  \`gt\`.\`_nullMultipolygon\` AS \`_nullMultipolygon\`,
+  \`gt\`.\`_nullGeometrycollection\` AS \`_nullGeometrycollection\`,
+  \`nt\`.\`nt_id\` AS \`nt_id\`,
+  \`nt\`.\`_uint\` AS \`_uint\`,
+  \`nt\`.\`_int\` AS \`_int\`,
+  \`nt\`.\`_tinyint\` AS \`_tinyint\`,
+  \`nt\`.\`_smallint\` AS \`_smallint\`,
+  \`nt\`.\`_mediumint\` AS \`_mediumint\`,
+  \`nt\`.\`_bigint\` AS \`_bigint\`,
+  \`nt\`.\`_decimal\` AS \`_decimal\`,
+  \`nt\`.\`_double\` AS \`_double\`,
+  \`nt\`.\`_float\` AS \`_float\`,
+  \`nt\`.\`_real\` AS \`_real\`,
+  \`nt\`.\`_bit1\` AS \`_bit1\`,
+  \`nt\`.\`_bit24\` AS \`_bit24\`,
+  \`nt\`.\`_bitWithDefault\` AS \`_bitWithDefault\`,
+  \`nt\`.\`_bitWithDefault2\` AS \`_bitWithDefault2\`,
+  \`nt\`.\`_nullUint\` AS \`_nullUint\`,
+  \`nt\`.\`_nullInt\` AS \`_nullInt\`,
+  \`nt\`.\`_nullTinyint\` AS \`_nullTinyint\`,
+  \`nt\`.\`_nullSmallint\` AS \`_nullSmallint\`,
+  \`nt\`.\`_nullMediumint\` AS \`_nullMediumint\`,
+  \`nt\`.\`_nullBigint\` AS \`_nullBigint\`,
+  \`nt\`.\`_nullDecimal\` AS \`_nullDecimal\`,
+  \`nt\`.\`_nullDouble\` AS \`_nullDouble\`,
+  \`nt\`.\`_nullFloat\` AS \`_nullFloat\`,
+  \`nt\`.\`_nullReal\` AS \`_nullReal\`,
+  \`nt\`.\`_nullBit1\` AS \`_nullBit1\`,
+  \`nt\`.\`_nullBit24\` AS \`_nullBit24\`,
+  \`ot\`.\`ot_id\` AS \`ot_id\`,
+  \`ot\`.\`_blob\` AS \`_blob\`,
+  \`ot\`.\`_tinyblob\` AS \`_tinyblob\`,
+  \`ot\`.\`_mediumblob\` AS \`_mediumblob\`,
+  \`ot\`.\`_longblob\` AS \`_longblob\`,
+  \`ot\`.\`_binary\` AS \`_binary\`,
+  \`ot\`.\`_varbinary\` AS \`_varbinary\`,
+  \`ot\`.\`_enum\` AS \`_enum\`,
+  \`ot\`.\`_set\` AS \`_set\`,
+  \`ot\`.\`_alwaysNull\` AS \`_alwaysNull\`,
+  \`ot\`.\`populatedViaTrigger\` AS \`populatedViaTrigger\`,
+  \`ot\`.\`populatedViaTrigger2\` AS \`populatedViaTrigger2\`,
+  \`ot\`.\`_nullBlob\` AS \`_nullBlob\`,
+  \`ot\`.\`_nullTinyblob\` AS \`_nullTinyblob\`,
+  \`ot\`.\`_nullMediumblob\` AS \`_nullMediumblob\`,
+  \`ot\`.\`_nullLongblob\` AS \`_nullLongblob\`,
+  \`ot\`.\`_nullBinary\` AS \`_nullBinary\`,
+  \`ot\`.\`_nullVarbinary\` AS \`_nullVarbinary\`,
+  \`ot\`.\`_nullEnum\` AS \`_nullEnum\`,
+  \`ot\`.\`_nullSet\` AS \`_nullSet\`
+from
+  (
+  (
+    (
+    \`date_types\` \`dt\`
+    join \`geometry_types\` \`gt\` on((\`dt\`.\`dt_id\` = \`gt\`.\`gt_id\`))
+    )
+    join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
+  )
+  join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: date_types
