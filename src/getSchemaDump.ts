@@ -7,8 +7,8 @@ import DB from './DB'
 export interface ShowCreateView {
     View : string
     'Create View' : string
-    character_set_client : string // eslint-disable-line camelcase
-    collation_connection : string // eslint-disable-line camelcase
+    character_set_client : string
+    collation_connection : string
 }
 export interface ShowCreateTable {
     Table : string
@@ -23,8 +23,8 @@ function isCreateView(v : ShowCreateTableStatementRes) : v is ShowCreateView {
 export default async function getSchemaDump(
     connection : DB,
     options : Required<SchemaDumpOptions>,
-    tables : Table[],
-) : Promise<Table[]> {
+    tables : Array<Table>,
+) : Promise<Array<Table>> {
     const format = options.format
         ? (sql : string) => sqlformatter.format(sql)
         : (sql : string) => sql
@@ -54,7 +54,7 @@ export default async function getSchemaDump(
                 isView: false,
             }
         })
-        .map((s) => {
+        .map(s => {
             // clean up the generated SQL as per the options
 
             if (!options.autoIncrement) {

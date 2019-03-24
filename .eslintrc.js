@@ -1,11 +1,13 @@
 module.exports = {
     extends: [
-        'assignar-node',
+        'brad',
     ],
+    parserOptions: {
+        'project': './tsconfig.json'
+    },
     settings: {
         'import/resolver': {
-            'node': true,
-            'typescript': true,
+            'typescript': {},
         },
     },
 }
