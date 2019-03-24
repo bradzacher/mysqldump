@@ -25,6 +25,7 @@ const stringTypes = new Set([
     'tinytext',
     'set',
     'enum',
+    'json'
 ])
 const bitTypes = new Set([
     'bit',
