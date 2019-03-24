@@ -97,14 +97,16 @@ export default async function getDataDump(
             saveChunk('')
         }
 
-        // write the table header to the file
-        const header = [
-            '# ------------------------------------------------------------',
-            `# DATA DUMP FOR TABLE: ${table.name}`,
-            '# ------------------------------------------------------------',
-            '',
-        ]
-        saveChunk(header)
+        if(options.verbose) {
+            // write the table header to the file
+            const header = [
+                '# ------------------------------------------------------------',
+                `# DATA DUMP FOR TABLE: ${table.name}`,
+                '# ------------------------------------------------------------',
+                '',
+            ]
+            saveChunk(header)
+        }
 
         // eslint-disable-next-line no-await-in-loop
         await new Promise((resolve, reject) => {

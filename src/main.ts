@@ -42,6 +42,7 @@ const defaultOptions : Options = {
         },
         data: {
             format: true,
+            verbose: true,
             includeViewData: false,
             where: {},
             returnFromFunction: false,
