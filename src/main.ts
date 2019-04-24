@@ -43,6 +43,7 @@ const defaultOptions : Options = {
         data: {
             format: true,
             verbose: true,
+            lockTables: false,
             includeViewData: false,
             where: {},
             returnFromFunction: false,
