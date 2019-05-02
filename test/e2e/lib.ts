@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as tmp from 'tmp';
+import * as zlib from 'zlib';
 
 import { DumpOptions, SchemaDumpOptions } from '../../src/interfaces/Options';
 import { config } from '../testConfig';
@@ -72,6 +73,7 @@ function dumpFlagTest<T>(
 function dumpTest(
     opts: DumpOptions,
     extraAssertion?: (file: string) => void,
+    compressFile?: boolean,
 ): () => void {
     return async () => {
         // ASSEMBLE
@@ -90,9 +92,17 @@ function dumpTest(
         const res = await mysqldump({
             connection: config,
             dumpToFile: filename,
+            compressFile,
             dump: opts,
         });
-        const file = fs.readFileSync(filename, 'utf8');
+
+        let file: string;
+        if (compressFile) {
+            const f = fs.readFileSync(filename);
+            file = zlib.gunzipSync(f).toString('utf8');
+        } else {
+            file = fs.readFileSync(filename, 'utf8');
+        }
 
         // remove the file
         fs.unlinkSync(filename);

@@ -11,6 +11,7 @@ import { getTables } from './getTables';
 import { getSchemaDump } from './getSchemaDump';
 import { getTriggerDump } from './getTriggerDump';
 import { getDataDump } from './getDataDump';
+import { compressFile } from './compressFile';
 import { DB } from './DB';
 import { ERRORS } from './Errors';
 import { HEADER_VARIABLES, FOOTER_VARIABLES } from './sessionVariables';
@@ -199,6 +200,11 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
         // reset all of the variables
         if (options.dumpToFile) {
             fs.appendFileSync(options.dumpToFile, FOOTER_VARIABLES);
+        }
+
+        // compress output file
+        if (options.dumpToFile && options.compressFile) {
+            await compressFile(options.dumpToFile);
         }
 
         return res;
