@@ -1,79 +1,124 @@
 /* eslint-disable import/no-duplicates, import/no-unresolved, import/no-extraneous-dependencies */
 declare module 'mysql2' {
-    export * from 'mysql'
+    export * from 'mysql';
 
-    import { FieldInfo } from 'mysql'
+    import { FieldInfo } from 'mysql';
 
     export interface IQueryReturn<T> {
-        0 : T[]
-        1 : FieldInfo[]
+        0: T[];
+        1: FieldInfo[];
 
-        [Symbol.iterator]() : T[] | FieldInfo[]
-        [index : number] : T[] | FieldInfo[]
+        [Symbol.iterator](): T[] | FieldInfo[];
+        [index: number]: T[] | FieldInfo[];
     }
 
     // for some reason typescript doesn't export the non-js items using the above export....
-    export { Connection, EscapeFunctions, FieldInfo, GeometryType,
-             MysqlError, packetCallback, Pool, PoolCluster, PoolClusterConfig, PoolConfig, PoolConnection,
-             Query, queryCallback, QueryFunction, QueryOptions, TypeCast } from 'mysql'
-    export { TypecastField, IConnectionConfig } from 'mysql2/promise'
+    export {
+        Connection,
+        EscapeFunctions,
+        FieldInfo,
+        GeometryType,
+        MysqlError,
+        packetCallback,
+        Pool,
+        PoolCluster,
+        PoolClusterConfig,
+        PoolConfig,
+        PoolConnection,
+        Query,
+        queryCallback,
+        QueryFunction,
+        QueryOptions,
+        TypeCast,
+    } from 'mysql';
+    export { TypecastField, IConnectionConfig } from 'mysql2/promise';
 }
 
 declare module 'mysql2/promise' {
-    import * as mysql from 'mysql2'
+    import * as mysql from 'mysql2';
 
-    export * from 'mysql'
+    export * from 'mysql';
 
     export interface IQueryReturn<T> {
-        0 : T[]
-        1 : mysql.FieldInfo[]
+        0: T[];
+        1: mysql.FieldInfo[];
 
-        [Symbol.iterator]() : T[] | mysql.FieldInfo[]
-        [index : number] : T[] | mysql.FieldInfo[]
+        [Symbol.iterator](): T[] | mysql.FieldInfo[];
+        [index: number]: T[] | mysql.FieldInfo[];
     }
 
     export interface IExecuteOptions extends mysql.QueryOptions {
-        values : any[]
+        values: any[];
     }
 
-    export type IPromiseQueryFunction = <T>(arg1: string | mysql.QueryOptions, values ?: any | any[]) => Promise<IQueryReturn<T>>
+    export type IPromiseQueryFunction = <T>(
+        arg1: string | mysql.QueryOptions,
+        values?: any | any[],
+    ) => Promise<IQueryReturn<T>>;
 
-    export type IPromiseExecuteFunction = <T>(arg1: string | IExecuteOptions, values ?: any | any[]) => Promise<IQueryReturn<T>>
+    export type IPromiseExecuteFunction = <T>(
+        arg1: string | IExecuteOptions,
+        values?: any | any[],
+    ) => Promise<IQueryReturn<T>>;
 
     export interface IPromiseConnection {
-        connection : mysql.Connection
-        query : IPromiseQueryFunction
-        execute : IPromiseExecuteFunction
+        connection: mysql.Connection;
+        query: IPromiseQueryFunction;
+        execute: IPromiseExecuteFunction;
 
-        release() : void
+        release(): void;
 
-        end() : Promise<void>;
+        end(): Promise<void>;
         end(options: any): Promise<void>;
     }
 
     export interface IPromisePool extends IPromiseConnection {
-        connection : mysql.Connection
+        connection: mysql.Connection;
 
-        getConnection() : Promise<IPromiseConnection>
-        query : IPromiseQueryFunction
-        execute : IPromiseExecuteFunction
+        getConnection(): Promise<IPromiseConnection>;
+        query: IPromiseQueryFunction;
+        execute: IPromiseExecuteFunction;
     }
 
-    type FieldTypes = 'DECIMAL' | 'TINY' | 'SHORT' | 'LONG' | 'FLOAT' | 'DOUBLE'
-                    | 'NULL' | 'TIMESTAMP' | 'LONGLONG' | 'INT24' | 'DATE' | 'TIME'
-                    | 'DATETIME' | 'YEAR' | 'NEWDATE' | 'VARCHAR' | 'BIT' | 'JSON'
-                    | 'NEWDECIMAL' | 'ENUM' | 'SET' | 'TINY_BLOB' | 'MEDIUM_BLOB'
-                    | 'LONG_BLOB' | 'BLOB' | 'VAR_STRING' | 'STRING' | 'GEOMETRY'
+    type FieldTypes =
+        | 'DECIMAL'
+        | 'TINY'
+        | 'SHORT'
+        | 'LONG'
+        | 'FLOAT'
+        | 'DOUBLE'
+        | 'NULL'
+        | 'TIMESTAMP'
+        | 'LONGLONG'
+        | 'INT24'
+        | 'DATE'
+        | 'TIME'
+        | 'DATETIME'
+        | 'YEAR'
+        | 'NEWDATE'
+        | 'VARCHAR'
+        | 'BIT'
+        | 'JSON'
+        | 'NEWDECIMAL'
+        | 'ENUM'
+        | 'SET'
+        | 'TINY_BLOB'
+        | 'MEDIUM_BLOB'
+        | 'LONG_BLOB'
+        | 'BLOB'
+        | 'VAR_STRING'
+        | 'STRING'
+        | 'GEOMETRY';
 
     export interface TypecastField {
-        buffer() : Buffer
-        string() : string
-        geometry() : any
-        db : string
-        length : number
-        name : string
-        table : string
-        type : FieldTypes
+        buffer(): Buffer;
+        string(): string;
+        geometry(): any;
+        db: string;
+        length: number;
+        name: string;
+        table: string;
+        type: FieldTypes;
     }
     export interface IConnectionConfig extends mysql.ConnectionOptions {
         /**
@@ -136,7 +181,7 @@ declare module 'mysql2/promise' {
          *
          * You can find which field function you need to use by looking at: RowDataPacket.prototype._typeCast
          */
-        typeCast?: (field : TypecastField, next : () => void) => any;
+        typeCast?: (field: TypecastField, next: () => void) => any;
 
         /**
          * A custom query format function
@@ -195,6 +240,8 @@ declare module 'mysql2/promise' {
         ssl?: any;
     }
 
-    export function createConnection(options : IConnectionConfig) : Promise<IPromiseConnection>
-    export function createPool(options : IConnectionConfig) : IPromisePool
+    export function createConnection(
+        options: IConnectionConfig,
+    ): Promise<IPromiseConnection>;
+    export function createPool(options: IConnectionConfig): IPromisePool;
 }

@@ -1,7 +1,7 @@
-import pluginTypescript from 'rollup-plugin-typescript2'
-import typescript from 'typescript'
+import pluginTypescript from 'rollup-plugin-typescript2';
+import typescript from 'typescript';
 
-import packageJson from './package.json'
+import packageJson from './package.json';
 
 export default {
     input: './src/main.ts',
@@ -35,4 +35,4 @@ export default {
         'sql-formatter',
         'sqlstring',
     ],
-}
+};

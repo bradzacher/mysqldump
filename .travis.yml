@@ -2,16 +2,20 @@ dist: trusty
 sudo: required
 language: node_js
 node_js:
-  - '10'
-  - '8'
-  - '6'
+    - '10'
+    - '8'
 services:
-  - mysql
+    - mysql
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS mysqldump_test;'
+    - mysql -e 'CREATE DATABASE IF NOT EXISTS mysqldump_test;'
 install: yarn
 script:
-  - yarn build
-  - yarn setup-travis
-  - yarn test
-  - yarn test-prod
+    # setup travis first so test config exists
+    - yarn setup-travis
+    - yarn format-check
+    - yarn typecheck
+    # need to build before linting so the dist folder exists
+    - yarn build
+    - yarn lint
+    - yarn test
+    - yarn test-prod

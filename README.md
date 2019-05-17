@@ -6,15 +6,20 @@ Create a backup of a MySQL database.
 
 ## Installation
 
+```bash
+$ npm install mysqldump
 ```
-yarn add mysqldump
-// or
-npm install mysqldump
+
+If you're using this package in typescript, you should also
+
+```bash
+$ npm install @types/node
 ```
 
 ## Usage
+
 ```typescript
-import mysqldump from 'mysqldump'
+import mysqldump from 'mysqldump';
 // or const mysqldump = require('mysqldump')
 
 // dump the result straight to a file
@@ -26,7 +31,7 @@ mysqldump({
         database: 'my_database',
     },
     dumpToFile: './dump.sql',
-})
+});
 
 // return the dump from the function and not to a file
 const result = await mysqldump({
@@ -36,10 +41,13 @@ const result = await mysqldump({
         password: '123456',
         database: 'my_database',
     },
-})
+});
 ```
+
 ## Result
+
 The returned result contains the dump property, which is split into schema and data.
+
 ```TS
 export default interface DumpReturn {
     /**
@@ -68,7 +76,9 @@ export default interface DumpReturn {
 ```
 
 ## Options
+
 All the below options are documented in the [typescript declaration file](./dist/mysqldump.d.ts):
+
 ```TS
 export interface ConnectionOptions {
 	/**
@@ -342,7 +352,7 @@ export default function main(inputOptions: Options): Promise<DumpReturn>;
 export as namespace mysqldump;
 ```
 
----------------------------------
+---
 
 The MIT [License](./LICENSE.md)
 
@@ -351,6 +361,7 @@ The MIT [License](./LICENSE.md)
 ### Installation
 
 Make sure to first install all the required development dependencies:
+
 ```
 yarn
 // or
