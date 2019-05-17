@@ -10,10 +10,10 @@ before_install:
     - mysql -e 'CREATE DATABASE IF NOT EXISTS mysqldump_test;'
 install: yarn
 script:
+    - yarn setup-travis
     - yarn format-check
     - yarn typecheck
     - yarn lint
     - yarn build
-    - yarn setup-travis
     - yarn test
     - yarn test-prod
