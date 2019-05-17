@@ -1,17 +1,10 @@
 {
-    "moduleFileExtensions": [
-        "ts",
-        "tsx",
-        "js"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
     "transform": {
         "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.ts$",
-    "moduleDirectories": [
-        "src",
-        "node_modules"
-    ],
+    "moduleDirectories": ["src", "node_modules"],
     "globals": {
         "ts-jest": {
             "babelConfig": true,
@@ -20,13 +13,8 @@
     },
     "rootDir": ".",
 
-    "collectCoverageFrom": [
-        "src/**/*"
-    ],
-    "coverageReporters": [
-        "html",
-        "text-summary"
-    ],
+    "collectCoverageFrom": ["src/**/*"],
+    "coverageReporters": ["html", "text-summary"],
     "coverageDirectory": "<rootDir>/coverage",
     "coveragePathIgnorePatterns": [
         "/node_modules/",

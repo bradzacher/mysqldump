@@ -1,30 +1,32 @@
-import { Table, ColumnList } from './interfaces/Table'
-import DB from './DB'
+import { Table, ColumnList } from './interfaces/Table';
+import { DB } from './DB';
 
 interface ShowTableRes {
-    Table_type : 'BASE TABLE' | 'VIEW'
+    Table_type: 'BASE TABLE' | 'VIEW';
 
-    [k : string] : string
+    [k: string]: string;
 }
 
 interface ShowColumnsRes {
-    Field : string
-    Type : string
-    Null : 'YES' | 'NO'
-    Key : string
-    Default : string | null
-    Extra : string
+    Field: string;
+    Type: string;
+    Null: 'YES' | 'NO';
+    Key: string;
+    Default: string | null;
+    Extra: string;
 }
 
-export default async function getTables(
-    connection : DB,
-    dbName : string,
-    restrictedTables : Array<string>,
-    restrictedTablesIsBlacklist : boolean,
-) {
+async function getTables(
+    connection: DB,
+    dbName: string,
+    restrictedTables: Array<string>,
+    restrictedTablesIsBlacklist: boolean,
+): Promise<Array<Table>> {
     // list the tables
-    const showTablesKey = `Tables_in_${dbName}`
-    const tablesRes = (await connection.query<ShowTableRes>(`SHOW FULL TABLES FROM \`${dbName}\``))
+    const showTablesKey = `Tables_in_${dbName}`;
+    const tablesRes = await connection.query<ShowTableRes>(
+        `SHOW FULL TABLES FROM \`${dbName}\``,
+    );
     const actualTables = tablesRes.map<Table>(r => ({
         name: r[showTablesKey].replace(/'/g, ''),
         schema: null,
@@ -33,23 +35,30 @@ export default async function getTables(
         columns: {},
         columnsOrdered: [],
         triggers: [],
-    }))
+    }));
 
-    let tables = actualTables
+    let tables = actualTables;
     if (restrictedTables.length > 0) {
         if (restrictedTablesIsBlacklist) {
             // exclude the tables from the options that actually exist in the db
-            tables = tables.filter(t => restrictedTables.indexOf(t.name) === -1)
+            tables = tables.filter(
+                t => restrictedTables.indexOf(t.name) === -1,
+            );
         } else {
             // only include the tables from the options that actually exist in the db
-            tables = tables.filter(t => restrictedTables.indexOf(t.name) !== -1)
+            tables = tables.filter(
+                t => restrictedTables.indexOf(t.name) !== -1,
+            );
         }
     }
 
-
     // get the column definitions
-    const columnsMultiQuery = tables.map(t => `SHOW COLUMNS FROM \`${t.name}\` FROM \`${dbName}\`;`).join('\n')
-    const columns = (await connection.multiQuery<ShowColumnsRes>(columnsMultiQuery))
+    const columnsMultiQuery = tables
+        .map(t => `SHOW COLUMNS FROM \`${t.name}\` FROM \`${dbName}\`;`)
+        .join('\n');
+    const columns = await connection.multiQuery<ShowColumnsRes>(
+        columnsMultiQuery,
+    );
 
     columns.forEach((cols, i) => {
         tables[i].columns = cols.reduce<ColumnList>((acc, c) => {
@@ -61,13 +70,14 @@ export default async function getTables(
                     .split('(')[0]
                     .toLowerCase(),
                 nullable: c.Null === 'YES',
-            }
+            };
 
-            return acc
-        }, {})
-        tables[i].columnsOrdered = cols.map(c => c.Field)
-    })
+            return acc;
+        }, {});
+        tables[i].columnsOrdered = cols.map(c => c.Field);
+    });
 
-
-    return tables
+    return tables;
 }
+
+export { getTables };

@@ -11,7 +11,8 @@
             "name": "Launch Program",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/ts-node",
             "args": [
-                "-P", "${workspaceRoot}/tsconfig.json",
+                "-P",
+                "${workspaceRoot}/tsconfig.json",
                 // launch main
                 "${workspaceRoot}/test/scripts/launch.ts"
             ],
@@ -22,16 +23,9 @@
             "request": "launch",
             "name": "Debug Test current test",
             "program": "${workspaceRoot}/node_modules/.bin/jest",
-            "args": [
-                "--config", "jest.json",
-                "e2e"
-            ],
-            "runtimeArgs": [
-                "--nolazy"
-            ],
-            "outFiles": [
-                "${workspaceRoot}/dist/tsbuild/**/*"
-            ],
+            "args": ["--config", "jest.json", "e2e"],
+            "runtimeArgs": ["--nolazy"],
+            "outFiles": ["${workspaceRoot}/dist/tsbuild/**/*"],
             "sourceMaps": true,
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"

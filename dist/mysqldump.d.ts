@@ -310,3 +310,5 @@ export interface DumpReturn {
 export default function main(inputOptions: Options): Promise<DumpReturn>;
 
 export as namespace mysqldump;
+
+export {};

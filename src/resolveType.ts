@@ -10,7 +10,7 @@ const numberTypes = new Set([
     'float',
     'double',
     'real',
-])
+]);
 const stringTypes = new Set([
     'date',
     'datetime',
@@ -25,11 +25,9 @@ const stringTypes = new Set([
     'tinytext',
     'set',
     'enum',
-    'json'
-])
-const bitTypes = new Set([
-    'bit',
-])
+    'json',
+]);
+const bitTypes = new Set(['bit']);
 const hexTypes = new Set([
     'blob',
     'tinyblob',
@@ -37,7 +35,7 @@ const hexTypes = new Set([
     'longblob',
     'binary',
     'varbinary',
-])
+]);
 const geometryTypes = new Set([
     'point',
     'linestring',
@@ -46,31 +44,31 @@ const geometryTypes = new Set([
     'multilinestring',
     'multipolygon',
     'geometrycollection',
-])
+]);
 
-export type ColumnTypes = 'STRING' | 'BIT' | 'HEX' | 'NUMBER' | 'GEOMETRY'
-export default function resolveType(columnType : string) : ColumnTypes {
+type ColumnTypes = 'STRING' | 'BIT' | 'HEX' | 'NUMBER' | 'GEOMETRY';
+function resolveType(columnType: string): ColumnTypes {
     if (numberTypes.has(columnType)) {
-        return 'NUMBER'
+        return 'NUMBER';
     }
 
     if (stringTypes.has(columnType)) {
-        return 'STRING'
+        return 'STRING';
     }
 
     if (hexTypes.has(columnType)) {
-        return 'HEX'
+        return 'HEX';
     }
 
     if (geometryTypes.has(columnType)) {
-        return 'GEOMETRY'
-    }
+        return 'GEOMETRY';
+    } // shouldn't ever happen
 
-    /* istanbul ignore else */// shouldn't ever happen
-    if (bitTypes.has(columnType)) {
-        return 'BIT'
-    }
+    /* istanbul ignore else */ if (bitTypes.has(columnType)) {
+        return 'BIT';
+    } // shouldn't ever happen
 
-    /* istanbul ignore next */// shouldn't ever happen
-    throw new Error(`UNKNOWN TYPE "${columnType}"`)
+    /* istanbul ignore next */ throw new Error(`UNKNOWN TYPE "${columnType}"`);
 }
+
+export { ColumnTypes, resolveType };

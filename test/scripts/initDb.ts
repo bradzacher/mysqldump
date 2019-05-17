@@ -1,38 +1,35 @@
-import * as fs from 'fs'
+import * as fs from 'fs';
 
-import * as mysql from 'mysql2/promise'
-import testConfig from '../testConfig'
+import * as mysql from 'mysql2/promise';
+import { config } from '../testConfig';
 
-import schema from '../fixtures/schema'
-import triggers from '../fixtures/triggers'
+import { SCHEMA } from '../fixtures/schema';
+import { TRIGGERS } from '../fixtures/triggers';
 
-const data = fs.readFileSync(`${__dirname}/../fixtures/data.sql`, 'utf8')
+const data = fs.readFileSync(`${__dirname}/../fixtures/data.sql`, 'utf8');
 
-async function initDb() {
+async function initDb(): Promise<void> {
     try {
         // setup the database
-
         const conn = await mysql.createConnection({
-            ...testConfig,
+            ...config,
             multipleStatements: true,
-        })
+        });
 
         await Promise.all(
-            // eslint-disable-next-line @typescript-eslint/promise-function-async
-            Object.keys(schema).map((k : keyof typeof schema) => conn.query(schema[k])),
-        )
-        await Promise.all(
-            // eslint-disable-next-line @typescript-eslint/promise-function-async
-            triggers.map(t => conn.query(t)),
-        )
-        await conn.query(data)
+            Object.keys(SCHEMA).map((k: keyof typeof SCHEMA) =>
+                conn.query(SCHEMA[k]),
+            ),
+        );
+        await Promise.all(TRIGGERS.map(t => conn.query(t)));
+        await conn.query(data);
 
-        await conn.end()
+        await conn.end();
     } catch (e) {
-        console.error(e)
+        console.error(e);
 
-        process.exit(1)
+        process.exit(1);
     }
 }
 
-initDb()
+initDb();

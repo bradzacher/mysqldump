@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import testConfig from '../testConfig'
+import { config } from '../testConfig';
 
-export default {
+const SCHEMA = {
     date_types: `
 DROP TABLE IF EXISTS \`date_types\`;
 CREATE TABLE \`date_types\` (
@@ -130,7 +130,9 @@ CREATE TABLE \`other_types\` (
 );`,
 
     everything: `
-CREATE OR REPLACE DEFINER = \`${testConfig.user}\` @\`${testConfig.host}\` VIEW \`everything\` AS
+CREATE OR REPLACE DEFINER = \`${config.user}\` @\`${
+        config.host
+    }\` VIEW \`everything\` AS
 SELECT *
   FROM date_types AS dt
  INNER JOIN geometry_types AS gt
@@ -147,4 +149,6 @@ CREATE TABLE \`multiline_insert_test\` (
 
   PRIMARY KEY (\`id\`)
 );`,
-}
+} as const;
+
+export { SCHEMA };

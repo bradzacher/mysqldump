@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require('fs');
 
-fs.createReadStream(__dirname + '/testConfig.travis.ts')
-  .pipe(fs.createWriteStream(__dirname + '/testConfig.ts'))
+fs.createReadStream(`${__dirname}/testConfig.travis.ts`).pipe(
+    fs.createWriteStream(`${__dirname}/testConfig.ts`),
+);

@@ -1,28 +1,28 @@
-import testConfig from './testConfig'
+import { config } from './testConfig';
 
-import mysqldump from './scripts/import'
+import { mysqldump } from './scripts/import';
 
 describe('schema dumps tests', () => {
-    function clean(str : string | null) {
-        str = str || ''
+    function clean(str: string | null): string {
+        str = str || '';
 
         return str
             .split('\n')
             .map(l => l.trimRight())
             .filter(l => l.length > 0)
-            .join('\n')
+            .join('\n');
     }
-    function testDump(tableName : string, tableDef : string) {
+    function testDump(tableName: string, tableDef: string): void {
         tableDef = clean(`
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: ${tableName}
 # ------------------------------------------------------------
-${tableDef}`)
+${tableDef}`);
 
         it(tableName, async () => {
             // ACT
             const res = await mysqldump({
-                connection: testConfig,
+                connection: config,
                 dump: {
                     tables: [tableName],
                     schema: {
@@ -38,17 +38,19 @@ ${tableDef}`)
                     data: false,
                     trigger: false,
                 },
-            })
+            });
 
             // trim all the lines so whitespace doesn't matter
-            const dump = clean(res.dump.schema)
+            const dump = clean(res.dump.schema);
 
             // ASSERT
-            expect(dump).toEqual(tableDef)
-        })
+            expect(dump).toEqual(tableDef);
+        });
     }
 
-    testDump('date_types', `
+    testDump(
+        'date_types',
+        `
 CREATE TABLE \`date_types\` (
   \`dt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_date\` date NOT NULL,
@@ -62,9 +64,12 @@ CREATE TABLE \`date_types\` (
   \`_nullTimestamp\` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   \`_nullYear\` year(4) DEFAULT NULL,
   PRIMARY KEY (\`dt_id\`)
-);`)
+);`,
+    );
 
-    testDump('geometry_types', `
+    testDump(
+        'geometry_types',
+        `
 CREATE TABLE \`geometry_types\` (
   \`gt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_point\` point NOT NULL,
@@ -82,9 +87,12 @@ CREATE TABLE \`geometry_types\` (
   \`_nullMultipolygon\` multipolygon DEFAULT NULL,
   \`_nullGeometrycollection\` geometrycollection DEFAULT NULL,
   PRIMARY KEY (\`gt_id\`)
-);`)
+);`,
+    );
 
-    testDump('number_types', `
+    testDump(
+        'number_types',
+        `
 CREATE TABLE \`number_types\` (
   \`nt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_uint\` int(10) unsigned NOT NULL,
@@ -114,9 +122,12 @@ CREATE TABLE \`number_types\` (
   \`_nullBit1\` bit(1) DEFAULT NULL,
   \`_nullBit24\` bit(24) DEFAULT NULL,
   PRIMARY KEY (\`nt_id\`)
-);`)
+);`,
+    );
 
-    testDump('other_types', `
+    testDump(
+        'other_types',
+        `
 CREATE TABLE \`other_types\` (
   \`ot_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_blob\` blob NOT NULL,
@@ -139,9 +150,12 @@ CREATE TABLE \`other_types\` (
   \`_nullEnum\` enum('red', 'green', 'blue') DEFAULT NULL,
   \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
-);`)
+);`,
+    );
 
-    testDump('text_types', `
+    testDump(
+        'text_types',
+        `
 CREATE TABLE \`text_types\` (
   \`ot_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_char\` char(1) NOT NULL,
@@ -153,9 +167,12 @@ CREATE TABLE \`text_types\` (
   \`_nullText\` text,
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
-);`)
+);`,
+    );
 
-    testDump('everything', `
+    testDump(
+        'everything',
+        `
 CREATE OR REPLACE VIEW \`everything\` AS
 select
   \`dt\`.\`dt_id\` AS \`dt_id\`,
@@ -241,5 +258,6 @@ from
     join \`number_types\` \`nt\` on((\`dt\`.\`dt_id\` = \`nt\`.\`nt_id\`))
   )
   join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
-  );`)
-})
+  );`,
+    );
+});
