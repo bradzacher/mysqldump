@@ -27,6 +27,12 @@ function buildInsertValue(row : QueryRes, table : Table) {
     return `(${table.columnsOrdered.map(c => row[c]).join(',')})`
 }
 
+function executeSql(connection : mysql.Connection, sql : string) {
+    return new Promise((resolve, reject) =>
+        connection.query(sql, (err) => err ? /* istanbul ignore next */ reject(err) : resolve())
+    );
+}
+
 export default async function getDataDump(
     connectionOptions : ConnectionOptions,
     options : Required<DataDumpOptions>,
@@ -51,7 +57,7 @@ export default async function getDataDump(
     }]))
 
     const retTables : Array<Table> = []
-    let currentTableLines : Array<string> | null = []
+    let currentTableLines : Array<string> | null = null
 
     // open the write stream (if configured to)
     const outFileStream = dumpToFile ? fs.createWriteStream(dumpToFile, {
@@ -75,80 +81,95 @@ export default async function getDataDump(
         }
     }
 
-    // to avoid having to load an entire DB's worth of data at once, we select from each table individually
-    // note that we use async/await within this loop to only process one table at a time (to reduce memory footprint)
-    while (tables.length > 0) {
-        const table = tables.shift()!
+    try {
 
-        if (table.isView && !options.includeViewData) {
-            // don't dump data for views
+        if(options.lockTables) {
+            // see: https://dev.mysql.com/doc/refman/5.7/en/replication-solutions-backups-read-only.html
+            await executeSql(connection, `FLUSH TABLES WITH READ LOCK`)
+            await executeSql(connection, `SET GLOBAL read_only = ON`)
+        }
+
+        // to avoid having to load an entire DB's worth of data at once, we select from each table individually
+        // note that we use async/await within this loop to only process one table at a time (to reduce memory footprint)
+        while (tables.length > 0) {
+            const table = tables.shift()!
+
+            if (table.isView && !options.includeViewData) {
+                // don't dump data for views
+                retTables.push(merge<Table>([table, {
+                    data: null,
+                }]))
+
+                // eslint-disable-next-line no-continue
+                continue
+            }
+
+            currentTableLines = options.returnFromFunction ? [] : null
+
+            if (retTables.length > 0) {
+                // add a newline before the next header to pad the dumps
+                saveChunk('')
+            }
+
+            if(options.verbose) {
+                // write the table header to the file
+                const header = [
+                    '# ------------------------------------------------------------',
+                    `# DATA DUMP FOR TABLE: ${table.name}${options.lockTables ? ' (locked)' : ''}`,
+                    '# ------------------------------------------------------------',
+                    '',
+                ]
+                saveChunk(header)
+            }
+
+            // eslint-disable-next-line no-await-in-loop
+            await new Promise((resolve, reject) => {
+                // send the query
+                const where = options.where[table.name] ? ` WHERE ${options.where[table.name]}` : ''
+                const query = connection.query(`SELECT * FROM \`${table.name}\`${where}`)
+
+                let rowQueue : Array<string> = []
+
+                // stream the data to the file
+                query.on('result', (row : QueryRes) => {
+                    // build the values list
+                    rowQueue.push(buildInsertValue(row, table))
+
+                    // if we've got a full queue
+                    if (rowQueue.length === options.maxRowsPerInsertStatement) {
+                        // create and write a fresh statement
+                        const insert = buildInsert(table, rowQueue, format)
+                        saveChunk(insert)
+                        rowQueue = []
+                    }
+                })
+                query.on('end', () => {
+                    // write the remaining rows to disk
+                    if (rowQueue.length > 0) {
+                        const insert = buildInsert(table, rowQueue, format)
+                        saveChunk(insert)
+                        rowQueue = []
+                    }
+
+                    resolve()
+                })
+                query.on('error', /* istanbul ignore next */err => reject(err))
+            })
+
+            // update the table definition
             retTables.push(merge<Table>([table, {
-                data: null,
+                data: currentTableLines ? currentTableLines.join('\n') : null,
             }]))
-
-            // eslint-disable-next-line no-continue
-            continue
         }
 
-        currentTableLines = options.returnFromFunction ? [] : null
-
-        if (retTables.length > 0) {
-            // add a newline before the next header to pad the dumps
-            saveChunk('')
+        saveChunk('')
+    } finally {
+        if(options.lockTables) {
+            // see: https://dev.mysql.com/doc/refman/5.7/en/replication-solutions-backups-read-only.html
+            await executeSql(connection, `SET GLOBAL read_only = OFF`)
+            await executeSql(connection, `UNLOCK TABLES`)
         }
-
-        if(options.verbose) {
-            // write the table header to the file
-            const header = [
-                '# ------------------------------------------------------------',
-                `# DATA DUMP FOR TABLE: ${table.name}`,
-                '# ------------------------------------------------------------',
-                '',
-            ]
-            saveChunk(header)
-        }
-
-        // eslint-disable-next-line no-await-in-loop
-        await new Promise((resolve, reject) => {
-            // send the query
-            const where = options.where[table.name] ? ` WHERE ${options.where[table.name]}` : ''
-            const query = connection.query(`SELECT * FROM \`${table.name}\`${where}`)
-
-            let rowQueue : Array<string> = []
-
-            // stream the data to the file
-            query.on('result', (row : QueryRes) => {
-                // build the values list
-                rowQueue.push(buildInsertValue(row, table))
-
-                // if we've got a full queue
-                if (rowQueue.length === options.maxRowsPerInsertStatement) {
-                    // create and write a fresh statement
-                    const insert = buildInsert(table, rowQueue, format)
-                    saveChunk(insert)
-                    rowQueue = []
-                }
-            })
-            query.on('end', () => {
-                // write the remaining rows to disk
-                if (rowQueue.length > 0) {
-                    const insert = buildInsert(table, rowQueue, format)
-                    saveChunk(insert)
-                    rowQueue = []
-                }
-
-                resolve()
-            })
-            query.on('error', /* istanbul ignore next */err => reject(err))
-        })
-
-        // update the table definition
-        retTables.push(merge<Table>([table, {
-            data: currentTableLines ? currentTableLines.join('\n') : null,
-        }]))
     }
-
-    saveChunk('')
 
     // clean up our connections
     await connection.end()

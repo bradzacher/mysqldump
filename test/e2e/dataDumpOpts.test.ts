@@ -84,5 +84,75 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).toMatch(multiInsertRegex)
             expect(res.dump.data).not.toMatch(singleInsertRegex)
         })
+
+        const verboseHeaderRegex = /DATA DUMP FOR TABLE:/m
+        it('should include table header if verbose is configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    data: {
+                        maxRowsPerInsertStatement: 50,
+                        format: false,
+                        verbose: true,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toMatch(verboseHeaderRegex)
+        })
+        it('should not include table header if verbose is not configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    data: {
+                        maxRowsPerInsertStatement: 50,
+                        format: false,
+                        verbose: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).not.toMatch(verboseHeaderRegex)
+        })
+
+        const lockTableRegex = /DATA DUMP FOR TABLE: (.*) \(locked\)/m
+        it('should lock tables if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    data: {
+                        maxRowsPerInsertStatement: 50,
+                        format: false,
+                        verbose: true,
+                        lockTables: true,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).toMatch(lockTableRegex)
+        })
+        it('should not lock tables if not configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: testConfig,
+                dump: {
+                    data: {
+                        maxRowsPerInsertStatement: 50,
+                        format: false,
+                        verbose: true,
+                        lockTables: false,
+                    },
+                },
+            })
+
+            // ASSERT
+            expect(res.dump.data).not.toMatch(lockTableRegex)
+        })
     })
 })

@@ -186,6 +186,16 @@ export interface DataDumpOptions {
 	 */
 	format?: boolean;
 	/**
+	 * Include file headers in output
+	 * Defaults to true.
+	 */
+	verbose ?: boolean
+	/**
+	 * Use a read lock during the data dump (see: https://dev.mysql.com/doc/refman/5.7/en/replication-solutions-backups-read-only.html)
+	 * Defaults to false.
+	 */
+	lockTables ?: boolean
+	/**
 	 * Dump data from views.
 	 * Defaults to false.
 	 */
