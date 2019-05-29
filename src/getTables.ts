@@ -46,9 +46,9 @@ async function getTables(
             );
         } else {
             // only include the tables from the options that actually exist in the db
-            tables = tables.filter(
-                t => restrictedTables.indexOf(t.name) !== -1,
-            );
+            tables = restrictedTables
+                .map(tableName => actualTables.find(t => t.name === tableName)) // keeping the order of the passed-in whitelist
+                .filter(t => Boolean(t)) as Array<Table>; // filter out non-existing tables
         }
     }
 
