@@ -248,6 +248,11 @@ interface Options {
      * Exclude to just return the string.
      */
     dumpToFile?: string | null;
+    /**
+     * Should the output file be compressed (gzip)?
+     * Defaults to false.
+     */
+    compressFile?: boolean;
 }
 
 // Recursively requires all properties on an object
@@ -267,6 +272,7 @@ interface CompletedOptions {
     connection: Required<ConnectionOptions>;
     dump: RequiredRecursive<DumpOptions>;
     dumpToFile: string | null;
+    compressFile: boolean | null;
 }
 
 export {

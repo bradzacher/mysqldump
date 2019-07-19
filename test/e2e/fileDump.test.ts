@@ -5,13 +5,13 @@ describe('mysqldump.e2e', () => {
     describe('dump to file', () => {
         it('should dump a file if configured', dumpTest({}));
         it(
-            'should not dump schema to a file if configured',
+            'should not dump data to a file if configured',
             dumpTest({
                 data: false,
             }),
         );
         it(
-            'should not dump data to a file if configured',
+            'should not dump schema to a file if configured',
             dumpTest({
                 schema: false,
             }),
@@ -21,6 +21,10 @@ describe('mysqldump.e2e', () => {
             dumpTest({
                 trigger: false,
             }),
+        );
+        it(
+            'should dump a file in compressed format if configured',
+            dumpTest({}, undefined, /* compressFile */ true),
         );
     });
 });

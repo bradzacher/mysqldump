@@ -33,6 +33,18 @@ mysqldump({
     dumpToFile: './dump.sql',
 });
 
+// dump the result straight to a compressed file
+mysqldump({
+    connection: {
+        host: 'localhost',
+        user: 'root',
+        password: '123456',
+        database: 'my_database',
+    },
+    dumpToFile: './dump.sql.gz',
+    compressFile: true,
+});
+
 // return the dump from the function and not to a file
 const result = await mysqldump({
     connection: {
@@ -276,6 +288,11 @@ export interface Options {
 	 * Exclude to just return the string.
 	 */
 	dumpToFile?: string;
+	/**
+	 * Should the output file be compressed (gzip)?
+	 * Defaults to false.
+	 */
+	compressFile?: boolean;
 }
 export interface ColumnList {
 	/**
@@ -358,11 +375,11 @@ The MIT [License](./LICENSE.md)
 
 ## Contributing
 
-### Installation
+### Local Installation
 
 Make sure to first install all the required development dependencies:
 
-```
+```shell
 yarn
 // or
 npm install .
