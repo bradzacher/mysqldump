@@ -242,6 +242,11 @@ export interface Options {
 	 * Exclude to just return the string.
 	 */
 	dumpToFile?: string | null;
+	/**
+	 * Should the output file be compressed (gzip)?
+	 * Defaults to false.
+	 */
+	compressFile?: boolean;
 }
 export interface ColumnList {
 	/**
