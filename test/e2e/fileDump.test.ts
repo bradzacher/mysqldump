@@ -23,6 +23,12 @@ describe('mysqldump.e2e', () => {
             }),
         );
         it(
+            'should not dump procedure to a file if configured',
+            dumpTest({
+                procedure: false,
+            }),
+        );
+        it(
             'should dump a file in compressed format if configured',
             dumpTest({}, undefined, /* compressFile */ true),
         );

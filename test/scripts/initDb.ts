@@ -5,6 +5,7 @@ import { config } from '../testConfig';
 
 import { SCHEMA } from '../fixtures/schema';
 import { TRIGGERS } from '../fixtures/triggers';
+import { PROCEDURES } from '../fixtures/procedures';
 
 const data = fs.readFileSync(`${__dirname}/../fixtures/data.sql`, 'utf8');
 
@@ -22,6 +23,7 @@ async function initDb(): Promise<void> {
             ),
         );
         await Promise.all(TRIGGERS.map(t => conn.query(t)));
+        await Promise.all(PROCEDURES.map(t => conn.query(t)));
         await conn.query(data);
 
         await conn.end();

@@ -13,7 +13,7 @@ type ViewProp = keyof Required<SchemaDumpOptions>['view'];
 type PropType = ['table', TableProp] | ['view', ViewProp];
 // eslint-disable-next-line max-params
 function dumpOptTest<T>(
-    type: 'schema' | 'data' | 'trigger',
+    type: 'schema' | 'data' | 'trigger' | 'procedure',
     prop: keyof T | PropType,
     includeValue: any,
     excludeValue: any,
@@ -62,7 +62,7 @@ function dumpOptTest<T>(
 }
 
 function dumpFlagTest<T>(
-    type: 'schema' | 'data' | 'trigger',
+    type: 'schema' | 'data' | 'trigger' | 'procedure',
     prop: keyof T | PropType,
     matchRegExp: RegExp,
     dontMatchRegExp?: RegExp,
@@ -113,6 +113,7 @@ function dumpTest(
         res.dump.schema && memoryLines.push(`${res.dump.schema}\n`);
         res.dump.data && memoryLines.push(`${res.dump.data}\n`);
         res.dump.trigger && memoryLines.push(`${res.dump.trigger}\n`);
+        res.dump.procedure && memoryLines.push(`${res.dump.procedure}\n`);
         memoryLines.push(FOOTER_VARIABLES);
 
         expect(file).toEqual(memoryLines.join('\n'));

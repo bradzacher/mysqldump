@@ -10,6 +10,7 @@ import { DumpReturn } from './interfaces/DumpReturn';
 import { getTables } from './getTables';
 import { getSchemaDump } from './getSchemaDump';
 import { getTriggerDump } from './getTriggerDump';
+import { getProcedureDump } from './getProcedureDump';
 import { getDataDump } from './getDataDump';
 import { compressFile } from './compressFile';
 import { DB } from './DB';
@@ -127,6 +128,7 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
                 schema: null,
                 data: null,
                 trigger: null,
+                procedure: null,
             },
             tables: await getTables(
                 connection,
@@ -172,6 +174,19 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
                 .trim();
         }
 
+        // dump the procedures if requested
+        if (options.dump.procedure !== false) {
+            const procedures = await getProcedureDump(
+                connection,
+                options.connection.database,
+                options.dump.procedure,
+            );
+            res.dump.procedure = procedures
+                .map(proc => proc)
+                .join('\n')
+                .trim();
+        }
+
         // data dump uses its own connection so kill ours
         await connection.end();
 
@@ -195,6 +210,11 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
         // write the triggers to the file
         if (options.dumpToFile && res.dump.trigger) {
             fs.appendFileSync(options.dumpToFile, `${res.dump.trigger}\n\n`);
+        }
+
+        // write the procedures to the file
+        if (options.dumpToFile && res.dump.procedure) {
+            fs.appendFileSync(options.dumpToFile, `${res.dump.procedure}\n\n`);
         }
 
         // reset all of the variables

@@ -37,6 +37,7 @@ ${tableDef}`);
                     },
                     data: false,
                     trigger: false,
+                    procedure: false,
                 },
             });
 

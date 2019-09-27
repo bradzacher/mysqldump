@@ -153,7 +153,26 @@ interface TriggerDumpOptions {
      */
     dropIfExist?: boolean;
     /**
-     * Include the `DEFINER = {\`user\`@\`host\` | CURRENT_USER}` in the view definition or not
+     * Include the `DEFINER = {\`user\`@\`host\` | CURRENT_USER}` in the trigger definition or not
+     * Defaults to false.
+     */
+    definer?: boolean;
+}
+
+interface ProcedureDumpOptions {
+    /**
+     * The temporary delimiter to use between statements.
+     * Set to false to not use delmiters
+     * Defaults to ';;'.
+     */
+    delimiter?: string;
+    /**
+     * Drop procedure before creation.
+     * Defaults to false.
+     */
+    dropIfExist?: boolean;
+    /**
+     * Include the `DEFINER = {\`user\`@\`host\` | CURRENT_USER}` in the sp definition or not
      * Defaults to false.
      */
     definer?: boolean;
@@ -232,6 +251,11 @@ interface DumpOptions {
      * Defaults to including the triggers.
      */
     trigger?: false | TriggerDumpOptions;
+    /**
+     * Explicitly set to false to not include procedures in the dump.
+     * Defaults to including the procedures.
+     */
+    procedure?: false | ProcedureDumpOptions;
 }
 
 interface Options {
@@ -283,4 +307,5 @@ export {
     Options,
     SchemaDumpOptions,
     TriggerDumpOptions,
+    ProcedureDumpOptions,
 };

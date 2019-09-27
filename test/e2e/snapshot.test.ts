@@ -41,5 +41,12 @@ describe('mysqldump.e2e', () => {
         snapshotTest({ trigger: { dropIfExist: false } });
         // TODO - figure out how to make this run and pass on both local and travis
         // snapshotTest({ trigger: { definer: true } })
+
+        snapshotTest({ procedure: false });
+        snapshotTest({ procedure: { delimiter: false } });
+        snapshotTest({ procedure: { delimiter: '//' } });
+        snapshotTest({ procedure: { dropIfExist: false } });
+        // TODO - figure out how to make this run and pass on both local and travis
+        // snapshotTest({ procedure: { definer: true } })
     });
 });

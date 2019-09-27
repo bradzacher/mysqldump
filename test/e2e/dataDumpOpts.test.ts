@@ -70,6 +70,7 @@ describe('mysqldump.e2e', () => {
                     tables: ['multiline_insert_test'],
                     schema: false,
                     trigger: false,
+                    procedure: false,
                     data: {
                         maxRowsPerInsertStatement: 1,
                         format: false,

@@ -14,6 +14,7 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).toBeTruthy();
             expect(res.dump.schema).toBeTruthy();
             expect(res.dump.trigger).toBeTruthy();
+            expect(res.dump.procedure).toBeTruthy();
         });
 
         it('should not provide a schema dump if configured', async () => {
@@ -29,6 +30,7 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).toBeTruthy();
             expect(res.dump.schema).toBeFalsy();
             expect(res.dump.trigger).toBeTruthy();
+            expect(res.dump.procedure).toBeTruthy();
         });
 
         it('should not provide a data dump if configured', async () => {
@@ -44,6 +46,7 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).toBeFalsy();
             expect(res.dump.schema).toBeTruthy();
             expect(res.dump.trigger).toBeTruthy();
+            expect(res.dump.procedure).toBeTruthy();
         });
 
         it('should not provide a trigger dump if configured', async () => {
@@ -59,6 +62,23 @@ describe('mysqldump.e2e', () => {
             expect(res.dump.data).toBeTruthy();
             expect(res.dump.schema).toBeTruthy();
             expect(res.dump.trigger).toBeFalsy();
+            expect(res.dump.procedure).toBeTruthy();
+        });
+
+        it('should not provide a procedure dump if configured', async () => {
+            // ACT
+            const res = await mysqldump({
+                connection: config,
+                dump: {
+                    procedure: false,
+                },
+            });
+
+            // ASSERT
+            expect(res.dump.data).toBeTruthy();
+            expect(res.dump.schema).toBeTruthy();
+            expect(res.dump.trigger).toBeTruthy();
+            expect(res.dump.procedure).toBeFalsy();
         });
 
         function tableListTest(blacklist: boolean): () => void {

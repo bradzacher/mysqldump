@@ -17,6 +17,7 @@ import { config } from '../testConfig';
         console.info(res.dump.schema);
         console.info(res.dump.data);
         console.info(res.dump.trigger);
+        console.info(res.dump.procedure);
     } catch (e) {
         console.error(e);
     }
