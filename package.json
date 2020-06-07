@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/assignar/mysqldump",
   "dependencies": {
-    "deepmerge": "^3.2.0",
+    "deepmerge": "^4.2.2",
     "mysql2": "^2.1.0",
     "sql-formatter": "^2.3.3",
     "sqlstring": "^2.3.2"
@@ -58,7 +58,7 @@
     "babel": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "copyfiles": "^2.3.0",
-    "dts-bundle-generator": "^3.1.0",
+    "dts-bundle-generator": "^4.3.0",
     "eslint-config-brad": "^3.0.2",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
