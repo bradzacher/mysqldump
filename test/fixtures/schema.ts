@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/naming-convention -- intentional underscores */
 import { config } from '../testConfig';
 
 const SCHEMA = {
-    date_types: `
+  date_types: `
 DROP TABLE IF EXISTS \`date_types\`;
 CREATE TABLE \`date_types\` (
     \`dt_id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -22,7 +22,7 @@ CREATE TABLE \`date_types\` (
     PRIMARY KEY (\`dt_id\`)
 );`,
 
-    geometry_types: `
+  geometry_types: `
 DROP TABLE IF EXISTS \`geometry_types\`;
 CREATE TABLE \`geometry_types\` (
     \`gt_id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -46,7 +46,7 @@ CREATE TABLE \`geometry_types\` (
     PRIMARY KEY (\`gt_id\`)
 );`,
 
-    number_types: `
+  number_types: `
 DROP TABLE IF EXISTS \`number_types\`;
 CREATE TABLE \`number_types\` (
     \`nt_id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -82,7 +82,7 @@ CREATE TABLE \`number_types\` (
     PRIMARY KEY (\`nt_id\`)
 );`,
 
-    text_types: `
+  text_types: `
 DROP TABLE IF EXISTS \`text_types\`;
 CREATE TABLE \`text_types\` (
     \`ot_id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -100,7 +100,7 @@ CREATE TABLE \`text_types\` (
     PRIMARY KEY (\`ot_id\`)
 );`,
 
-    other_types: `
+  other_types: `
 DROP TABLE IF EXISTS \`other_types\`;
 CREATE TABLE \`other_types\` (
     \`ot_id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -129,10 +129,10 @@ CREATE TABLE \`other_types\` (
     PRIMARY KEY (\`ot_id\`)
 );`,
 
-    everything: `
+  everything: `
 CREATE OR REPLACE DEFINER = \`${config.user}\` @\`${
-        config.host
-    }\` VIEW \`everything\` AS
+    config.host ?? '127.0.0.1'
+  }\` VIEW \`everything\` AS
 SELECT *
   FROM date_types AS dt
  INNER JOIN geometry_types AS gt
@@ -142,7 +142,7 @@ SELECT *
  INNER JOIN other_types AS ot
     ON dt.dt_id = ot.ot_id;`,
 
-    multiline_insert_test: `
+  multiline_insert_test: `
 DROP TABLE IF EXISTS \`multiline_insert_test\`;
 CREATE TABLE \`multiline_insert_test\` (
   \`id\` INT UNSIGNED NOT NULL AUTO_INCREMENT,

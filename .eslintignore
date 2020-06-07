@@ -2,3 +2,5 @@ node_modules
 .vscode
 types
 dist
+
+jest-prod-config.js

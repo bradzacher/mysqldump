@@ -3,54 +3,55 @@ import { config } from './testConfig';
 import { mysqldump } from './scripts/import';
 
 describe('schema dumps tests', () => {
-    function clean(str: string | null): string {
-        str = str || '';
+  function clean(str: string | null): string {
+    str = str ?? '';
 
-        return str
-            .split('\n')
-            .map(l => l.trimRight())
-            .filter(l => l.length > 0)
-            .join('\n');
-    }
-    function testDump(tableName: string, tableDef: string): void {
-        tableDef = clean(`
+    return str
+      .split('\n')
+      .map(l => l.trimRight())
+      .filter(l => l.length > 0)
+      .join('\n');
+  }
+  function testDump(tableName: string, tableDef: string): void {
+    tableDef = clean(`
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: ${tableName}
 # ------------------------------------------------------------
 ${tableDef}`);
 
-        it(tableName, async () => {
-            // ACT
-            const res = await mysqldump({
-                connection: config,
-                dump: {
-                    tables: [tableName],
-                    schema: {
-                        autoIncrement: false,
-                        engine: false,
-                        format: true,
-                        table: {
-                            dropIfExist: false,
-                            ifNotExist: false,
-                            charset: false,
-                        },
-                    },
-                    data: false,
-                    trigger: false,
-                },
-            });
+    // eslint-disable-next-line jest/valid-title -- test generator
+    it(tableName, async () => {
+      // ACT
+      const res = await mysqldump({
+        connection: config,
+        dump: {
+          tables: [tableName],
+          schema: {
+            autoIncrement: false,
+            engine: false,
+            format: true,
+            table: {
+              dropIfExist: false,
+              ifNotExist: false,
+              charset: false,
+            },
+          },
+          data: false,
+          trigger: false,
+        },
+      });
 
-            // trim all the lines so whitespace doesn't matter
-            const dump = clean(res.dump.schema);
+      // trim all the lines so whitespace doesn't matter
+      const dump = clean(res.dump.schema);
 
-            // ASSERT
-            expect(dump).toEqual(tableDef);
-        });
-    }
+      // ASSERT
+      expect(dump).toEqual(tableDef);
+    });
+  }
 
-    testDump(
-        'date_types',
-        `
+  testDump(
+    'date_types',
+    `
 CREATE TABLE \`date_types\` (
   \`dt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_date\` date NOT NULL,
@@ -65,11 +66,11 @@ CREATE TABLE \`date_types\` (
   \`_nullYear\` year(4) DEFAULT NULL,
   PRIMARY KEY (\`dt_id\`)
 );`,
-    );
+  );
 
-    testDump(
-        'geometry_types',
-        `
+  testDump(
+    'geometry_types',
+    `
 CREATE TABLE \`geometry_types\` (
   \`gt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_point\` point NOT NULL,
@@ -88,11 +89,11 @@ CREATE TABLE \`geometry_types\` (
   \`_nullGeometrycollection\` geometrycollection DEFAULT NULL,
   PRIMARY KEY (\`gt_id\`)
 );`,
-    );
+  );
 
-    testDump(
-        'number_types',
-        `
+  testDump(
+    'number_types',
+    `
 CREATE TABLE \`number_types\` (
   \`nt_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_uint\` int(10) unsigned NOT NULL,
@@ -123,11 +124,11 @@ CREATE TABLE \`number_types\` (
   \`_nullBit24\` bit(24) DEFAULT NULL,
   PRIMARY KEY (\`nt_id\`)
 );`,
-    );
+  );
 
-    testDump(
-        'other_types',
-        `
+  testDump(
+    'other_types',
+    `
 CREATE TABLE \`other_types\` (
   \`ot_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_blob\` blob NOT NULL,
@@ -151,11 +152,11 @@ CREATE TABLE \`other_types\` (
   \`_nullSet\` set('a', 'b', 'c') DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 );`,
-    );
+  );
 
-    testDump(
-        'text_types',
-        `
+  testDump(
+    'text_types',
+    `
 CREATE TABLE \`text_types\` (
   \`ot_id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
   \`_char\` char(1) NOT NULL,
@@ -168,11 +169,11 @@ CREATE TABLE \`text_types\` (
   \`_nullVarchar\` varchar(128) DEFAULT NULL,
   PRIMARY KEY (\`ot_id\`)
 );`,
-    );
+  );
 
-    testDump(
-        'everything',
-        `
+  testDump(
+    'everything',
+    `
 CREATE OR REPLACE VIEW \`everything\` AS
 select
   \`dt\`.\`dt_id\` AS \`dt_id\`,
@@ -259,5 +260,5 @@ from
   )
   join \`other_types\` \`ot\` on((\`dt\`.\`dt_id\` = \`ot\`.\`ot_id\`))
   );`,
-    );
+  );
 });

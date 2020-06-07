@@ -9,27 +9,27 @@ import { TRIGGERS } from '../fixtures/triggers';
 const data = fs.readFileSync(`${__dirname}/../fixtures/data.sql`, 'utf8');
 
 async function initDb(): Promise<void> {
-    try {
-        // setup the database
-        const conn = await mysql.createConnection({
-            ...config,
-            multipleStatements: true,
-        });
+  try {
+    // setup the database
+    const conn = await mysql.createConnection({
+      ...config,
+      multipleStatements: true,
+    });
 
-        await Promise.all(
-            Object.keys(SCHEMA).map((k: keyof typeof SCHEMA) =>
-                conn.query(SCHEMA[k]),
-            ),
-        );
-        await Promise.all(TRIGGERS.map(t => conn.query(t)));
-        await conn.query(data);
+    await Promise.all(
+      Object.keys(SCHEMA).map(async (k: keyof typeof SCHEMA) =>
+        conn.query(SCHEMA[k]),
+      ),
+    );
+    await Promise.all(TRIGGERS.map(async t => conn.query(t)));
+    await conn.query(data);
 
-        await conn.end();
-    } catch (e) {
-        console.error(e);
+    await conn.end();
+  } catch (e) {
+    console.error(e);
 
-        process.exit(1);
-    }
+    process.exit(1);
+  }
 }
 
-initDb();
+void initDb();

@@ -3,21 +3,21 @@ import { config } from '../testConfig';
 // unfortunately - for multi-statement triggers you need DELIMITER statements, which are a MYSQL CLI statement
 //                 and are not supported via any driver... so you have to run each statement separately
 const TRIGGERS = [
-    'DROP TRIGGER IF EXISTS trigger_juan',
-    `
+  'DROP TRIGGER IF EXISTS trigger_juan',
+  `
     CREATE DEFINER = \`${config.user}\` @\`${
-        config.host
-    }\` TRIGGER trigger_juan BEFORE INSERT ON other_types
+    config.host ?? '127.0.0.1'
+  }\` TRIGGER trigger_juan BEFORE INSERT ON other_types
        FOR EACH ROW
      BEGIN
            SET NEW.populatedViaTrigger = 2;
        END`,
 
-    'DROP TRIGGER IF EXISTS trigger_two',
-    `
+  'DROP TRIGGER IF EXISTS trigger_two',
+  `
     CREATE DEFINER = \`${config.user}\` @\`${
-        config.host
-    }\` TRIGGER trigger_two AFTER UPDATE ON other_types
+    config.host ?? '127.0.0.1'
+  }\` TRIGGER trigger_two AFTER UPDATE ON other_types
        FOR EACH ROW
      BEGIN
            UPDATE other_types

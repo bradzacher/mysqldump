@@ -1,6 +1,6 @@
 /// <reference types="node" />
 
-export interface ConnectionOptions {
+export declare type ConnectionOptions = {
 	/**
 	 * The database host to connect to.
 	 * Defaults to 'localhost'.
@@ -74,8 +74,8 @@ export interface ConnectionOptions {
 		 */
 		rejectUnauthorized?: boolean;
 	};
-}
-export interface SchemaDumpOptions {
+};
+export declare type SchemaDumpOptions = {
 	/**
 	 * True to include autoincrement values in schema, false otherwise.
 	 * Defaults to true.
@@ -136,8 +136,8 @@ export interface SchemaDumpOptions {
 		 */
 		sqlSecurity?: boolean;
 	};
-}
-export interface TriggerDumpOptions {
+};
+export declare type TriggerDumpOptions = {
 	/**
 	 * The temporary delimiter to use between statements.
 	 * Set to false to not use delmiters
@@ -154,8 +154,8 @@ export interface TriggerDumpOptions {
 	 * Defaults to false.
 	 */
 	definer?: boolean;
-}
-export interface DataDumpOptions {
+};
+export declare type DataDumpOptions = {
 	/**
 	 * True to run a sql formatter over the output, false otherwise.
 	 * Defaults to true.
@@ -200,8 +200,8 @@ export interface DataDumpOptions {
 	where?: {
 		[k: string]: string;
 	};
-}
-export interface DumpOptions {
+};
+export declare type DumpOptions = {
 	/**
 	 * The list of tables that you want to dump.
 	 * Defaults to all tables (signalled by passing an empty array).
@@ -227,8 +227,8 @@ export interface DumpOptions {
 	 * Defaults to including the triggers.
 	 */
 	trigger?: false | TriggerDumpOptions;
-}
-export interface Options {
+};
+export declare type Options = {
 	/**
 	 * Database connection options
 	 */
@@ -247,8 +247,8 @@ export interface Options {
 	 * Defaults to false.
 	 */
 	compressFile?: boolean;
-}
-export interface ColumnList {
+};
+export declare type ColumnList = {
 	/**
 	 * Key is the name of the column
 	 */
@@ -262,8 +262,8 @@ export interface ColumnList {
 		 */
 		nullable: boolean;
 	};
-}
-export interface Table {
+};
+export declare type Table = {
 	/**
 	 * The name of the table.
 	 */
@@ -294,8 +294,8 @@ export interface Table {
 	 * A list of triggers attached to the table
 	 */
 	triggers: Array<string>;
-}
-export interface DumpReturn {
+};
+export declare type DumpReturn = {
 	/**
 	 * The result of the dump
 	 */
@@ -317,7 +317,7 @@ export interface DumpReturn {
 		trigger: string | null;
 	};
 	tables: Array<Table>;
-}
+};
 export default function main(inputOptions: Options): Promise<DumpReturn>;
 
 export as namespace mysqldump;

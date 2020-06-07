@@ -1,78 +1,77 @@
 {
-    "name": "mysqldump",
-    "version": "3.1.0",
-    "description": "Create a DUMP from MySQL",
-    "main": "dist/cjs.js",
-    "module": "dist/es.js",
-    "typings": "dist/mysqldump.d.ts",
-    "scripts": {
-        "pretest": "ts-node -P ./tsconfig.json --files ./test/scripts/initDb.ts",
-        "pretest-prod": "ts-node -P ./tsconfig.json --files ./test/scripts/initDb.ts",
-        "setup-actions": "node ./test/setupGHActions.js",
-        "test": "jest --ci --config=./jest.json",
-        "test-prod": "JEST_USE_NPM_BUILD=true jest --ci --config=./test/jest-prod-config.js",
-        "view-coverage": "open ./coverage/index.html",
-        "build": "rollup -c && dts-bundle-generator -o dist/mysqldump.d.ts build-decl/main.d.ts --umd-module-name=mysqldump && rimraf build-decl",
-        "clean": "rimraf dist && rimraf build-decl",
-        "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
-        "format-check": "prettier --list-different \"./**/*.{ts,js,json,md}\"",
-        "lint": "eslint src test --ext \".ts\"",
-        "typecheck": "tsc --noEmit",
-        "start": "ts-node -P ./tsconfig.json --files ./test/scripts/launch.ts",
-        "ci": "yarn lint --quiet && yarn build"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/assignar/mysqldump"
-    },
-    "keywords": [
-        "backup",
-        "mysql",
-        "mysql-dump",
-        "dump",
-        "restore",
-        "database",
-        "backup",
-        "database"
-    ],
-    "author": "Brad Zacher",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/assignar/mysqldump/issues"
-    },
-    "homepage": "https://github.com/assignar/mysqldump",
-    "dependencies": {
-        "deepmerge": "^3.2.0",
-        "mysql2": "^2.1.0",
-        "sql-formatter": "^2.3.2",
-        "sqlstring": "^2.3.1"
-    },
-    "devDependencies": {
-        "@types/extend": "^3.0.1",
-        "@types/invariant": "^2.2.29",
-        "@types/jest": "^24.0.13",
-        "@types/mysql": "^2.15.6",
-        "@types/node": "^12.0.2",
-        "@types/sqlstring": "^2.2.1",
-        "@types/tmp": "^0.1.0",
-        "babel": "^6.23.0",
-        "babel-plugin-transform-object-rest-spread": "^6.26.0",
-        "copyfiles": "^2.1.0",
-        "dts-bundle-generator": "^3.1.0",
-        "eslint-config-brad": "^1.6.4",
-        "eslint-import-resolver-typescript": "^1.1.1",
-        "jest": "^24.8.0",
-        "prettier": "^1.17.1",
-        "rimraf": "^2.6.3",
-        "rollup": "^0.52.1",
-        "rollup-plugin-commonjs": "^8.2.6",
-        "rollup-plugin-typescript2": "^0.9.0",
-        "tmp": "^0.1.0",
-        "ts-jest": "^24.0.2",
-        "ts-node": "^8.1.0",
-        "typescript": "^3.4.5"
-    },
-    "resolutions": {
-        "typescript": "^3.4.5"
-    }
+  "name": "mysqldump",
+  "version": "3.1.0",
+  "description": "Create a DUMP from MySQL",
+  "main": "dist/cjs.js",
+  "module": "dist/es.js",
+  "typings": "dist/mysqldump.d.ts",
+  "scripts": {
+    "pretest": "ts-node -P ./tsconfig.json --files ./test/scripts/initDb.ts",
+    "pretest-prod": "ts-node -P ./tsconfig.json --files ./test/scripts/initDb.ts",
+    "setup-actions": "node ./test/setupGHActions.js",
+    "test": "jest --ci --config=./jest.json",
+    "test-prod": "JEST_USE_NPM_BUILD=true jest --ci --config=./test/jest-prod-config.js",
+    "view-coverage": "open ./coverage/index.html",
+    "build": "rollup -c && dts-bundle-generator -o dist/mysqldump.d.ts build-decl/main.d.ts --umd-module-name=mysqldump && rimraf build-decl",
+    "clean": "rimraf dist && rimraf build-decl",
+    "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
+    "format-check": "prettier --list-different \"./**/*.{ts,js,json,md}\"",
+    "lint": "eslint src test --ext \".ts\"",
+    "typecheck": "tsc --noEmit",
+    "start": "ts-node -P ./tsconfig.json --files ./test/scripts/launch.ts",
+    "ci": "yarn lint --quiet && yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/assignar/mysqldump"
+  },
+  "keywords": [
+    "backup",
+    "mysql",
+    "mysql-dump",
+    "dump",
+    "restore",
+    "database",
+    "backup",
+    "database"
+  ],
+  "author": "Brad Zacher",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/assignar/mysqldump/issues"
+  },
+  "homepage": "https://github.com/assignar/mysqldump",
+  "dependencies": {
+    "deepmerge": "^3.2.0",
+    "mysql2": "^2.1.0",
+    "sql-formatter": "^2.3.3",
+    "sqlstring": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/extend": "^3.0.1",
+    "@types/invariant": "^2.2.33",
+    "@types/jest": "^25.2.3",
+    "@types/mysql": "^2.15.13",
+    "@types/node": "^14.0.11",
+    "@types/sqlstring": "^2.2.1",
+    "@types/tmp": "^0.2.0",
+    "babel": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "copyfiles": "^2.3.0",
+    "dts-bundle-generator": "^3.1.0",
+    "eslint-config-brad": "^3.0.2",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "rollup": "^0.52.1",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-typescript2": "^0.9.0",
+    "tmp": "^0.2.1",
+    "ts-jest": "^26.1.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "resolutions": {
+    "typescript": "^3.9.5"
+  }
 }

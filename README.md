@@ -24,35 +24,35 @@ import mysqldump from 'mysqldump';
 
 // dump the result straight to a file
 mysqldump({
-    connection: {
-        host: 'localhost',
-        user: 'root',
-        password: '123456',
-        database: 'my_database',
-    },
-    dumpToFile: './dump.sql',
+  connection: {
+    host: 'localhost',
+    user: 'root',
+    password: '123456',
+    database: 'my_database',
+  },
+  dumpToFile: './dump.sql',
 });
 
 // dump the result straight to a compressed file
 mysqldump({
-    connection: {
-        host: 'localhost',
-        user: 'root',
-        password: '123456',
-        database: 'my_database',
-    },
-    dumpToFile: './dump.sql.gz',
-    compressFile: true,
+  connection: {
+    host: 'localhost',
+    user: 'root',
+    password: '123456',
+    database: 'my_database',
+  },
+  dumpToFile: './dump.sql.gz',
+  compressFile: true,
 });
 
 // return the dump from the function and not to a file
 const result = await mysqldump({
-    connection: {
-        host: 'localhost',
-        user: 'root',
-        password: '123456',
-        database: 'my_database',
-    },
+  connection: {
+    host: 'localhost',
+    user: 'root',
+    password: '123456',
+    database: 'my_database',
+  },
 });
 ```
 
@@ -92,7 +92,7 @@ export default interface DumpReturn {
 All the below options are documented in the [typescript declaration file](./dist/mysqldump.d.ts):
 
 ```TS
-export interface ConnectionOptions {
+export type ConnectionOptions = {
     /**
      * The database host to connect to.
      * Defaults to 'localhost'.
@@ -166,8 +166,8 @@ export interface ConnectionOptions {
          */
         rejectUnauthorized?: boolean;
     };
-}
-export interface SchemaDumpOptions {
+};
+export type SchemaDumpOptions = {
     /**
      * True to include autoincrement values in schema, false otherwise.
      * Defaults to true.
@@ -228,8 +228,8 @@ export interface SchemaDumpOptions {
          */
         sqlSecurity?: boolean;
     };
-}
-export interface TriggerDumpOptions {
+};
+export type TriggerDumpOptions = {
     /**
      * The temporary delimiter to use between statements.
      * Set to false to not use delmiters
@@ -246,8 +246,8 @@ export interface TriggerDumpOptions {
      * Defaults to false.
      */
     definer?: boolean;
-}
-export interface DataDumpOptions {
+};
+export type DataDumpOptions = {
     /**
      * True to run a sql formatter over the output, false otherwise.
      * Defaults to true.
@@ -292,8 +292,8 @@ export interface DataDumpOptions {
     where?: {
         [k: string]: string;
     };
-}
-export interface DumpOptions {
+};
+export type DumpOptions = {
     /**
      * The list of tables that you want to dump.
      * Defaults to all tables (signalled by passing an empty array).
@@ -319,8 +319,8 @@ export interface DumpOptions {
      * Defaults to including the triggers.
      */
     trigger?: false | TriggerDumpOptions;
-}
-export interface Options {
+};
+export type Options = {
     /**
      * Database connection options
      */
@@ -339,8 +339,8 @@ export interface Options {
      * Defaults to false.
      */
     compressFile?: boolean;
-}
-export interface ColumnList {
+};
+export type ColumnList = {
     /**
      * Key is the name of the column
      */
@@ -354,8 +354,8 @@ export interface ColumnList {
          */
         nullable: boolean;
     };
-}
-export interface Table {
+};
+export type Table = {
     /**
      * The name of the table.
      */
@@ -386,8 +386,8 @@ export interface Table {
      * A list of triggers attached to the table
      */
     triggers: Array<string>;
-}
-export interface DumpReturn {
+};
+export type DumpReturn = {
     /**
      * The result of the dump
      */
@@ -409,10 +409,9 @@ export interface DumpReturn {
         trigger: string | null;
     };
     tables: Array<Table>;
-}
-export default function main(inputOptions: Options): Promise<DumpReturn>;
+};
 
-export as namespace mysqldump;
+export default function main(inputOptions: Options): Promise<DumpReturn>;
 ```
 
 ---
