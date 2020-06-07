@@ -1,0 +1,151 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - '**'
+
+env:
+    PRIMARY_NODE_VERSION: 12
+
+jobs:
+    typecheck:
+        name: Typecheck
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: echo github.ref
+              run: echo ${{ github.ref }}
+
+            - name: Use Node.js ${{ env.PRIMARY_NODE_VERSION }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.PRIMARY_NODE_VERSION }}
+
+            - name: Get yarn cache directory path
+              id: yarn-cache-dir-path
+              run: echo "::set-output name=dir::$(yarn cache dir)"
+
+            - uses: actions/cache@v1
+              id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+              with:
+                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-yarn-
+
+            - name: Install dependencies
+              run: |
+                  yarn --ignore-engines --frozen-lockfile
+
+            - name: Setup Config
+              run: |
+                  yarn setup-actions
+
+            - name: Typecheck all packages
+              run: yarn typecheck
+
+    run_tests:
+        name: Unit tests
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [10.x, 12.x, 14.x]
+        services:
+            mysql:
+                image: mysql:5.6
+                env:
+                    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                    MYSQL_DATABASE: mysqldump_test
+                ports:
+                    - 3306
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: echo github.ref
+              run: echo ${{ github.ref }}
+
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Get yarn cache directory path
+              id: yarn-cache-dir-path
+              run: echo "::set-output name=dir::$(yarn cache dir)"
+
+            - uses: actions/cache@v1
+              id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+              with:
+                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-yarn-
+
+            - name: Install dependencies
+              run: |
+                  yarn --ignore-engines --frozen-lockfile
+
+            - name: Setup Config
+              run: |
+                  yarn setup-actions
+
+            - name: Build
+              run: |
+                  yarn build
+
+            - name: Run unit tests
+              run: yarn test
+              env:
+                  CI: true
+                  DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+            - name: Run unit tests against production build
+              run: yarn test-prod
+              env:
+                  CI: true
+                  DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+    linting_and_style:
+        name: Code style and lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ env.PRIMARY_NODE_VERSION }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.PRIMARY_NODE_VERSION }}
+
+            - name: Get yarn cache directory path
+              id: yarn-cache-dir-path
+              run: echo "::set-output name=dir::$(yarn cache dir)"
+
+            - uses: actions/cache@v1
+              id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+              with:
+                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-yarn-
+
+            - name: Install dependencies
+              run: |
+                  yarn --ignore-engines --frozen-lockfile
+
+            - name: Setup Config
+              run: |
+                  yarn setup-actions
+
+            - name: Build
+              run: |
+                  yarn build
+
+            - name: Check code formatting
+              run: yarn format-check
+
+            - name: Lint code
+              run: yarn lint

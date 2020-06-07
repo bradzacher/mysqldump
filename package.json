@@ -8,7 +8,7 @@
     "scripts": {
         "pretest": "ts-node -P ./tsconfig.json --files ./test/scripts/initDb.ts",
         "pretest-prod": "ts-node -P ./tsconfig.json --files ./test/scripts/initDb.ts",
-        "setup-travis": "node ./test/setupTravis.js",
+        "setup-actions": "node ./test/setupGHActions.js",
         "test": "jest --ci --config=./jest.json",
         "test-prod": "JEST_USE_NPM_BUILD=true jest --ci --config=./test/jest-prod-config.js",
         "view-coverage": "open ./coverage/index.html",
