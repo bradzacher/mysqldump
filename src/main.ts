@@ -1,4 +1,6 @@
+import * as stream from 'stream';
 import * as fs from 'fs';
+import * as zlib from 'zlib';
 import { all as merge } from 'deepmerge';
 
 import {
@@ -11,7 +13,6 @@ import { getTables } from './getTables';
 import { getSchemaDump } from './getSchemaDump';
 import { getTriggerDump } from './getTriggerDump';
 import { getDataDump } from './getDataDump';
-import { compressFile } from './compressFile';
 import { DB } from './DB';
 import { ERRORS } from './Errors';
 import { HEADER_VARIABLES, FOOTER_VARIABLES } from './sessionVariables';
@@ -91,6 +92,7 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
             defaultOptions,
             inputOptions,
         ]) as CompletedOptions;
+        options.dumpToFile = inputOptions.dumpToFile as stream.Writable;
 
         // if not dumping to file and not otherwise configured, set returnFromFunction to true.
         if (!options.dumpToFile) {
@@ -107,14 +109,19 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
         // make sure the port is a number
         options.connection.port = parseInt(`${options.connection.port}`, 10);
 
-        // write to the destination file (i.e. clear it)
-        if (options.dumpToFile) {
-            fs.writeFileSync(options.dumpToFile, '');
+        if (typeof options.dumpToFile === 'string') {
+            options.dumpToFile = fs.createWriteStream(options.dumpToFile);
+        }
+
+        if (options.dumpToFile && options.compressFile) {
+            const destinationFile = options.dumpToFile;
+            options.dumpToFile = zlib.createGzip();
+            options.dumpToFile.pipe(destinationFile);
         }
 
         // write the initial headers
         if (options.dumpToFile) {
-            fs.appendFileSync(options.dumpToFile, `${HEADER_VARIABLES}\n`);
+            options.dumpToFile.write(`${HEADER_VARIABLES}\n`);
         }
 
         connection = await DB.connect(
@@ -153,7 +160,7 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
 
         // write the schema to the file
         if (options.dumpToFile && res.dump.schema) {
-            fs.appendFileSync(options.dumpToFile, `${res.dump.schema}\n\n`);
+            options.dumpToFile.write(`${res.dump.schema}\n\n`);
         }
 
         // dump the triggers if requested
@@ -194,18 +201,25 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
 
         // write the triggers to the file
         if (options.dumpToFile && res.dump.trigger) {
-            fs.appendFileSync(options.dumpToFile, `${res.dump.trigger}\n\n`);
+            options.dumpToFile.write(`${res.dump.trigger}\n\n`);
         }
 
         // reset all of the variables
         if (options.dumpToFile) {
-            fs.appendFileSync(options.dumpToFile, FOOTER_VARIABLES);
+            options.dumpToFile.write(FOOTER_VARIABLES);
         }
 
-        // compress output file
-        if (options.dumpToFile && options.compressFile) {
-            await compressFile(options.dumpToFile);
-        }
+        // tidy up the file stream, making sure writes are 100% flushed before continuing
+        await new Promise(resolve => {
+            if (options.dumpToFile) {
+                options.dumpToFile.once('finish', () => {
+                    resolve();
+                });
+                options.dumpToFile.end();
+            } else {
+                resolve();
+            }
+        });
 
         return res;
     } finally {

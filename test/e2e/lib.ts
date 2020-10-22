@@ -74,6 +74,7 @@ function dumpTest(
     opts: DumpOptions,
     extraAssertion?: (file: string) => void,
     compressFile?: boolean,
+    asWritableStream?: boolean,
 ): () => void {
     return async () => {
         // ASSEMBLE
@@ -88,10 +89,14 @@ function dumpTest(
             opts.data.returnFromFunction = true;
         }
 
+        const dumpToFile = asWritableStream
+            ? fs.createWriteStream(filename)
+            : filename;
+
         // ACT
         const res = await mysqldump({
             connection: config,
-            dumpToFile: filename,
+            dumpToFile,
             compressFile,
             dump: opts,
         });

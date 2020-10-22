@@ -1,5 +1,7 @@
 /// <reference types="node" />
 
+import { Writable } from 'stream';
+
 export interface ConnectionOptions {
 	/**
 	 * The database host to connect to.
@@ -241,7 +243,7 @@ export interface Options {
 	 * Set to a path to dump to a file.
 	 * Exclude to just return the string.
 	 */
-	dumpToFile?: string | null;
+	dumpToFile?: string | Writable | null;
 	/**
 	 * Should the output file be compressed (gzip)?
 	 * Defaults to false.

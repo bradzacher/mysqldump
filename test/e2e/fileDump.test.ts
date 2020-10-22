@@ -22,9 +22,16 @@ describe('mysqldump.e2e', () => {
                 trigger: false,
             }),
         );
-        it(
-            'should dump a file in compressed format if configured',
-            dumpTest({}, undefined, /* compressFile */ true),
-        );
+        describe.each(['as file', 'as writable stream'])('%s', desc => {
+            it(
+                'should dump a file in compressed format if configured',
+                dumpTest(
+                    {},
+                    undefined,
+                    /* compressFile */ true,
+                    desc.includes('stream'),
+                ),
+            );
+        });
     });
 });

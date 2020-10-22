@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as stream from 'stream';
 import * as mysql from 'mysql2';
 import * as sqlformatter from 'sql-formatter';
 import { all as merge } from 'deepmerge';
@@ -41,12 +41,11 @@ function executeSql(connection: mysql.Connection, sql: string): Promise<void> {
     );
 }
 
-// eslint-disable-next-line complexity
 async function getDataDump(
     connectionOptions: ConnectionOptions,
     options: Required<DataDumpOptions>,
     tables: Array<Table>,
-    dumpToFile: string | null,
+    dumpToFile: stream.Writable | null,
 ): Promise<Array<Table>> {
     // ensure we have a non-zero max row option
     options.maxRowsPerInsertStatement = Math.max(
@@ -75,23 +74,14 @@ async function getDataDump(
 
     const retTables: Array<Table> = [];
     let currentTableLines: Array<string> | null = null;
-
-    // open the write stream (if configured to)
-    const outFileStream = dumpToFile
-        ? fs.createWriteStream(dumpToFile, {
-              flags: 'a', // append to the file
-              encoding: 'utf8',
-          })
-        : null;
-
     function saveChunk(str: string | Array<string>, inArray = true): void {
         if (!Array.isArray(str)) {
             str = [str];
         }
 
         // write to file if configured
-        if (outFileStream) {
-            str.forEach(s => outFileStream.write(`${s}\n`));
+        if (dumpToFile) {
+            str.forEach(s => dumpToFile.write(`${s}\n`));
         }
 
         // write to memory if configured
@@ -213,16 +203,6 @@ async function getDataDump(
 
     // clean up our connections
     await ((connection.end() as unknown) as Promise<void>);
-
-    if (outFileStream) {
-        // tidy up the file stream, making sure writes are 100% flushed before continuing
-        await new Promise(resolve => {
-            outFileStream.once('finish', () => {
-                resolve();
-            });
-            outFileStream.end();
-        });
-    }
 
     return retTables;
 }
