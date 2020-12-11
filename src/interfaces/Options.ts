@@ -1,3 +1,5 @@
+import { Writable } from 'stream';
+
 interface ConnectionOptions {
     /**
      * The database host to connect to.
@@ -247,7 +249,7 @@ interface Options {
      * Set to a path to dump to a file.
      * Exclude to just return the string.
      */
-    dumpToFile?: string | null;
+    dumpToFile?: string | Writable | null;
     /**
      * Should the output file be compressed (gzip)?
      * Defaults to false.
@@ -271,7 +273,7 @@ type RequiredRecursive<T> = {
 interface CompletedOptions {
     connection: Required<ConnectionOptions>;
     dump: RequiredRecursive<DumpOptions>;
-    dumpToFile: string | null;
+    dumpToFile: Writable | null;
     compressFile: boolean | null;
 }
 

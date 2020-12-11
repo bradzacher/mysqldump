@@ -333,7 +333,7 @@ export interface Options {
      * Set to a path to dump to a file.
      * Exclude to just return the string.
      */
-    dumpToFile?: string | null;
+    dumpToFile?: string | Writable | null;
     /**
      * Should the output file be compressed (gzip)?
      * Defaults to false.
@@ -438,6 +438,15 @@ We use [eslint](https://www.npmjs.com/package/eslint) in conjunction with [types
 PRs are required to pass the linting with no errors and preferrably no warnings.
 
 ### Testing
+
+Prepare your environment with docker:
+
+```bash
+cp test/testConfig.sample.ts test/testConfig.ts
+docker run --rm -d --name mysqldump_test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password mysql:5.6
+# phpmyadmin as an option to debug
+docker run --rm -d --name mysqldump_phpmyadmin --link mysqldump_test:db -e PMA_USER=root -e PMA_PASSWORD=password -p 8000:80 phpmyadmin
+```
 
 Tests can be run via the `test` script - `yarn test` / `npm test`.
 
