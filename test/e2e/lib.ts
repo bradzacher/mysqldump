@@ -105,7 +105,9 @@ function dumpTest(
         }
 
         // remove the file
-        fs.unlinkSync(filename);
+        if (fs.existsSync(filename)) {
+            fs.unlinkSync(filename);
+        }
 
         // ASSERT
         const memoryLines = [];

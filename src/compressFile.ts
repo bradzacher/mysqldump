@@ -8,7 +8,9 @@ function compressFile(filename: string): Promise<void> {
 
     const deleteFile = (file: string): void => {
         try {
-            fs.unlinkSync(file);
+            if (fs.existsSync(file)) {
+                fs.unlinkSync(file);
+            }
         } catch (_err) {
             /* istanbul ignore next */
         }
