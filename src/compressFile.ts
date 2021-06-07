@@ -5,7 +5,7 @@ async function compressFile(filename: string): Promise<void> {
     const tempFilename = `${filename}.temp`;
 
     fs.renameSync(filename, tempFilename);
-    
+
     const deleteFile = (file: string): void => {
         try {
             fs.unlinkSync(file);
@@ -30,12 +30,10 @@ async function compressFile(filename: string): Promise<void> {
                 },
             );
             write.on('finish', () => {
-                console.log("Finish")
                 resolve(null);
             });
         });
     } catch (err) /* istanbul ignore next */ {
-        console.log("Error is here", err)
         // in case of an error: remove the output file and propagate the error
         deleteFile(filename);
         throw err;
