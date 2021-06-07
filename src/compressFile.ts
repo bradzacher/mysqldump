@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 import * as zlib from 'zlib';
 
-function compressFile(filename: string): Promise<void> {
+async function compressFile(filename: string): Promise<void> {
     const tempFilename = `${filename}.temp`;
 
     fs.renameSync(filename, tempFilename);
-
+    
     const deleteFile = (file: string): void => {
         try {
             fs.unlinkSync(file);
@@ -20,7 +20,7 @@ function compressFile(filename: string): Promise<void> {
         const write = fs.createWriteStream(filename);
         read.pipe(zip).pipe(write);
 
-        return new Promise((resolve, reject) => {
+        await new Promise((resolve, reject) => {
             write.on(
                 'error',
                 /* istanbul ignore next */ err => {
@@ -30,10 +30,12 @@ function compressFile(filename: string): Promise<void> {
                 },
             );
             write.on('finish', () => {
-                resolve();
+                console.log("Finish")
+                resolve(null);
             });
         });
     } catch (err) /* istanbul ignore next */ {
+        console.log("Error is here", err)
         // in case of an error: remove the output file and propagate the error
         deleteFile(filename);
         throw err;
