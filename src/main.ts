@@ -124,6 +124,8 @@ export default async function main(inputOptions: Options): Promise<DumpReturn> {
         // list the tables
         const res: DumpReturn = {
             dump: {
+                headerVariables: HEADER_VARIABLES,
+                footerVariables: FOOTER_VARIABLES,
                 schema: null,
                 data: null,
                 trigger: null,
