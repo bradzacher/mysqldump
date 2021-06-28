@@ -6,6 +6,14 @@ interface DumpReturn {
      */
     dump: {
         /**
+         * The list of header variables.
+         */
+        headerVariables?: string;
+        /**
+         * The list of footer variables.
+         */
+        footerVariables?: string;
+        /**
          * The concatenated SQL schema dump for the entire database.
          * Null if configured not to dump.
          */
